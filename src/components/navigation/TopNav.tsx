@@ -1,7 +1,11 @@
 import React from 'react';
 import { ReactComponent as NigerianFlag } from 'assets/icons/nigerian-flag.svg';
 
-const TopNav: React.FC = () => {
+interface TopNavProps {
+	isPublications?: boolean;
+}
+
+const TopNav: React.FC<TopNavProps> = ({ isPublications }) => {
 	return (
 		<div className="fixed w-full left-0 top-0 h-[90px] flex items-center pr-[38px] z-[12] bg-white max-w-extra">
 			<div className="w-[199px] pl-[52px]">
@@ -16,7 +20,7 @@ const TopNav: React.FC = () => {
 						<span className="font-medium text-black text-sm">Products</span>
 					</li>
 					<li>
-						<span className="font-semibold text-green text-sm">Products</span>
+						<span className="font-semibold text-green text-sm">Agent</span>
 					</li>
 				</ul>
 				<div className="flex items-center">
@@ -28,6 +32,11 @@ const TopNav: React.FC = () => {
 							Classified Ads
 						</span>
 					</div>
+					{isPublications && (
+						<button className="ml-[30px] extra:ml-[97px] bg-primary rounded-6 h-10 w-[150px] text-white font-bold text-[10px]">
+							PUBLICATION
+						</button>
+					)}
 				</div>
 				<div className="flex items-center space-x-[11px]">
 					<NigerianFlag />

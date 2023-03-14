@@ -19,13 +19,17 @@ module.exports = {
         faintGray: "#9B9B9B",
         boldGray: "#575555",
         border: "#EEEEEE",
-        green: "#08F692"
+        green: "#08F692",
+        dark: "#1E1E1E"
       },
       borderRadius: {
         '6': '6px'
       },
       fontSize: {
         '12': '12px'
+      },
+      maxWidth: {
+        extra: "1500px"
       }
     },
   },
