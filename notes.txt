@@ -1,0 +1,3 @@
+topnav = 90
+filterandsearch=90
+pagination=81

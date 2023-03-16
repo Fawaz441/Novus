@@ -33,7 +33,7 @@ const Headline: React.FC<HeadlineProps> = ({
 					<p className="font-medium text-black">{header}</p>
 					<div className="flex flex-col space-y-[6px]">
 						<p className="text-sm text-faintGray font-medium">By {author}</p>
-						<p className="text-faintGray text-[10px] font-medium">{date}</p>
+						<p className="text-faintGray text-10 font-medium">{date}</p>
 					</div>
 				</div>
 				<div className="flex flex-col space-y-[26px] w-full flex-1">

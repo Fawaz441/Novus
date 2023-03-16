@@ -1,10 +1,10 @@
+import { PublicationButton } from 'components/publications';
 import React from 'react';
-import { ReactComponent as Google } from 'assets/icons/google.svg';
 
 const PublicationsSideNav: React.FC = () => {
 	return (
-		<div className="w-[199px] scrollbar-hide overflow-hidden fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[23px]">
-			<div className="w-[176px] h-[90px] border-[0.5px] border-faintGray rounded-6 bg-white flex items-center justify-center space-x-[13px]">
+		<div className="w-[199px] pb-[135px] scrollbar-hide overflow-hidden flex flex-col space-y-[200px] fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[13px]">
+			{/* <div className="w-[176px] h-[90px] border-[0.5px] border-faintGray rounded-6 bg-white flex items-center justify-center space-x-[13px]">
 				<div className="border border-border h-11 w-11 rounded-full flex items-center justify-center">
 					<Google />
 				</div>
@@ -42,6 +42,20 @@ const PublicationsSideNav: React.FC = () => {
 					<h3 className="text-sm text-boldGrey font-bold">D</h3>
 					<h3 className="text-sm text-boldGrey font-bold">S</h3>
 				</div>
+			</div> */}
+			<div className="flex flex-col space-y-10">
+				<PublicationButton text={'Change Of Name'} isActive />
+				<PublicationButton text={'Loss Of Document'} />
+				<PublicationButton text={'Age Declaration'} />
+				<PublicationButton text={'Obituary'} />
+			</div>
+			<div className="flex flex-col space-y-10">
+				<PublicationButton
+					text={'Download Publication'}
+					className="!bg-purple"
+				/>
+				<PublicationButton text={'Obituary'} />
+				<PublicationButton text={'Obituary'} />
 			</div>
 		</div>
 	);

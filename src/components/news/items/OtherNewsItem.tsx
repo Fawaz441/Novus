@@ -32,16 +32,14 @@ const OtherNewsItem: React.FC<OtherNewsItemProps> = ({
 					<div className="h-[26px] w-[26px] flex items-center justify-center rounded-[3px] bg-gray2">
 						<Trend />
 					</div>
-					<span className="text-faintGray text-[10px]">{date}</span>
+					<span className="text-faintGray text-10">{date}</span>
 				</div>
 			</div>
 		</div>
 		<div className="flex flex-col space-y-[7px]">
 			<p className="font-semibold text-black text-12">{header}</p>
 			<p className="text-12 text-black">{description}</p>
-			<span className="font-medium text-faintGray text-[10px]">
-				By {author}
-			</span>
+			<span className="font-medium text-faintGray text-10">By {author}</span>
 		</div>
 	</div>
 );

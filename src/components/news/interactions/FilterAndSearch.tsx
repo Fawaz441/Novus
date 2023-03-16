@@ -1,8 +1,17 @@
 import React from 'react';
+import clsx from 'classnames';
 import { ReactComponent as Filter } from 'assets/icons/filter.svg';
 import { ReactComponent as Search } from 'assets/icons/search.svg';
 
-const FilterAndSearch: React.FC = () => (
+interface FilterAndSearchProps {
+	searchPlaceholder?: string;
+	searchIconClassName?: string;
+}
+
+const FilterAndSearch: React.FC<FilterAndSearchProps> = ({
+	searchPlaceholder,
+	searchIconClassName,
+}) => (
 	<div className="flex left-[239px] top-[90px] fixed h-[90px] bg-white w-full pr-12 items-center z-[12]">
 		<div className="flex items-center space-x-[100px] w-full">
 			<div className="flex items-center space-x-3">
@@ -44,14 +53,19 @@ const FilterAndSearch: React.FC = () => (
 					<span className="text-12 font-medium text-boldGray">Search By</span>
 					<div className="h-12 w-full flex items-center px-[15px] bg-gray rounded-6">
 						<input
-							placeholder="Lands in Epe"
+							placeholder={searchPlaceholder ?? 'Lands in Epe'}
 							className="w-full border-none outline-none bg-transparent flex-1 placeholder:text-faintGray text-black text-12 font-medium"
 						/>
 						<button
 							className="border-none outline-none h-7 w-7 bg-white rounded-[3px] flex-shrink-0 flex items-center justify-center"
 							type="button"
 						>
-							<Filter className="fill-green stroke-border" />
+							<Filter
+								className={clsx(
+									'fill-green stroke-border',
+									searchIconClassName
+								)}
+							/>
 						</button>
 					</div>
 				</div>

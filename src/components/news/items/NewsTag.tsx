@@ -9,7 +9,7 @@ interface TagProps {
 const NewsTag: React.FC<TagProps> = ({ name, className }) => (
 	<div
 		className={clsx(
-			'h-[30px] flex items-center justify-center rounded-6 font-bold text-[10px]',
+			'h-[30px] flex items-center justify-center rounded-6 font-bold text-10',
 			className
 		)}
 	>

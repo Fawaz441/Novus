@@ -20,13 +20,16 @@ module.exports = {
         boldGray: "#575555",
         border: "#EEEEEE",
         green: "#08F692",
-        dark: "#1E1E1E"
+        dark: "#1E1E1E",
+        yellow: "#FBBC05",
+        purple: "#EADAFF"
       },
       borderRadius: {
         '6': '6px'
       },
       fontSize: {
-        '12': '12px'
+        '12': '12px',
+        '10': '10px'
       },
       maxWidth: {
         extra: "1500px"
