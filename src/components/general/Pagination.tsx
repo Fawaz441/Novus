@@ -6,14 +6,14 @@ const Pagination: React.FC = () => {
 			<button
 				type="button"
 				title="Previous"
-				className="w-[91px] rounded-tl-6 rounded-bl-6 font-semibold text-12 text-primary"
+				className="w-[91px] rounded-tl-6 rounded-bl-6 font-semibold text-12 text-7108F6"
 			>
 				Prev
 			</button>
 			<button
 				type="button"
 				title="Next"
-				className="w-[91px] rounded-tr-6 rounded-br-6 font-semibold text-12 text-white bg-primary"
+				className="w-[91px] rounded-tr-6 rounded-br-6 font-semibold text-12 text-white bg-7108F6"
 			>
 				Next
 			</button>

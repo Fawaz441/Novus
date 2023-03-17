@@ -1,5 +1,4 @@
 import { ModalContext } from 'components/contexts';
-import { CheckPublicationModal } from 'components/publications';
 import React, { useMemo, useState } from 'react';
 import AppRoutes from 'Routes';
 import { MODALS } from 'utils/constants';
@@ -15,7 +14,6 @@ function App() {
 		<div className="App">
 			<ModalContext.Provider value={modalStateValue}>
 				<AppRoutes />
-				<CheckPublicationModal />
 			</ModalContext.Provider>
 		</div>
 	);

@@ -1,3 +1,4 @@
+import { CheckPublicationModal } from 'components/publications';
 import React from 'react';
 import {
 	hideAllPublicationActions,
@@ -10,9 +11,14 @@ import TopNav from './TopNav';
 interface WrapperProps {
 	children: React.ReactNode;
 	isPublications?: boolean;
+	showPublicationsButton?: boolean;
 }
 
-const Wrapper: React.FC<WrapperProps> = ({ children, isPublications }) => {
+const Wrapper: React.FC<WrapperProps> = ({
+	children,
+	isPublications,
+	showPublicationsButton = true,
+}) => {
 	React.useEffect(() => {
 		document
 			.querySelector('body')
@@ -36,8 +42,9 @@ const Wrapper: React.FC<WrapperProps> = ({ children, isPublications }) => {
 	}, []);
 	return (
 		<div className="min-h-screen">
+			<CheckPublicationModal />
 			{isPublications ? <PublicationsSideNav /> : <SideNav />}
-			<TopNav />
+			<TopNav showPublicationsButton={showPublicationsButton} />
 			<div className="pl-[239px] pt-[90px] pr-12">{children}</div>
 		</div>
 	);

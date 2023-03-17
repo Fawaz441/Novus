@@ -27,19 +27,19 @@ const OtherNewsItem: React.FC<OtherNewsItemProps> = ({
 				alt={header}
 			/>
 			<div className="flex items-center justify-between">
-				<NewsTag name={tag} className="w-[120px] bg-danger2 text-danger" />
+				<NewsTag name={tag} className="w-[120px] bg-BF12312 text-BF1231" />
 				<div className="flex items-center space-x-[5px]">
-					<div className="h-[26px] w-[26px] flex items-center justify-center rounded-[3px] bg-gray2">
+					<div className="h-[26px] w-[26px] flex items-center justify-center rounded-[3px] bg-F4F4F4">
 						<Trend />
 					</div>
-					<span className="text-faintGray text-10">{date}</span>
+					<span className="text-9B9B9B text-10">{date}</span>
 				</div>
 			</div>
 		</div>
 		<div className="flex flex-col space-y-[7px]">
 			<p className="font-semibold text-black text-12">{header}</p>
 			<p className="text-12 text-black">{description}</p>
-			<span className="font-medium text-faintGray text-10">By {author}</span>
+			<span className="font-medium text-9B9B9B text-10">By {author}</span>
 		</div>
 	</div>
 );

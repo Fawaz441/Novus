@@ -16,7 +16,7 @@ const PublicationActions: React.FC<PublicationActionsProps> = ({ tag }) => {
 		>
 			<button className="flex items-center justify-between">
 				<span className="font-medium text-10 leading-[16.74px]">Copy Url</span>
-				<LinkIcon />
+				<LinkIcon className='stroke-9B9B9B"' />
 			</button>
 			<button className="flex items-center justify-between">
 				<span className="font-medium text-10 leading-[16.74px]">

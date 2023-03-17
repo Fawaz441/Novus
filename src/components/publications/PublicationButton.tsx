@@ -21,15 +21,15 @@ const PublicationButton: React.FC<PublicationButtonProps> = ({
 		type="button"
 		onClick={onClick}
 		className={clsx(
-			'w-[179px] h-12 px-4 text-[12px] text-boldGray font-medium flex items-center justify-between bg-gray2 rounded-6',
-			{ '!bg-yellow !text-black !font-semibold': isActive },
+			'w-[179px] h-12 px-4 text-[12px] text-575555 font-medium flex items-center justify-between bg-F4F4F4 rounded-6',
+			{ '!bg-FBBC05 !text-black !font-semibold': isActive },
 			className
 		)}
 	>
 		<span>{text}</span>
 		{icon ?? (
 			<Filter
-				className={clsx('fill-boldGray stroke-border', {
+				className={clsx('fill-575555 stroke-EEEEEE', {
 					'!fill-black': isActive,
 				})}
 			/>

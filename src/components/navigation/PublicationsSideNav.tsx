@@ -11,7 +11,7 @@ const PublicationsSideNav: React.FC = () => {
 	return (
 		<div className="w-[199px] pb-[135px] scrollbar-hide overflow-hidden flex flex-col space-y-[200px] fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[13px]">
 			{/* <div className="w-[176px] h-[90px] border-[0.5px] border-faintGray rounded-6 bg-white flex items-center justify-center space-x-[13px]">
-				<div className="border border-border h-11 w-11 rounded-full flex items-center justify-center">
+				<div className="border border-EEEEEE h-11 w-11 rounded-full flex items-center justify-center">
 					<Google />
 				</div>
 				<div className="flex flex-col space-y-[6px]">
@@ -25,28 +25,28 @@ const PublicationsSideNav: React.FC = () => {
 				</h3>
 				<ul className="flex flex-col space-y-5">
 					<li>
-						<span className="font-bold text-sm text-primary">Finance</span>
+						<span className="font-bold text-sm text-7108F6">Finance</span>
 					</li>
 					<li>
-						<span className="text-sm text-boldGray">Politics</span>
+						<span className="text-sm text-575555">Politics</span>
 					</li>
 					<li>
-						<span className="text-sm text-boldGray">Sports</span>
+						<span className="text-sm text-575555">Sports</span>
 					</li>
 					<li>
-						<span className="text-sm text-boldGray">Media</span>
+						<span className="text-sm text-575555">Media</span>
 					</li>
 					<li>
-						<span className="text-sm text-boldGray">Energy</span>
+						<span className="text-sm text-575555">Energy</span>
 					</li>
 					<li>
-						<span className="text-sm text-boldGray">Tourism</span>
+						<span className="text-sm text-575555">Tourism</span>
 					</li>
 				</ul>
 				<div className="mt-[64px] mb-4 w-[112px] h-[482px]  bg-[#F3F3F3] flex flex-col items-center justify-center">
-					<h3 className="text-sm text-boldGrey font-bold">A</h3>
-					<h3 className="text-sm text-boldGrey font-bold">D</h3>
-					<h3 className="text-sm text-boldGrey font-bold">S</h3>
+					<h3 className="text-sm text-575555 font-bold">A</h3>
+					<h3 className="text-sm text-575555 font-bold">D</h3>
+					<h3 className="text-sm text-575555 font-bold">S</h3>
 				</div>
 			</div> */}
 			<div className="flex flex-col space-y-10">
@@ -58,17 +58,17 @@ const PublicationsSideNav: React.FC = () => {
 			<div className="flex flex-col space-y-10">
 				<PublicationButton
 					text={'Download Publication'}
-					className="!bg-purple font-semibold text-12 !text-black"
+					className="!bg-EADAFF font-semibold text-12 !text-black"
 					icon={<Download />}
 				/>
 				<PublicationButton
 					text={'Create Publication'}
-					className="!bg-purple font-semibold text-12 !text-black"
+					className="!bg-EADAFF font-semibold text-12 !text-black"
 					icon={<Add />}
 				/>
 				<PublicationButton
 					text={'Check Publication'}
-					className="!bg-purple font-semibold text-12 !text-black"
+					className="!bg-EADAFF font-semibold text-12 !text-black"
 					icon={<Check className="stroke-black" />}
 					onClick={() => showModal(MODALS.CHECK_PUBLICATIONS)}
 				/>

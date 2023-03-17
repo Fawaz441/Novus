@@ -16,45 +16,45 @@ const FilterAndSearch: React.FC<FilterAndSearchProps> = ({
 		<div className="flex items-center space-x-[100px] w-full">
 			<div className="flex items-center space-x-3">
 				<div className="flex flex-col space-y-[7px]">
-					<span className="text-boldGrey text-12 font-medium">Filter by</span>
-					<div className="h-12 w-[291px] flex items-center px-[15px] bg-gray rounded-6">
+					<span className="text-575555 text-12 font-medium">Filter by</span>
+					<div className="h-12 w-[291px] flex items-center px-[15px] bg-F9F9F9 rounded-6">
 						<input
 							placeholder="Publication Type"
-							className="w-full border-none outline-none bg-transparent flex-1 placeholder:text-faintGray text-black text-12 font-medium"
+							className="w-full border-none outline-none bg-transparent flex-1 placeholder:text-9B9B9B text-black text-12 font-medium"
 						/>
 						<button
 							className="border-none outline-none h-7 w-7 bg-white rounded-[3px] flex-shrink-0 flex items-center justify-center"
 							type="button"
 						>
-							<Filter className="fill-green stroke-border" />
+							<Filter className="fill-08F692 stroke-EEEEEE" />
 						</button>
 					</div>
 				</div>
 				<div className="flex flex-col space-y-[7px]">
-					<span className="text-boldGrey text-12 font-medium opacity-0 pointer-events-none">
+					<span className="text-575555 text-12 font-medium opacity-0 pointer-events-none">
 						Filter by
 					</span>
-					<div className="h-12 w-[170px] flex items-center px-3 bg-gray rounded-6">
+					<div className="h-12 w-[170px] flex items-center px-3 bg-F9F9F9 rounded-6">
 						<input
 							placeholder="Duration"
-							className="border-none w-full outline-none bg-transparent flex-1 placeholder:text-faintGray text-black text-12 font-medium"
+							className="border-none w-full outline-none bg-transparent flex-1 placeholder:text-9B9B9B text-black text-12 font-medium"
 						/>
 						<button
 							className="border-none outline-none h-7 w-7 bg-white rounded-[3px] flex-shrink-0 flex items-center justify-center"
 							type="button"
 						>
-							<Filter className="fill-[#FBBC05] stroke-white" />
+							<Filter className="fill-FBBC05 stroke-white" />
 						</button>
 					</div>
 				</div>
 			</div>
 			<div className="flex items-center space-x-[46px] flex-1">
 				<div className="flex flex-col space-y-[7px] max-w-[400px] flex-1">
-					<span className="text-12 font-medium text-boldGray">Search By</span>
-					<div className="h-12 w-full flex items-center px-[15px] bg-gray rounded-6">
+					<span className="text-12 font-medium text-575555">Search By</span>
+					<div className="h-12 w-full flex items-center px-[15px] bg-F9F9F9 rounded-6">
 						<input
 							placeholder={searchPlaceholder ?? 'Lands in Epe'}
-							className="w-full border-none outline-none bg-transparent flex-1 placeholder:text-faintGray text-black text-12 font-medium"
+							className="w-full border-none outline-none bg-transparent flex-1 placeholder:text-9B9B9B text-black text-12 font-medium"
 						/>
 						<button
 							className="border-none outline-none h-7 w-7 bg-white rounded-[3px] flex-shrink-0 flex items-center justify-center"
@@ -62,7 +62,7 @@ const FilterAndSearch: React.FC<FilterAndSearchProps> = ({
 						>
 							<Filter
 								className={clsx(
-									'fill-green stroke-border',
+									'fill-7108F6 stroke-EEEEEE',
 									searchIconClassName
 								)}
 							/>
@@ -70,7 +70,7 @@ const FilterAndSearch: React.FC<FilterAndSearchProps> = ({
 					</div>
 				</div>
 				<div className="flex flex-col space-y-[7px]">
-					<span className="text-12 font-medium text-boldGray opacity-0 pointer-events-none">
+					<span className="text-12 font-medium text-575555 opacity-0 pointer-events-none">
 						Search By
 					</span>
 					<div className="h-12 w-[52px] flex-shrink-0 flex items-center justify-center bg-[#ECEEF2] rounded">

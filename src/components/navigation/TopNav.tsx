@@ -3,14 +3,15 @@ import { ReactComponent as NigerianFlag } from 'assets/icons/nigerian-flag.svg';
 import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
 import { ReactComponent as Add } from 'assets/icons/publications/add.svg';
 import { Link } from 'react-router-dom';
+import clsx from 'classnames';
 import { toggleHiddenElement } from 'utils/ui-functions';
 import { useModal } from 'hooks';
-import { MODALS } from 'utils/constants';
+import { MODALS, routes } from 'utils/constants';
 interface TopNavProps {
-	// isPublications?: boolean;
+	showPublicationsButton?: boolean;
 }
 
-const TopNav: React.FC<TopNavProps> = () => {
+const TopNav: React.FC<TopNavProps> = ({ showPublicationsButton }) => {
 	const publicationButtonRef = useRef<HTMLDivElement>(null);
 	const [fetched, setFetched] = useState(false);
 	const { showModal } = useModal();
@@ -33,7 +34,7 @@ const TopNav: React.FC<TopNavProps> = () => {
 		<div>
 			<div className="fixed w-full left-0 top-0 h-[90px] flex items-center pr-[38px] z-[12] bg-white max-w-extra">
 				<div className="w-[199px] pl-[52px]">
-					<Link to="/">
+					<Link to={routes.home}>
 						<h4 className="uppercase font-bold text-black text-base">NOVUS</h4>
 					</Link>
 				</div>
@@ -48,33 +49,40 @@ const TopNav: React.FC<TopNavProps> = () => {
 							<span className="font-medium text-black text-sm">Products</span>
 						</li>
 						<li>
-							<span className="font-semibold text-green text-sm">Agent</span>
+							<span className="font-semibold text-08F692 text-sm">Agent</span>
 						</li>
 					</ul>
 					<div className="flex items-center">
-						<div className="w-[149px] h-[37px] flex items-center justify-center bg-primary2 rounded-6">
-							<span className="text-primary font-bold text-12">News Feed</span>
+						<div
+							className={clsx(
+								'w-[149px] h-[37px] flex items-center justify-center bg-7108F62 rounded-6',
+								{ '!bg-transparent': showPublicationsButton }
+							)}
+						>
+							<span className="text-7108F6 font-bold text-12">News Feed</span>
 						</div>
 						<div className="w-[149px] h-[37px] flex items-center justify-center bg-white rounded-6">
 							<span className="text-black font-medium text-12">
 								Classified Ads
 							</span>
 						</div>
-						<div
-							className="ml-[30px] extra:ml-[97px] relative"
-							id="publication-button-wrapper"
-							ref={publicationButtonRef}
-						>
-							<button
-								onClick={(e) => {
-									e.stopPropagation();
-									toggleHiddenElement('.topnav-publication-actions');
-								}}
-								className="bg-primary rounded-6 h-10 w-[150px] text-white font-bold text-10"
+						{showPublicationsButton && (
+							<div
+								className="ml-[30px] extra:ml-[97px] relative"
+								id="publication-button-wrapper"
+								ref={publicationButtonRef}
 							>
-								PUBLICATION
-							</button>
-						</div>
+								<button
+									onClick={(e) => {
+										e.stopPropagation();
+										toggleHiddenElement('.topnav-publication-actions');
+									}}
+									className="bg-7108F6 rounded-6 h-10 w-[150px] text-white font-bold text-10"
+								>
+									PUBLICATION
+								</button>
+							</div>
+						)}
 					</div>
 					<div className="flex items-center space-x-[11px]">
 						<NigerianFlag />

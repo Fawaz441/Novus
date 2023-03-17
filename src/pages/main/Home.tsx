@@ -33,10 +33,10 @@ const Home: React.FC = () => (
 						</div>
 						<div className="flex space-x-[39px] mt-[27px]">
 							<div className="bg-[#F3F3F3] w-full h-20 flex items-center justify-center rounded-6">
-								<span className="font-bold text-sm text-boldGray">ADS</span>
+								<span className="font-bold text-sm text-575555">ADS</span>
 							</div>
 							<div className="bg-[#F3F3F3] w-full h-20 flex items-center justify-center rounded-6">
-								<span className="font-bold text-sm text-boldGray">ADS</span>
+								<span className="font-bold text-sm text-575555">ADS</span>
 							</div>
 						</div>
 					</div>

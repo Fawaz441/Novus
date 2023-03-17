@@ -39,3 +39,5 @@ export const handleBodyScroll = (action: 'enable' | 'disable' = 'enable') => {
 		}
 	}
 };
+
+export const getRandomBoolean = () => Math.random() > 0.5;
