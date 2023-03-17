@@ -19,3 +19,24 @@
   pointer-events:all;
 }
 /* end publications */
+
+/* calendar */
+.react-calendar{
+  font-family:"Raleway",sans-serif !important;
+}
+.react-calendar__tile--active{
+  background: #7108F6 !important;
+}
+/* end calendar  */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -1,4 +1,7 @@
-import { CheckPublicationModal } from 'components/publications';
+import {
+	CheckPublicationModal,
+	DownloadPublicationModal,
+} from 'components/publications';
 import React from 'react';
 import {
 	hideAllPublicationActions,
@@ -43,6 +46,7 @@ const Wrapper: React.FC<WrapperProps> = ({
 	return (
 		<div className="min-h-screen">
 			<CheckPublicationModal />
+			<DownloadPublicationModal />
 			{isPublications ? <PublicationsSideNav /> : <SideNav />}
 			<TopNav showPublicationsButton={showPublicationsButton} />
 			<div className="pl-[239px] pt-[90px] pr-12">{children}</div>

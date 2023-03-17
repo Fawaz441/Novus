@@ -34,9 +34,9 @@ const Publication: React.FC<PublicationProps> = ({ id }) => (
 						type="button"
 						className="flex flex-col pl-2 items-end space-y-[5px]"
 					>
-						<div className="border-faintGray h-[2px] w-[2px] rounded-full border" />
-						<div className="border-faintGray h-[2px] w-[2px] rounded-full border" />
-						<div className="border-faintGray h-[2px] w-[2px] rounded-full border" />
+						<div className="border-9B9B9B h-[2px] w-[2px] rounded-full border" />
+						<div className="border-9B9B9B h-[2px] w-[2px] rounded-full border" />
+						<div className="border-9B9B9B h-[2px] w-[2px] rounded-full border" />
 					</button>
 				</div>
 			</div>
@@ -55,7 +55,7 @@ const Publication: React.FC<PublicationProps> = ({ id }) => (
 				</div>
 				<button
 					type="button"
-					className="text-[11px] leading-[18.41px] text-7108F6 font-medium rounded-6 bg-7108F62 py-2 px-6"
+					className="text-[11px] leading-[18.41px] text-7108F6 font-medium rounded-6 bg-DFC7FF py-2 px-6"
 				>
 					View Publication
 				</button>

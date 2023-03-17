@@ -29,7 +29,7 @@ const EditPublicationModal = () => {
 
 	return (
 		<Modal name={MODALS.EDIT_PUBLICATION}>
-			<div className="max-w-[578px] rounded-6 px-[30px] py-[35px] bg-white border border-faintGray lg:w-[578px]">
+			<div className="max-w-[578px] rounded-6 px-[30px] py-[35px] bg-white border border-9B9B9B lg:w-[578px]">
 				<div className="flex items-center justify-between">
 					<h3 className="font-bold text-xl leading-[23.48px] text-black">
 						NOVUS

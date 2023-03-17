@@ -4,7 +4,7 @@ import { ReactComponent as Google } from 'assets/icons/google.svg';
 const SideNav: React.FC = () => {
 	return (
 		<div className="w-[199px] scrollbar-hide overflow-hidden fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[23px]">
-			<div className="w-[176px] h-[90px] border-[0.5px] border-faintGray rounded-6 bg-white flex items-center justify-center space-x-[13px]">
+			<div className="w-[176px] h-[90px] border-[0.5px] border-9B9B9B rounded-6 bg-white flex items-center justify-center space-x-[13px]">
 				<div className="border border-EEEEEE h-11 w-11 rounded-full flex items-center justify-center">
 					<Google />
 				</div>

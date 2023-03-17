@@ -8,7 +8,7 @@ const PublicationList: React.FC = () => {
 	return (
 		<Wrapper isPublications>
 			<FilterAndSearch
-				searchIconClassName="!fill-primary"
+				searchIconClassName="!fill-7108F6"
 				searchPlaceholder="Reference Number, Keywords, e.t.c"
 			/>
 			<div className="mt-[120px] relative flex flex-col">

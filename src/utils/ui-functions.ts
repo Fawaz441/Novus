@@ -41,3 +41,9 @@ export const handleBodyScroll = (action: 'enable' | 'disable' = 'enable') => {
 };
 
 export const getRandomBoolean = () => Math.random() > 0.5;
+
+export const fakeAPICall = (callback: () => void) => {
+	setTimeout(() => {
+		callback();
+	}, 3000);
+};

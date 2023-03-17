@@ -10,7 +10,7 @@ const PublicationsSideNav: React.FC = () => {
 	const { showModal } = useModal();
 	return (
 		<div className="w-[199px] pb-[135px] scrollbar-hide overflow-hidden flex flex-col space-y-[200px] fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[13px]">
-			{/* <div className="w-[176px] h-[90px] border-[0.5px] border-faintGray rounded-6 bg-white flex items-center justify-center space-x-[13px]">
+			{/* <div className="w-[176px] h-[90px] border-[0.5px] border-9B9B9B rounded-6 bg-white flex items-center justify-center space-x-[13px]">
 				<div className="border border-EEEEEE h-11 w-11 rounded-full flex items-center justify-center">
 					<Google />
 				</div>
@@ -60,6 +60,7 @@ const PublicationsSideNav: React.FC = () => {
 					text={'Download Publication'}
 					className="!bg-EADAFF font-semibold text-12 !text-black"
 					icon={<Download />}
+					onClick={() => showModal(MODALS.EDIT_PUBLICATION)}
 				/>
 				<PublicationButton
 					text={'Create Publication'}

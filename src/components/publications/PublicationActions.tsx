@@ -12,7 +12,7 @@ const PublicationActions: React.FC<PublicationActionsProps> = ({ tag }) => {
 			id={`publication-${tag}-actions`}
 			role="presentation"
 			onClick={(e) => e.stopPropagation()}
-			className="bg-white w-[157px] pointer-events-none transition-all duration-200 publication-action p-[15px] opacity-0 translate-y-2 flex flex-col space-y-[19px] border-2 border-faintGray h-[87px] absolute -left-[147px] -bottom-[100px]"
+			className="bg-white w-[157px] pointer-events-none transition-all duration-200 publication-action p-[15px] opacity-0 translate-y-2 flex flex-col space-y-[19px] border-2 border-9B9B9B h-[87px] absolute -left-[147px] -bottom-[100px]"
 		>
 			<button className="flex items-center justify-between">
 				<span className="font-medium text-10 leading-[16.74px]">Copy Url</span>
