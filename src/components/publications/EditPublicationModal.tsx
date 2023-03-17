@@ -1,6 +1,5 @@
 import { Modal } from 'components/general';
 import React, { useEffect, useRef, useState } from 'react';
-import clsx from 'classnames';
 import { ReactComponent as Filter } from 'assets/icons/filter.svg';
 import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
 import { MODALS } from 'utils/constants';
