@@ -6,6 +6,7 @@ interface PublicationButtonProps {
 	text: string;
 	isActive?: boolean;
 	className?: string;
+	onClick?: () => void;
 	icon?: React.ReactNode;
 }
 
@@ -14,9 +15,11 @@ const PublicationButton: React.FC<PublicationButtonProps> = ({
 	isActive,
 	className,
 	icon,
+	onClick,
 }) => (
 	<button
 		type="button"
+		onClick={onClick}
 		className={clsx(
 			'w-[179px] h-12 px-4 text-[12px] text-boldGray font-medium flex items-center justify-between bg-gray2 rounded-6',
 			{ '!bg-yellow !text-black !font-semibold': isActive },

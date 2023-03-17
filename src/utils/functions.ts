@@ -7,4 +7,4 @@ export const formatStatistic = (stat: number) => {
 	}
 };
 
-export default 1;
+export const doNothing = () => {};

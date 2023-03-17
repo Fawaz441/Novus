@@ -1,7 +1,13 @@
 import { PublicationButton } from 'components/publications';
+import { ReactComponent as Download } from 'assets/icons/publications/download.svg';
+import { ReactComponent as Add } from 'assets/icons/publications/add.svg';
+import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
+import { useModal } from 'hooks';
 import React from 'react';
+import { MODALS } from 'utils/constants';
 
 const PublicationsSideNav: React.FC = () => {
+	const { showModal } = useModal();
 	return (
 		<div className="w-[199px] pb-[135px] scrollbar-hide overflow-hidden flex flex-col space-y-[200px] fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[13px]">
 			{/* <div className="w-[176px] h-[90px] border-[0.5px] border-faintGray rounded-6 bg-white flex items-center justify-center space-x-[13px]">
@@ -52,10 +58,20 @@ const PublicationsSideNav: React.FC = () => {
 			<div className="flex flex-col space-y-10">
 				<PublicationButton
 					text={'Download Publication'}
-					className="!bg-purple"
+					className="!bg-purple font-semibold text-12 !text-black"
+					icon={<Download />}
 				/>
-				<PublicationButton text={'Obituary'} />
-				<PublicationButton text={'Obituary'} />
+				<PublicationButton
+					text={'Create Publication'}
+					className="!bg-purple font-semibold text-12 !text-black"
+					icon={<Add />}
+				/>
+				<PublicationButton
+					text={'Check Publication'}
+					className="!bg-purple font-semibold text-12 !text-black"
+					icon={<Check className="stroke-black" />}
+					onClick={() => showModal(MODALS.CHECK_PUBLICATIONS)}
+				/>
 			</div>
 		</div>
 	);

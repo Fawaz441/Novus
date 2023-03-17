@@ -2,35 +2,9 @@ import { Pagination } from 'components/general';
 import { Wrapper } from 'components/navigation';
 import { FilterAndSearch } from 'components/news/interactions';
 import { Publication } from 'components/publications';
-import React, { useEffect } from 'react';
-import {
-	hideAllPublicationActions,
-	toggleHiddenElement,
-} from 'utils/ui-functions';
+import React from 'react';
 
 const PublicationList: React.FC = () => {
-	useEffect(() => {
-		document
-			.querySelector('body')
-			?.addEventListener('click', hideAllPublicationActions);
-		document
-			.querySelector('body')
-			?.addEventListener('click', () =>
-				toggleHiddenElement('.topnav-publication-actions', 'hide')
-			);
-
-		return () => {
-			document
-				.querySelector('body')
-				?.removeEventListener('click', hideAllPublicationActions);
-			document
-				.querySelector('body')
-				?.removeEventListener('click', () =>
-					toggleHiddenElement('.topnav-publication-actions', 'hide')
-				);
-		};
-	}, []);
-
 	return (
 		<Wrapper isPublications>
 			<FilterAndSearch

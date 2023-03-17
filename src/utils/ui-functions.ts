@@ -28,3 +28,14 @@ export const getCoords = (elementSelector: string) => {
 	}
 	return { x: 0, y: 0 };
 };
+
+export const handleBodyScroll = (action: 'enable' | 'disable' = 'enable') => {
+	const el = document.querySelector('html');
+	if (el) {
+		if (action === 'enable') {
+			el.classList.remove('overflow-y-hidden');
+		} else {
+			el.classList.add('overflow-y-hidden');
+		}
+	}
+};

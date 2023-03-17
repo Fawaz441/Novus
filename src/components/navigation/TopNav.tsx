@@ -4,13 +4,16 @@ import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
 import { ReactComponent as Add } from 'assets/icons/publications/add.svg';
 import { Link } from 'react-router-dom';
 import { toggleHiddenElement } from 'utils/ui-functions';
+import { useModal } from 'hooks';
+import { MODALS } from 'utils/constants';
 interface TopNavProps {
-	isPublications?: boolean;
+	// isPublications?: boolean;
 }
 
-const TopNav: React.FC<TopNavProps> = ({ isPublications }) => {
+const TopNav: React.FC<TopNavProps> = () => {
 	const publicationButtonRef = useRef<HTMLDivElement>(null);
 	const [fetched, setFetched] = useState(false);
+	const { showModal } = useModal();
 
 	useEffect(() => {
 		setFetched(true);
@@ -57,23 +60,21 @@ const TopNav: React.FC<TopNavProps> = ({ isPublications }) => {
 								Classified Ads
 							</span>
 						</div>
-						{isPublications && (
-							<div
-								className="ml-[30px] extra:ml-[97px] relative"
-								id="publication-button-wrapper"
-								ref={publicationButtonRef}
+						<div
+							className="ml-[30px] extra:ml-[97px] relative"
+							id="publication-button-wrapper"
+							ref={publicationButtonRef}
+						>
+							<button
+								onClick={(e) => {
+									e.stopPropagation();
+									toggleHiddenElement('.topnav-publication-actions');
+								}}
+								className="bg-primary rounded-6 h-10 w-[150px] text-white font-bold text-10"
 							>
-								<button
-									onClick={(e) => {
-										e.stopPropagation();
-										toggleHiddenElement('.topnav-publication-actions');
-									}}
-									className="bg-primary rounded-6 h-10 w-[150px] text-white font-bold text-10"
-								>
-									PUBLICATION
-								</button>
-							</div>
-						)}
+								PUBLICATION
+							</button>
+						</div>
 					</div>
 					<div className="flex items-center space-x-[11px]">
 						<NigerianFlag />
@@ -83,16 +84,19 @@ const TopNav: React.FC<TopNavProps> = ({ isPublications }) => {
 					</div>
 				</div>
 			</div>
-			{isPublications && fetched && (
+			{fetched && (
 				<div
 					style={getPublicationsActionsStyles()}
 					className="flex transition-all duration-300 opacity-0 pointer-vents-none translate-x-[10px] translate-y-[10px] pr-[11px] pl-[23px] items-center justify-between fixed topnav-publication-actions bg-white border-[#CFCFCF] border-[0.5px] rounded-6 w-[308px] h-[45px] z-[100]"
 				>
-					<button className="items-center space-x-2 flex">
+					<button
+						className="items-center space-x-2 flex"
+						onClick={() => showModal(MODALS.CHECK_PUBLICATIONS)}
+					>
 						<span className="text-black text-10 font-medium">
 							Check Publication
 						</span>
-						<Check />
+						<Check className="stroke-black" />
 					</button>
 					<button className="items-center space-x-2 flex">
 						<span className="text-black text-10 font-medium">
