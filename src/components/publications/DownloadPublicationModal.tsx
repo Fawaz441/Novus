@@ -23,7 +23,7 @@ const DownloadPublicationModal: React.FC = () => {
 	const [publications, setPublications] = useState<number>(0);
 	const [downloaded, setDownloaded] = useState(false);
 
-	const modalIsVisible = isVisible(MODALS.EDIT_PUBLICATION);
+	const modalIsVisible = isVisible(MODALS.DOWNLOAD_PUBLICATION);
 
 	const hideCalendar = () => setActiveCalendar(null);
 
@@ -101,7 +101,7 @@ const DownloadPublicationModal: React.FC = () => {
 	}, [startDate, endDate, getPublications]);
 
 	return (
-		<Modal name={MODALS.EDIT_PUBLICATION}>
+		<Modal name={MODALS.DOWNLOAD_PUBLICATION}>
 			<Calendar
 				value={startDate}
 				visible={activeCalendar === 'start_date'}

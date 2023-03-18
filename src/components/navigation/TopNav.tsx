@@ -2,19 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ReactComponent as NigerianFlag } from 'assets/icons/nigerian-flag.svg';
 import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
 import { ReactComponent as Add } from 'assets/icons/publications/add.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import clsx from 'classnames';
 import { toggleHiddenElement } from 'utils/ui-functions';
 import { useModal } from 'hooks';
 import { MODALS, routes } from 'utils/constants';
 interface TopNavProps {
 	showPublicationsButton?: boolean;
+	isPublications?: boolean;
 }
 
-const TopNav: React.FC<TopNavProps> = ({ showPublicationsButton }) => {
+const TopNav: React.FC<TopNavProps> = ({
+	showPublicationsButton,
+	isPublications,
+}) => {
 	const publicationButtonRef = useRef<HTMLDivElement>(null);
 	const [fetched, setFetched] = useState(false);
 	const { showModal } = useModal();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setFetched(true);
@@ -75,7 +80,11 @@ const TopNav: React.FC<TopNavProps> = ({ showPublicationsButton }) => {
 								<button
 									onClick={(e) => {
 										e.stopPropagation();
-										toggleHiddenElement('.topnav-publication-actions');
+										if (!isPublications) {
+											navigate(routes.change_of_name_publications);
+										} else {
+											toggleHiddenElement('.topnav-publication-actions');
+										}
 									}}
 									className="bg-7108F6 rounded-6 h-10 w-[150px] text-white font-bold text-10"
 								>
@@ -106,7 +115,10 @@ const TopNav: React.FC<TopNavProps> = ({ showPublicationsButton }) => {
 						</span>
 						<Check className="stroke-black" />
 					</button>
-					<button className="items-center space-x-2 flex">
+					<button
+						className="items-center space-x-2 flex"
+						onClick={() => navigate(routes.pub_forms.change_of_name)}
+					>
 						<span className="text-black text-10 font-medium">
 							Create Publication
 						</span>

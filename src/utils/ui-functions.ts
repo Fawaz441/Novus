@@ -1,3 +1,5 @@
+import { Location } from 'react-router-dom';
+
 export const hideAllPublicationActions = () => {
 	const tags = document.querySelectorAll('.publication-action');
 	tags.forEach((tag) => tag.classList.remove('active'));
@@ -47,3 +49,6 @@ export const fakeAPICall = (callback: () => void) => {
 		callback();
 	}, 3000);
 };
+
+export const pathIncludesName = (location: Location, name: string) =>
+	location.pathname.includes(name);

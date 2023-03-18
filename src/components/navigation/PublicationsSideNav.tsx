@@ -4,53 +4,22 @@ import { ReactComponent as Add } from 'assets/icons/publications/add.svg';
 import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
 import { useModal } from 'hooks';
 import React from 'react';
-import { MODALS } from 'utils/constants';
+import { MODALS, routes } from 'utils/constants';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { pathIncludesName } from 'utils/ui-functions';
 
 const PublicationsSideNav: React.FC = () => {
+	const location = useLocation();
 	const { showModal } = useModal();
+	const navigate = useNavigate();
 	return (
 		<div className="w-[199px] pb-[135px] scrollbar-hide overflow-hidden flex flex-col space-y-[200px] fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[13px]">
-			{/* <div className="w-[176px] h-[90px] border-[0.5px] border-9B9B9B rounded-6 bg-white flex items-center justify-center space-x-[13px]">
-				<div className="border border-EEEEEE h-11 w-11 rounded-full flex items-center justify-center">
-					<Google />
-				</div>
-				<div className="flex flex-col space-y-[6px]">
-					<span className="text-12 text-black leading-[14.09px]">Source</span>
-					<h4 className="font-bold text-sm leading-[16.44px]">Google Inc.</h4>
-				</div>
-			</div>
-			<div className="ml-[29px]">
-				<h3 className="font-bold text-[18px] text-black mt-[31px] mb-[26px]">
-					Category
-				</h3>
-				<ul className="flex flex-col space-y-5">
-					<li>
-						<span className="font-bold text-sm text-7108F6">Finance</span>
-					</li>
-					<li>
-						<span className="text-sm text-575555">Politics</span>
-					</li>
-					<li>
-						<span className="text-sm text-575555">Sports</span>
-					</li>
-					<li>
-						<span className="text-sm text-575555">Media</span>
-					</li>
-					<li>
-						<span className="text-sm text-575555">Energy</span>
-					</li>
-					<li>
-						<span className="text-sm text-575555">Tourism</span>
-					</li>
-				</ul>
-				<div className="mt-[64px] mb-4 w-[112px] h-[482px]  bg-[#F3F3F3] flex flex-col items-center justify-center">
-					<h3 className="text-sm text-575555 font-bold">A</h3>
-					<h3 className="text-sm text-575555 font-bold">D</h3>
-					<h3 className="text-sm text-575555 font-bold">S</h3>
-				</div>
-			</div> */}
 			<div className="flex flex-col space-y-10">
-				<PublicationButton text={'Change Of Name'} isActive />
+				<PublicationButton
+					text={'Change Of Name'}
+					isActive={pathIncludesName(location, 'change-of-name')}
+					onClick={() => navigate(routes.pub_forms.change_of_name)}
+				/>
 				<PublicationButton text={'Loss Of Document'} />
 				<PublicationButton text={'Age Declaration'} />
 				<PublicationButton text={'Obituary'} />
@@ -60,7 +29,7 @@ const PublicationsSideNav: React.FC = () => {
 					text={'Download Publication'}
 					className="!bg-EADAFF font-semibold text-12 !text-black"
 					icon={<Download />}
-					onClick={() => showModal(MODALS.EDIT_PUBLICATION)}
+					onClick={() => showModal(MODALS.DOWNLOAD_PUBLICATION)}
 				/>
 				<PublicationButton
 					text={'Create Publication'}

@@ -48,7 +48,10 @@ const Wrapper: React.FC<WrapperProps> = ({
 			<CheckPublicationModal />
 			<DownloadPublicationModal />
 			{isPublications ? <PublicationsSideNav /> : <SideNav />}
-			<TopNav showPublicationsButton={showPublicationsButton} />
+			<TopNav
+				showPublicationsButton={showPublicationsButton}
+				isPublications={isPublications}
+			/>
 			<div className="pl-[239px] pt-[90px] pr-12">{children}</div>
 		</div>
 	);
