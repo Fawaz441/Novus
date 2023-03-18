@@ -1,4 +1,10 @@
-import { FileInput, Input, RadioOption, TextArea } from 'components/inputs';
+import {
+	FileInput,
+	Input,
+	RadioOption,
+	Select,
+	TextArea,
+} from 'components/inputs';
 import { Wrapper } from 'components/navigation';
 import { PublicationCreationSteps } from 'components/publications';
 import React from 'react';
@@ -27,6 +33,7 @@ const ChangeOfName = () => {
 		formState: { errors },
 		setValue,
 		handleSubmit,
+		watch,
 		control,
 	} = useForm<ChangeOfNameValues>({
 		defaultValues: {
@@ -53,9 +60,25 @@ const ChangeOfName = () => {
 		console.log(data);
 	};
 
+	const nameChangeOptions = [
+		{ label: 'Personal Preference', value: 'Personal Preference' },
+	];
+
+	const publicationTypes = [
+		{ label: 'Change of name', value: 'Change of name' },
+	];
+
+	const thirdPartyNewsPapers = [
+		{ label: 'Vanguard #4,500', value: 'Vanguard', price: '#4,500' },
+		{ label: 'Punch #4,500', value: 'Punch', price: '#4,500' },
+		{ label: 'Guardian #4,500', value: 'guardian', price: '#4,500' },
+	];
+
+	const publishWithThirdParty = watch('publish_on_third_party');
+
 	return (
 		<Wrapper isPublications>
-			<div className="flex flex-col space-y-[33px] pb-9">
+			<div className="flex flex-col space-y-[33px] pb-[200px]">
 				<PublicationCreationSteps active_step="fill_forms" />
 				<form
 					onSubmit={handleSubmit(onSubmit)}
@@ -171,7 +194,18 @@ const ChangeOfName = () => {
 							/>
 						</div>
 						{/* reason for change */}
-						<div />
+						<div className="flex space-x-[38px] mb-[38px]">
+							<Select
+								label="Reason for Name Change"
+								hasRequiredIcon
+								options={nameChangeOptions}
+							/>
+							<Select
+								label="Select Publication Type"
+								hasRequiredIcon
+								options={publicationTypes}
+							/>
+						</div>
 						{/* email and phone number */}
 						<div className="flex items-center mb-[38px] space-x-[34px]">
 							<Controller
@@ -281,6 +315,15 @@ const ChangeOfName = () => {
 								</div>
 							</div>
 						</div>
+						{publishWithThirdParty && (
+							<div className="mt-[29px]">
+								<Select
+									label="Select Newspaper"
+									hasRequiredIcon
+									options={thirdPartyNewsPapers}
+								/>
+							</div>
+						)}
 					</div>
 					<div>
 						<div className="flex flex-col space-y-[7px]">
