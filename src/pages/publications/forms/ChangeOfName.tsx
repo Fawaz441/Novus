@@ -84,7 +84,7 @@ const ChangeOfName = () => {
 					onSubmit={handleSubmit(onSubmit)}
 					className="w-full flex space-x-[51px]"
 				>
-					<div className="flex-1">
+					<div className="flex-1 max-w-[1000px]">
 						{/* first_name */}
 						<div className="flex items-center mb-[38px]">
 							<Controller
