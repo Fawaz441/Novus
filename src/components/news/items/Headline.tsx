@@ -29,7 +29,11 @@ const Headline: React.FC<HeadlineProps> = ({
 	return (
 		<div className="flex flex-col w-full space-y-[22px]">
 			<div className="h-[280px] rounded-[10px] relative">
-				<img src={image} alt={header} className="h-[280px] rounded-[10px]" />
+				<img
+					src={image}
+					alt={header}
+					className="w-full h-[280px] rounded-[10px]"
+				/>
 				<div className="absolute left-[21px] bottom-[19px]">
 					<NewsTag name={tag} />
 				</div>
@@ -45,7 +49,7 @@ const Headline: React.FC<HeadlineProps> = ({
 				<div className="flex flex-col space-y-[26px] w-full flex-1">
 					<button
 						type="button"
-						className="w-[283px] ml-auto rounded text-sm h-[37px] border-[0.5px] bg-white border-primary"
+						className="w-[283px] ml-auto rounded text-sm h-[37px] border-[0.5px] bg-white border-7108F6"
 					>
 						Read More
 					</button>

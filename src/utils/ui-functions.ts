@@ -52,3 +52,8 @@ export const fakeAPICall = (callback: () => void) => {
 
 export const pathIncludesName = (location: Location, name: string) =>
 	location.pathname.includes(name);
+
+export const getPubColumns = () => {
+	const availableSpace = window.innerWidth - 48 - 239;
+	console.log(Math.floor(availableSpace / (535 + 40)));
+};

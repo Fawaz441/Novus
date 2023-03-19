@@ -7,35 +7,35 @@ import {
 } from 'components/inputs';
 import { Wrapper } from 'components/navigation';
 import { PublicationCreationSteps } from 'components/publications';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ReactComponent as Swap } from 'assets/icons/swap.svg';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
 import { validators } from 'utils/validation';
-
-interface ChangeOfNameValues {
-	old_first_name: string;
-	new_first_name: string;
-	old_middle_name: string;
-	new_middle_name: string;
-	old_last_name: string;
-	new_last_name: string;
-	email: string;
-	phone_number: string;
-	house_address: string;
-	gender: string;
-	publish_on_third_party: boolean;
-	concerned_parties: string;
-}
+import { ChangeOfNamePublicationValues } from 'interfaces/publications';
+import { AppDispatch, RootState } from 'store';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewConPublication } from 'store/publications';
+import { useNavigate } from 'react-router-dom';
+import { routes, STORAGE_KEYS } from 'utils/constants';
+import { storeToLS } from 'utils/functions';
+import { isEmpty } from 'lodash';
 
 const ChangeOfName = () => {
+	const dispatch: AppDispatch = useDispatch();
+	const { new_con_publication } = useSelector(
+		(state: RootState) => state.publications
+	);
+	const navigate = useNavigate();
 	const {
 		formState: { errors },
 		setValue,
 		handleSubmit,
 		watch,
+		setError,
 		control,
-	} = useForm<ChangeOfNameValues>({
+		reset,
+	} = useForm<ChangeOfNamePublicationValues>({
 		defaultValues: {
 			gender: 'male',
 			publish_on_third_party: true,
@@ -56,8 +56,24 @@ const ChangeOfName = () => {
 	const onThirdPartyOptionChange = (value: boolean) =>
 		setValue('publish_on_third_party', value);
 
-	const onSubmit = (data: ChangeOfNameValues) => {
-		console.log(data);
+	const onSubmit = (data: ChangeOfNamePublicationValues) => {
+		if (
+			isEmpty(data.new_first_name) &&
+			isEmpty(data.new_last_name) &&
+			isEmpty(data.new_middle_name)
+		) {
+			setError(
+				'new_first_name',
+				{
+					message: 'Please type in a new first name, last name or middle name',
+				},
+				{ shouldFocus: true }
+			);
+			return;
+		}
+		dispatch(addNewConPublication(data));
+		storeToLS(STORAGE_KEYS.NEW_CON_PUBLICATION, data);
+		navigate(routes.pub_forms.change_of_name_preview);
 	};
 
 	const nameChangeOptions = [
@@ -76,6 +92,12 @@ const ChangeOfName = () => {
 
 	const publishWithThirdParty = watch('publish_on_third_party');
 
+	useEffect(() => {
+		if (new_con_publication) {
+			reset(new_con_publication);
+		}
+	}, [reset, new_con_publication]);
+
 	return (
 		<Wrapper isPublications>
 			<div className="flex flex-col space-y-[33px] pb-[200px]">
@@ -91,12 +113,14 @@ const ChangeOfName = () => {
 								control={control}
 								rules={validators.isRequiredString}
 								name="old_first_name"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Firstname (Old)"
+										autoFocus
 										containerClassName="w-full"
 										placeholder="Hannah"
 										hasRequiredIcon
+										ref_={ref}
 										value={value}
 										onChange={onChange}
 										hasError={!!errors.old_first_name}
@@ -109,12 +133,13 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								name="new_first_name"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Firstname (New)"
 										containerClassName="w-full"
 										value={value}
 										placeholder="Hannah"
+										ref_={ref}
 										onChange={onChange}
 										hasError={!!errors.new_first_name}
 									/>
@@ -127,11 +152,12 @@ const ChangeOfName = () => {
 								rules={validators.isRequiredString}
 								control={control}
 								name="old_middle_name"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Middlename (Old)"
 										containerClassName="w-full"
 										hasRequiredIcon
+										ref_={ref}
 										placeholder="Paul"
 										value={value}
 										onChange={onChange}
@@ -145,12 +171,13 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								name="new_middle_name"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Middlename (New)"
 										containerClassName="w-full"
 										value={value}
 										placeholder="Paul"
+										ref_={ref}
 										onChange={onChange}
 										hasError={!!errors.new_middle_name}
 									/>
@@ -163,12 +190,13 @@ const ChangeOfName = () => {
 								control={control}
 								rules={validators.isRequiredString}
 								name="old_last_name"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Lastname (Old)"
 										containerClassName="w-full"
 										hasRequiredIcon
 										placeholder="Zechariah"
+										ref_={ref}
 										value={value}
 										onChange={onChange}
 										hasError={!!errors.old_last_name}
@@ -181,11 +209,12 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								name="new_last_name"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Lastname (New)"
 										containerClassName="w-full"
 										value={value}
+										ref_={ref}
 										placeholder="Daniel"
 										onChange={onChange}
 										hasError={!!errors.new_last_name}
@@ -212,11 +241,12 @@ const ChangeOfName = () => {
 								control={control}
 								rules={validators.isRequiredString}
 								name="email"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Email"
 										containerClassName="w-full"
 										hasRequiredIcon
+										ref_={ref}
 										placeholder="Provide a valid email address"
 										value={value}
 										onChange={onChange}
@@ -228,11 +258,12 @@ const ChangeOfName = () => {
 								control={control}
 								rules={validators.isRequiredString}
 								name="phone_number"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Phone Number"
 										hasRequiredIcon
 										containerClassName="w-full"
+										ref_={ref}
 										value={value}
 										placeholder="Provide a valid phone Number"
 										onChange={onChange}
@@ -246,7 +277,7 @@ const ChangeOfName = () => {
 							control={control}
 							rules={validators.isRequiredString}
 							name="house_address"
-							render={({ field: { value, onChange } }) => (
+							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="House Address"
 									containerClassName="w-full"
@@ -254,6 +285,7 @@ const ChangeOfName = () => {
 									placeholder="Enter the correct details of your house address"
 									value={value}
 									onChange={onChange}
+									ref_={ref}
 									hasError={!!errors.house_address}
 								/>
 							)}
@@ -348,11 +380,12 @@ const ChangeOfName = () => {
 								control={control}
 								rules={validators.isRequiredString}
 								name="concerned_parties"
-								render={({ field: { value, onChange } }) => (
+								render={({ field: { value, onChange, ref } }) => (
 									<TextArea
 										label="Concerned Parties"
 										containerClassName="w-full"
 										wrapperClassName="!h-12"
+										ref_={ref}
 										hasRequiredIcon
 										placeholder="Type in any concerned authority that is interested in this publication. E.g. General public, Bank name, School name, e.t.c."
 										value={value}

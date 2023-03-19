@@ -31,6 +31,7 @@ const Wrapper: React.FC<WrapperProps> = ({
 			?.addEventListener('click', () =>
 				toggleHiddenElement('.topnav-publication-actions', 'hide')
 			);
+		window.scroll(0, 0);
 
 		return () => {
 			document

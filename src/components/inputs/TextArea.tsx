@@ -1,6 +1,7 @@
 import React, { ChangeEventHandler } from 'react';
 import clsx from 'classnames';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
+import { RefCallBack } from 'react-hook-form';
 
 interface TextAreaProps {
 	labelClassName?: string;
@@ -13,6 +14,7 @@ interface TextAreaProps {
 	onChange: ChangeEventHandler<HTMLTextAreaElement>;
 	label?: string;
 	hasError?: boolean;
+	ref_?: RefCallBack;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
@@ -25,6 +27,7 @@ const TextArea: React.FC<TextAreaProps> = ({
 	value,
 	hasError,
 	onChange,
+	ref_,
 }) => {
 	return (
 		<div className={clsx('flex flex-col space-y-[7px]', containerClassName)}>
@@ -44,6 +47,7 @@ const TextArea: React.FC<TextAreaProps> = ({
 			<textarea
 				placeholder={placeholder}
 				value={value}
+				ref={ref_ || null}
 				onChange={onChange}
 				className={clsx(
 					'pl-[15px] pr-[18px] py-3 rounded-3 border-[0.2px] border-black outline-none placeholder:text-9B9B9B h-full bg-transparent text-12 font-medium leading-[14.09px]',

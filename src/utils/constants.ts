@@ -11,5 +11,11 @@ export const routes = {
 	getPubDetailRoute: (ref: string) => `/publications/${ref}/detail`,
 	pub_forms: {
 		change_of_name: '/publications/change-of-name/create',
+		change_of_name_preview: '/publications/change-of-name/create/preview',
+		payment: '/publications/change-of-name/create/payment',
 	},
 };
+
+export enum STORAGE_KEYS {
+	NEW_CON_PUBLICATION = 'new_con_publication',
+}

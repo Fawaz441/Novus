@@ -37,7 +37,7 @@ const TopNav: React.FC<TopNavProps> = ({
 
 	return (
 		<div>
-			<div className="fixed w-full left-0 top-0 h-[90px] flex items-center pr-[38px] z-[12] bg-white max-w-extra">
+			<div className="fixed w-full left-0 top-0 h-[90px] flex items-center pr-[38px] z-[12] bg-white">
 				<div className="w-[199px] pl-[52px]">
 					<Link to={routes.home}>
 						<h4 className="uppercase font-bold text-black text-base">NOVUS</h4>

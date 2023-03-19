@@ -2,6 +2,7 @@ import React, { ChangeEventHandler } from 'react';
 import clsx from 'classnames';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
 import { ReactComponent as Filter } from 'assets/icons/filter.svg';
+import { RefCallBack } from 'react-hook-form';
 
 interface InputProps {
 	labelClassName?: string;
@@ -15,6 +16,8 @@ interface InputProps {
 	label?: string;
 	hasError?: boolean;
 	hasFilterIcon?: boolean;
+	ref_?: RefCallBack;
+	[key: string]: any;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -29,6 +32,8 @@ const Input: React.FC<InputProps> = ({
 	hasError,
 	hasFilterIcon = true,
 	onChange,
+	ref_,
+	...rest
 }) => {
 	return (
 		<div className={clsx('flex flex-col space-y-[7px]', containerClassName)}>
@@ -56,6 +61,8 @@ const Input: React.FC<InputProps> = ({
 					placeholder={placeholder}
 					value={value}
 					onChange={onChange}
+					ref={ref_ || null}
+					{...rest}
 					className={clsx(
 						'placeholder:text-9B9B9B h-full flex-1 bg-transparent text-12 border-none outline-none font-medium leading-[14.09px]',
 						inputClassName

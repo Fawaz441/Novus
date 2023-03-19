@@ -1,4 +1,4 @@
-import { ModalContext } from 'components/contexts';
+import { ModalContext } from 'contexts';
 import { useContext } from 'react';
 import { MODALS } from 'utils/constants';
 import { handleBodyScroll } from 'utils/ui-functions';

@@ -35,6 +35,7 @@ const PublicationsSideNav: React.FC = () => {
 					text={'Create Publication'}
 					className="!bg-EADAFF font-semibold text-12 !text-black"
 					icon={<Add />}
+					onClick={() => navigate(routes.pub_forms.change_of_name)}
 				/>
 				<PublicationButton
 					text={'Check Publication'}

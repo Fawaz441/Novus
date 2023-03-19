@@ -18,6 +18,11 @@
   transform: translateY(0) translateX(0) !important;
   pointer-events:all;
 }
+
+.pub-list{
+  grid-template-columns: repeat( auto-fit, minmax(500px, 1fr) );
+}
+
 /* end publications */
 
 /* calendar */
@@ -44,3 +49,4 @@ input[type=number] {
 html,body{
   overflow-x:hidden;
 }
+

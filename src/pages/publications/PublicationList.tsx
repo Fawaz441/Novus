@@ -12,7 +12,7 @@ const PublicationList: React.FC = () => {
 				searchPlaceholder="Reference Number, Keywords, e.t.c"
 			/>
 			<div className="mt-[120px] relative flex flex-col">
-				<div className="grid gap-x-10 grid-cols-2 gap-y-[30px] h-[calc(100vh_-_291px)] overflow-y-auto scrollbar-hide">
+				<div className="grid gap-x-10 w-full pub-list gap-y-[30px] h-[calc(100vh_-_291px)] overflow-y-auto scrollbar-hide">
 					<Publication id={1} />
 					<Publication id={2} />
 					<Publication id={3} />

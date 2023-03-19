@@ -1,3 +1,5 @@
+import { STORAGE_KEYS } from './constants';
+
 export const formatStatistic = (stat: number) => {
 	if (stat >= 1000000) {
 		return `${Math.ceil(stat / 1000000)}m`;
@@ -8,3 +10,18 @@ export const formatStatistic = (stat: number) => {
 };
 
 export const doNothing = () => {};
+
+export const storeToLS = (key: STORAGE_KEYS, data: any) => {
+	localStorage.setItem(key, JSON.stringify(data));
+};
+
+export const retrieveFromLS = (key: STORAGE_KEYS) => {
+	const item = localStorage.getItem(key);
+	if (item) {
+		return JSON.parse(item);
+	}
+};
+
+export const removeFromLS = (key: STORAGE_KEYS) => {
+	localStorage.removeItem(key);
+};

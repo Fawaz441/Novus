@@ -8,11 +8,14 @@ interface PublicationProps {
 }
 
 const Publication: React.FC<PublicationProps> = ({ id }) => (
-	<div className="flex max-w-[535px] space-x-5" id={`publication-${id}`}>
+	<div
+		className="flex max-w-[535px] self-start space-x-5"
+		id={`publication-${id}`}
+	>
 		<img
 			src={announcement}
 			alt="announcement"
-			className="flex-shrink-0 pointer-events-none"
+			className="flex-shrink-0 pointer-events-none max-h-[151px]"
 		/>
 		<div className="w-full">
 			<div className="mb-4 flex w-full items-center justify-between">
