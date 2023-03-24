@@ -4,7 +4,7 @@ import { ReactComponent as Add } from 'assets/icons/publications/add.svg';
 import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
 import { useModal } from 'hooks';
 import React from 'react';
-import { MODALS, routes } from 'utils/constants';
+import { APP_TERMS, MODALS, routes } from 'utils/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { pathIncludesName } from 'utils/ui-functions';
 
@@ -17,10 +17,14 @@ const PublicationsSideNav: React.FC = () => {
 			<div className="flex flex-col space-y-10">
 				<PublicationButton
 					text={'Change Of Name'}
-					isActive={pathIncludesName(location, 'change-of-name')}
+					isActive={pathIncludesName(location, APP_TERMS.CHANGE_OF_NAME)}
 					onClick={() => navigate(routes.pub_forms.change_of_name)}
 				/>
-				<PublicationButton text={'Loss Of Document'} />
+				<PublicationButton
+					text={'Loss Of Document'}
+					isActive={pathIncludesName(location, APP_TERMS.LOSS_OF_DOCUMENT)}
+					onClick={() => navigate(routes.pub_forms.loss_of_document)}
+				/>
 				<PublicationButton text={'Age Declaration'} />
 				<PublicationButton text={'Obituary'} />
 			</div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'classnames';
+import { ReactComponent as LossOfDocument } from 'assets/icons/loss-of-document.svg';
 import { ReactComponent as Change } from 'assets/icons/publications/change.svg';
 
 type Step = 'fill_forms' | 'preview' | 'payment';
@@ -17,18 +18,20 @@ const stepList: StepListItem[] = [
 ];
 
 interface PublicationCreationStepsProps {
-	active_step: Step;
+	activeStep: Step;
+	isLossOfDocument?: boolean;
 }
 
 const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
-	active_step,
+	activeStep,
+	isLossOfDocument,
 }) => {
 	return (
 		<div className="flex items-center space-x-[193px]">
 			<div className="flex items-center space-x-[14px]">
-				<Change />
+				{isLossOfDocument ? <LossOfDocument /> : <Change />}
 				<span className="text-sm leading-[16.44px] text-black font-semibold">
-					Change Of Name
+					{isLossOfDocument ? 'Loss Of Document' : 'Change Of Name'}
 				</span>
 			</div>
 			<div className="w-full max-w-[600px] flex items-center justify-between">
@@ -38,7 +41,7 @@ const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
 							className={clsx(
 								'text-9B9B9B font-semibold text-sm leading-[16.44px]',
 								{
-									'!text-7108F6': active_step === item.step,
+									'!text-7108F6': activeStep === item.step,
 								}
 							)}
 						>
@@ -48,7 +51,7 @@ const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
 							className={clsx(
 								'text-575555 text-base font-medium leading-[16.44px]',
 								{
-									'!text-7108F6 !font-bold': active_step === item.step,
+									'!text-7108F6 !font-bold': activeStep === item.step,
 								}
 							)}
 						>

@@ -7,6 +7,7 @@ import {
 	ChangeOfNameForm,
 	ChangeOfNamePreview,
 	Payment,
+	LossOfDocument,
 } from 'pages/publications';
 import { routes, STORAGE_KEYS } from 'utils/constants';
 import { NotFound } from 'pages/misc';
@@ -39,6 +40,10 @@ const AppRoutes: React.FC = () => {
 		{
 			path: routes.pub_forms.payment,
 			element: <Payment />,
+		},
+		{
+			path: routes.pub_forms.loss_of_document,
+			element: <LossOfDocument />,
 		},
 		{ path: '*', element: <NotFound /> },
 	]);

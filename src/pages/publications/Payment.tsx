@@ -19,7 +19,7 @@ const Payment = () => {
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
-			<PublicationCreationSteps active_step="payment" />
+			<PublicationCreationSteps activeStep="payment" />
 			<div className="pt-[63px] pb-5 flex flex-col space-y-[49px] max-w-[900px] mx-auto">
 				<button
 					type="button"

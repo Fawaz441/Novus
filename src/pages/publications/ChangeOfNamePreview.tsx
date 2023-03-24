@@ -25,7 +25,7 @@ const ChangeOfNamePreview = () => {
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
-			<PublicationCreationSteps active_step="preview" />
+			<PublicationCreationSteps activeStep="preview" />
 			<div className="mt-[33px] flex space-x-[31px]">
 				<div className="flex-shrink-0 h-[175px] w-[169px] bg-F4F4F4 flex flex-col items-center justify-center space-y-[14.91px]">
 					<Camera />

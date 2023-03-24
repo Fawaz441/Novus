@@ -12,12 +12,12 @@ import { useForm, Controller } from 'react-hook-form';
 import { ReactComponent as Swap } from 'assets/icons/swap.svg';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
 import { validators } from 'utils/validation';
-import { ChangeOfNamePublicationValues } from 'interfaces/publications';
+import { ChangeOfNamePublicationValues, Gender } from 'interfaces/publications';
 import { AppDispatch, RootState } from 'store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewConPublication } from 'store/publications';
 import { useNavigate } from 'react-router-dom';
-import { routes, STORAGE_KEYS } from 'utils/constants';
+import { emptyChangeOfNameValues, routes, STORAGE_KEYS } from 'utils/constants';
 import { storeToLS } from 'utils/functions';
 import { isEmpty } from 'lodash';
 
@@ -36,23 +36,10 @@ const ChangeOfName = () => {
 		control,
 		reset,
 	} = useForm<ChangeOfNamePublicationValues>({
-		defaultValues: {
-			gender: 'male',
-			publish_on_third_party: true,
-			old_first_name: '',
-			new_first_name: '',
-			old_middle_name: '',
-			new_middle_name: '',
-			old_last_name: '',
-			new_last_name: '',
-			email: '',
-			phone_number: '',
-			house_address: '',
-			concerned_parties: '',
-		},
+		defaultValues: emptyChangeOfNameValues,
 	});
 
-	const onGenderChange = (value: string) => setValue('gender', value);
+	const onGenderChange = (value: Gender) => setValue('gender', value);
 	const onThirdPartyOptionChange = (value: boolean) =>
 		setValue('publish_on_third_party', value);
 
@@ -101,7 +88,7 @@ const ChangeOfName = () => {
 	return (
 		<Wrapper isPublications>
 			<div className="flex flex-col space-y-[33px] pb-[200px]">
-				<PublicationCreationSteps active_step="fill_forms" />
+				<PublicationCreationSteps activeStep="fill_forms" />
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					className="w-full flex space-x-[51px]"
