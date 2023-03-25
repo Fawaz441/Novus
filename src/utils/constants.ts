@@ -12,18 +12,22 @@ export enum MODALS {
 export const routes = {
 	home: '/',
 	change_of_name_publications: '/publications/change-of-name',
+	lost_document_publications: '/publications/loss-of-document',
 	publication_detail: '/publications/:publicationRef/detail',
 	getPubDetailRoute: (ref: string) => `/publications/${ref}/detail`,
 	pub_forms: {
 		change_of_name: '/publications/change-of-name/create',
 		change_of_name_preview: '/publications/change-of-name/create/preview',
 		payment: '/publications/change-of-name/create/payment',
+		loss_of_document_payment: '/publications/loss-of-document/create/payment',
 		loss_of_document: '/publications/loss-of-document/create',
+		loss_of_document_preview: '/publications/loss-of-document/create/preview',
 	},
 };
 
 export enum STORAGE_KEYS {
 	NEW_CON_PUBLICATION = 'new_con_publication',
+	NEW_LOD_PUBLICATION = 'new_lod_publication',
 }
 
 export enum APP_TERMS {

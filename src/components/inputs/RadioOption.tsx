@@ -6,6 +6,7 @@ interface RadioOptionProps {
 	selectedValue: any;
 	valuePlaceholder?: any;
 	onChange: (value: any) => void;
+	className?: string;
 }
 
 const RadioOption: React.FC<RadioOptionProps> = ({
@@ -13,6 +14,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 	selectedValue,
 	onChange,
 	valuePlaceholder,
+	className,
 }) => {
 	return (
 		<button
@@ -22,7 +24,10 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 					onChange(value);
 				}
 			}}
-			className="min-w-[140px] h-[48px] flex items-center justify-between px-[17px] rounded-6 bg-white border-[0.2px] border-black"
+			className={clsx(
+				'min-w-[140px] h-[48px] flex items-center justify-between px-[17px] rounded-6 bg-white border-[0.2px] border-black',
+				className
+			)}
 		>
 			<span className="uppercase font-bold text-12 leadig-[14.09px] text-575555">
 				{valuePlaceholder ?? value}

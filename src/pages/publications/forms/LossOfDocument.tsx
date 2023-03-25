@@ -8,7 +8,7 @@ import {
 import { Wrapper } from 'components/navigation';
 import { PublicationCreationSteps } from 'components/publications';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { AppDispatch, RootState } from 'store';
@@ -16,19 +16,29 @@ import {
 	LossOfDocumentPublicationValues,
 	Gender,
 } from 'interfaces/publications';
-import { emptyLossOfDocumentValues, nigerianStates } from 'utils/constants';
+import {
+	emptyLossOfDocumentValues,
+	nigerianStates,
+	routes,
+	STORAGE_KEYS,
+} from 'utils/constants';
 import { validators } from 'utils/validation';
+import { addNewLodPublication } from 'store/publications';
+import { storeToLS } from 'utils/functions';
+import { useNavigate } from 'react-router-dom';
 
 const LossOfDocument = () => {
-	// const dispatch: AppDispatch = useDispatch();
-	// const { new_con_publication } = useSelector(
-	// 	(state: RootState) => state.publications
-	// );
+	const navigate = useNavigate();
+	const dispatch: AppDispatch = useDispatch();
+	const { new_lod_publication } = useSelector(
+		(state: RootState) => state.publications
+	);
 	const {
 		formState: { errors },
 		setValue,
 		handleSubmit,
 		control,
+		reset,
 		watch,
 	} = useForm<LossOfDocumentPublicationValues>({
 		defaultValues: emptyLossOfDocumentValues,
@@ -41,7 +51,9 @@ const LossOfDocument = () => {
 	];
 
 	const onSubmit = (data: LossOfDocumentPublicationValues) => {
-		console.log(data);
+		dispatch(addNewLodPublication(data));
+		storeToLS(STORAGE_KEYS.NEW_LOD_PUBLICATION, data);
+		navigate(routes.pub_forms.loss_of_document_preview);
 	};
 
 	const onGenderChange = (value: Gender) => setValue('gender', value);
@@ -49,6 +61,12 @@ const LossOfDocument = () => {
 	const onThirdPartyOptionChange = (value: boolean) =>
 		setValue('publish_on_third_party', value);
 	const publishWithThirdParty = watch('publish_on_third_party');
+
+	useEffect(() => {
+		if (new_lod_publication) {
+			reset(new_lod_publication);
+		}
+	}, [reset, new_lod_publication]);
 
 	return (
 		<Wrapper isPublications>
@@ -102,7 +120,7 @@ const LossOfDocument = () => {
 									<Input
 										label="Lastname"
 										autoFocus
-										containerClassName="w-full"
+										containerClassName="w-full flex-1"
 										placeholder="Zechariah"
 										hasRequiredIcon
 										ref_={ref}
@@ -129,11 +147,13 @@ const LossOfDocument = () => {
 													value="male"
 													selectedValue={value}
 													onChange={onGenderChange}
+													className="!min-w-[calc(50%_-_7.5px)]"
 												/>
 												<RadioOption
 													value="female"
 													selectedValue={value}
 													onChange={onGenderChange}
+													className="!min-w-[calc(50%_-_7.5px)]"
 												/>
 											</div>
 										)}
@@ -296,7 +316,7 @@ const LossOfDocument = () => {
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="ID Value"
-										containerClassName="w-full"
+										containerClassName="w-full flex-1"
 										hasRequiredIcon
 										ref_={ref}
 										placeholder="0804456****"
@@ -321,12 +341,14 @@ const LossOfDocument = () => {
 													valuePlaceholder="yes"
 													selectedValue={value}
 													onChange={onThirdPartyOptionChange}
+													className="!min-w-[calc(50%_-_7.5px)]"
 												/>
 												<RadioOption
 													value={false}
 													valuePlaceholder="no"
 													selectedValue={value}
 													onChange={onThirdPartyOptionChange}
+													className="!min-w-[calc(50%_-_7.5px)]"
 												/>
 											</div>
 										)}
@@ -351,12 +373,11 @@ const LossOfDocument = () => {
 							name="physical_description"
 							render={({ field: { value, onChange, ref } }) => (
 								<TextArea
-									label="Concerned Parties"
+									label="Physical description (optional )"
 									containerClassName="w-full"
 									wrapperClassName="!h-12"
 									ref_={ref}
 									inputClassName="h-[130px]"
-									hasRequiredIcon
 									placeholder="Provide brief description of the lost document or item"
 									value={value}
 									onChange={onChange}
@@ -399,28 +420,10 @@ const LossOfDocument = () => {
 							</div>
 							<FileInput />
 						</div>
-						<Controller
-							control={control}
-							rules={validators.isRequiredString}
-							name="concerned_parties"
-							render={({ field: { value, onChange, ref } }) => (
-								<TextArea
-									label="Concerned Parties"
-									containerClassName="w-full"
-									wrapperClassName="!h-12"
-									ref_={ref}
-									hasRequiredIcon
-									placeholder="Type in any concerned authority that is interested in this publication. E.g. General public, Bank name, School name, e.t.c."
-									value={value}
-									onChange={onChange}
-									hasError={!!errors.concerned_parties}
-								/>
-							)}
-						/>
 						<button
 							type="submit"
 							onClick={handleSubmit(onSubmit)}
-							className="!mt-[155px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12"
+							className="!mt-[39px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12"
 						>
 							Submit
 						</button>

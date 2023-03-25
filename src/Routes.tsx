@@ -8,6 +8,9 @@ import {
 	ChangeOfNamePreview,
 	Payment,
 	LossOfDocument,
+	LossOfDocumentPreview,
+	LossOfDocumentPublicationPayment,
+	LostDocumentList,
 } from 'pages/publications';
 import { routes, STORAGE_KEYS } from 'utils/constants';
 import { NotFound } from 'pages/misc';
@@ -15,15 +18,19 @@ import { retrieveFromLS } from 'utils/functions';
 import { AppDispatch } from 'store';
 
 import { useDispatch } from 'react-redux';
-import { addNewConPublication } from 'store/publications';
+import { addNewConPublication, addNewLodPublication } from 'store/publications';
 
 const AppRoutes: React.FC = () => {
 	const [loading, setLoading] = useState(true);
 	const dispatch: AppDispatch = useDispatch();
 	useEffect(() => {
 		const newPublication = retrieveFromLS(STORAGE_KEYS.NEW_CON_PUBLICATION);
+		const newLODPublication = retrieveFromLS(STORAGE_KEYS.NEW_LOD_PUBLICATION);
 		if (newPublication) {
 			dispatch(addNewConPublication(newPublication));
+		}
+		if (newLODPublication) {
+			dispatch(addNewLodPublication(newLODPublication));
 		}
 		setLoading(false);
 	}, [dispatch]);
@@ -31,6 +38,7 @@ const AppRoutes: React.FC = () => {
 	const router = createBrowserRouter([
 		{ path: routes.home, element: <Home /> },
 		{ path: routes.change_of_name_publications, element: <PublicationList /> },
+		{ path: routes.lost_document_publications, element: <LostDocumentList /> },
 		{ path: routes.publication_detail, element: <PublicationDetail /> },
 		{ path: routes.pub_forms.change_of_name, element: <ChangeOfNameForm /> },
 		{
@@ -38,8 +46,16 @@ const AppRoutes: React.FC = () => {
 			element: <ChangeOfNamePreview />,
 		},
 		{
+			path: routes.pub_forms.loss_of_document_preview,
+			element: <LossOfDocumentPreview />,
+		},
+		{
 			path: routes.pub_forms.payment,
 			element: <Payment />,
+		},
+		{
+			path: routes.pub_forms.loss_of_document_payment,
+			element: <LossOfDocumentPublicationPayment />,
 		},
 		{
 			path: routes.pub_forms.loss_of_document,

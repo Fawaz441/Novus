@@ -95,7 +95,7 @@ const TopNav: React.FC<TopNavProps> = ({
 					</div>
 					<div className="flex items-center space-x-[11px]">
 						<NigerianFlag />
-						<span className="font-oswald font-regular text-12 text-black">
+						<span className="font-bold text-12 text-black">
 							Thursday, 3rd March, 2023
 						</span>
 					</div>

@@ -41,4 +41,6 @@ export interface LossOfDocumentPublicationValues {
 export interface PublicationsState {
 	loading_con_publications: boolean;
 	new_con_publication: ChangeOfNamePublicationValues | null;
+	new_lod_publication: LossOfDocumentPublicationValues | null;
+	loading_lod_pulications: boolean;
 }
