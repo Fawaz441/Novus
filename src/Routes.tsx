@@ -19,6 +19,7 @@ import { AppDispatch } from 'store';
 
 import { useDispatch } from 'react-redux';
 import { addNewConPublication, addNewLodPublication } from 'store/publications';
+import { Login, Registration } from 'pages/agents/auth';
 
 const AppRoutes: React.FC = () => {
 	const [loading, setLoading] = useState(true);
@@ -60,6 +61,14 @@ const AppRoutes: React.FC = () => {
 		{
 			path: routes.pub_forms.loss_of_document,
 			element: <LossOfDocument />,
+		},
+		{
+			path: routes.agents.login,
+			element: <Login />,
+		},
+		{
+			path: routes.agents.registration,
+			element: <Registration />,
 		},
 		{ path: '*', element: <NotFound /> },
 	]);

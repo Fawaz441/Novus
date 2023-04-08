@@ -53,7 +53,7 @@ const Input: React.FC<InputProps> = ({
 			<div
 				className={clsx(
 					'flex items-center pl-[15px] h-12 pr-[18px] rounded-3 border-[0.2px] border-black',
-					wrapperClassName,
+					!hasError && wrapperClassName,
 					{ '!border-FF012F': hasError }
 				)}
 			>

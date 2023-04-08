@@ -23,6 +23,10 @@ export const routes = {
 		loss_of_document: '/publications/loss-of-document/create',
 		loss_of_document_preview: '/publications/loss-of-document/create/preview',
 	},
+	agents: {
+		login: '/agents/login',
+		registration: '/agents/registration',
+	},
 };
 
 export enum STORAGE_KEYS {

@@ -54,7 +54,9 @@ const TopNav: React.FC<TopNavProps> = ({
 							<span className="font-medium text-black text-sm">Products</span>
 						</li>
 						<li>
-							<span className="font-semibold text-08F692 text-sm">Agent</span>
+							<Link to={routes.agents.login}>
+								<span className="font-semibold text-08F692 text-sm">Agent</span>
+							</Link>
 						</li>
 					</ul>
 					<div className="flex items-center">
