@@ -22,6 +22,7 @@ const Login = () => {
 
 	const onSubmit = (data: LoginValues) => {
 		console.log(data);
+		navigate(routes.agents.dashboard);
 	};
 
 	return (

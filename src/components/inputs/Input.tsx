@@ -3,6 +3,7 @@ import clsx from 'classnames';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
 import { ReactComponent as Filter } from 'assets/icons/filter.svg';
 import { RefCallBack } from 'react-hook-form';
+import { doNothing } from 'utils/functions';
 
 interface InputProps {
 	labelClassName?: string;
@@ -12,11 +13,13 @@ interface InputProps {
 	hasRequiredIcon?: boolean;
 	value: string;
 	placeholder?: string;
-	onChange: ChangeEventHandler<HTMLInputElement>;
+	onChange?: ChangeEventHandler<HTMLInputElement>;
 	label?: string;
 	hasError?: boolean;
 	hasFilterIcon?: boolean;
+	icon?: React.ReactNode;
 	ref_?: RefCallBack;
+	onClick?: () => void;
 	[key: string]: any;
 }
 
@@ -32,11 +35,18 @@ const Input: React.FC<InputProps> = ({
 	hasError,
 	hasFilterIcon = true,
 	onChange,
+	onClick,
+	icon,
 	ref_,
 	...rest
 }) => {
 	return (
-		<div className={clsx('flex flex-col space-y-[7px]', containerClassName)}>
+		<div
+			className={clsx('flex flex-col space-y-[7px]', containerClassName, {
+				'cursor-pointer': onClick,
+			})}
+			onClick={onClick ?? doNothing}
+		>
 			{label && (
 				<div className="flex space-x-[3px]">
 					<span
@@ -62,10 +72,12 @@ const Input: React.FC<InputProps> = ({
 					value={value}
 					onChange={onChange}
 					ref={ref_ || null}
+					disabled={!!onClick}
 					{...rest}
 					className={clsx(
 						'placeholder:text-9B9B9B h-full flex-1 bg-transparent text-12 border-none outline-none font-medium leading-[14.09px]',
-						inputClassName
+						inputClassName,
+						{ 'cursor-pointer': onClick }
 					)}
 				/>
 				{hasFilterIcon && (
@@ -73,6 +85,7 @@ const Input: React.FC<InputProps> = ({
 						<Filter className="fill-9B9B9B stroke-EEEEEE" />
 					</div>
 				)}
+				{icon && icon}
 			</div>
 		</div>
 	);

@@ -26,12 +26,17 @@ export const routes = {
 	agents: {
 		login: '/agents/login',
 		registration: '/agents/registration',
+		dashboard: '/agents/dashboard',
+		settings: '/agents/settings',
+		commission: '/agents/commission',
 	},
 };
 
 export enum STORAGE_KEYS {
 	NEW_CON_PUBLICATION = 'new_con_publication',
 	NEW_LOD_PUBLICATION = 'new_lod_publication',
+	SHOW_NOVUS_PUBLICATION_LINKS = 'novus.show_pub_links',
+	SHOW_NOVUS_AGENT_LINKS = 'novus.show_agent_links',
 }
 
 export enum APP_TERMS {

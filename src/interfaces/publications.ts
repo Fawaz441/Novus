@@ -1,4 +1,4 @@
-export type PublicationStatus = 'declined' | 'approved';
+export type PublicationStatus = 'declined' | 'approved' | 'pending';
 
 export type Gender = 'male' | 'female';
 

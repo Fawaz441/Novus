@@ -50,3 +50,12 @@ html,body{
   overflow-x:hidden;
 }
 
+
+/* agent stylings */
+.active-agent-navlink svg {
+  fill:#7108F6 !important;
+}
+
+.inactive-agent-navlink  svg {
+  fill:#575555;
+}

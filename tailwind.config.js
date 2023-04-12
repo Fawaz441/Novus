@@ -7,7 +7,8 @@ module.exports = {
     extend: {
       fontFamily: {
         'sans': "'Raleway', sans-serif",
-        'oswald': "'Oswald', sans-serif"
+        'oswald': "'Oswald', sans-serif",
+        'inter': "'Inter', sans-serif"
       },
       colors: {
         '7108F6': "#7108F6",
@@ -24,7 +25,11 @@ module.exports = {
         '1E1E1E': "#1E1E1E",
         'FBBC05': "#FBBC05",
         'EADAFF': "#EADAFF",
-        'FFE9ED': '#FFE9ED'
+        'FFE9ED': '#FFE9ED',
+        'D9D9D9': "#D9D9D9",
+        "FB9905": "#FB9905",
+        "FFF3D1": "#FFF3D1",
+        "F3F3F3": "#F3F3F3"
       },
       borderRadius: {
         '3': '3px',

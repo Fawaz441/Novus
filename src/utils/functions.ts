@@ -15,10 +15,12 @@ export const storeToLS = (key: STORAGE_KEYS, data: any) => {
 	localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const retrieveFromLS = (key: STORAGE_KEYS) => {
+export const retrieveFromLS = (key: STORAGE_KEYS, defaultValue?: any) => {
 	const item = localStorage.getItem(key);
 	if (item) {
 		return JSON.parse(item);
+	} else if (defaultValue) {
+		return defaultValue;
 	}
 };
 
