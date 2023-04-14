@@ -6,6 +6,7 @@ interface CalendarProps {
 	onChange: (_date: Date) => void;
 	value: Date | null;
 	onClose: () => void;
+	maxDate?: Date;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
@@ -13,6 +14,7 @@ const Calendar: React.FC<CalendarProps> = ({
 	onChange,
 	value,
 	onClose,
+	maxDate,
 }) => {
 	return (
 		<div
@@ -31,6 +33,7 @@ const Calendar: React.FC<CalendarProps> = ({
 						onClose();
 					}}
 					value={value || new Date()}
+					maxDate={maxDate}
 				/>
 			</div>
 		</div>

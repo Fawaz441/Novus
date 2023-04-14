@@ -18,9 +18,9 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
 	return (
 		<div className="h-screen flex">
 			<SideNav />
-			<div className="pl-[211px]">
+			<div className="pl-[211px] w-full">
 				<TopNav />
-				<div className="px-[33px] pt-[90px]">{children}</div>
+				<div className="px-[33px] pt-[90px] w-full">{children}</div>
 			</div>
 		</div>
 	);

@@ -12,6 +12,8 @@ import { ReactComponent as Required } from 'assets/icons/required.svg';
 interface SelectProps extends Props {
 	label?: string;
 	hasRequiredIcon?: boolean;
+	ClassNames?: ClassNamesConfig;
+	labelClassName?: string;
 	[key: string]: any;
 }
 
@@ -33,9 +35,9 @@ const customClassNames: ClassNamesConfig = {
 
 function Indicator({ isFocused }: DropdownIndicatorProps) {
 	return (
-		<div className="h-7 w-7 rounded-3 bg-F9F9F9 flex items-center justify-center">
+		<div className="h-7 w-7 rounded-3 mr-[13px] bg-F9F9F9 flex items-center flex-shrink-0 justify-center">
 			<DropDown
-				className={clsx('mr-[13px]', {
+				className={clsx({
 					'rotate-180': isFocused,
 				})}
 			/>
@@ -52,12 +54,17 @@ export default function Select<
 	IsMulti extends boolean = false,
 	Group extends GroupBase<Option> = GroupBase<Option>
 >(props: Props<Option, IsMulti, Group> & SelectProps) {
-	const { label, hasRequiredIcon, ...rest } = props;
+	const { label, hasRequiredIcon, ClassNames, labelClassName, ...rest } = props;
 	return (
 		<div className="flex flex-col space-y-[6px] w-full">
 			{label && (
 				<div className="flex space-x-[5px]">
-					<p className="text-575555 font-medium text-12 leading-[14.09px]">
+					<p
+						className={clsx(
+							'text-575555 font-medium text-12 leading-[14.09px]',
+							labelClassName
+						)}
+					>
 						{label}
 					</p>
 					{hasRequiredIcon && <Required />}
@@ -65,7 +72,7 @@ export default function Select<
 			)}
 			<ReactSelect
 				placeholder=""
-				classNames={customClassNames}
+				classNames={{ ...customClassNames, ...ClassNames }}
 				components={{
 					DropdownIndicator: Indicator,
 					IndicatorSeparator: null,

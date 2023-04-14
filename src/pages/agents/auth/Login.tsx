@@ -37,7 +37,7 @@ const Login = () => {
 						Welcome to Novus, sign in <span className="font-bold">agent</span>
 					</p>
 					<button className="bg-white justify-center w-full h-[50px] flex items-center space-x-[17px]">
-						<div className="h-8 w-8 flex items-center rounded-6 justify-center rounded-full border-[0.5px] border-EEEEEE bg-white">
+						<div className="h-8 w-8 flex items-center justify-center rounded-full border-[0.5px] border-EEEEEE bg-white">
 							<Google />
 						</div>
 						<span className="text-575555 text-[12px] leading-[15.6px]">

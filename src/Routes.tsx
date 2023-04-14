@@ -20,7 +20,12 @@ import { AppDispatch } from 'store';
 import { useDispatch } from 'react-redux';
 import { addNewConPublication, addNewLodPublication } from 'store/publications';
 import { Login, Registration } from 'pages/agents/auth';
-import { Dashboard } from 'pages/agents/main';
+import {
+	Dashboard,
+	Settings,
+	Commissions,
+	WithdrawCommission,
+} from 'pages/agents/main';
 
 const AppRoutes: React.FC = () => {
 	const [loading, setLoading] = useState(true);
@@ -72,6 +77,12 @@ const AppRoutes: React.FC = () => {
 			element: <Registration />,
 		},
 		{ path: routes.agents.dashboard, element: <Dashboard /> },
+		{ path: routes.agents.settings, element: <Settings /> },
+		{ path: routes.agents.commission, element: <Commissions /> },
+		{
+			path: routes.agents.withdraw_commission,
+			element: <WithdrawCommission />,
+		},
 		{ path: '*', element: <NotFound /> },
 	]);
 	return loading ? <div /> : <RouterProvider router={router} />;
