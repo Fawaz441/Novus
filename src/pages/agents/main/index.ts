@@ -1,6 +1,5 @@
-import Commissions from './Commissions';
 import Dashboard from './Dashboard';
+import EnlistAgent from './EnlistAgent';
 import Settings from './Settings';
-import WithdrawCommission from './WithdrawCommission';
 
-export { Dashboard, Settings, Commissions, WithdrawCommission };
+export { Dashboard, Settings, EnlistAgent };

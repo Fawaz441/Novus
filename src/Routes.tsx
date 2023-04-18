@@ -20,12 +20,13 @@ import { AppDispatch } from 'store';
 import { useDispatch } from 'react-redux';
 import { addNewConPublication, addNewLodPublication } from 'store/publications';
 import { Login, Registration } from 'pages/agents/auth';
+import { Dashboard, EnlistAgent, Settings } from 'pages/agents/main';
+
+import { Commissions, WithdrawCommission } from 'pages/agents/commission';
 import {
-	Dashboard,
-	Settings,
-	Commissions,
-	WithdrawCommission,
-} from 'pages/agents/main';
+	AgentPublications,
+	AgentPublicationDetails,
+} from 'pages/agents/publications';
 
 const AppRoutes: React.FC = () => {
 	const [loading, setLoading] = useState(true);
@@ -79,9 +80,18 @@ const AppRoutes: React.FC = () => {
 		{ path: routes.agents.dashboard, element: <Dashboard /> },
 		{ path: routes.agents.settings, element: <Settings /> },
 		{ path: routes.agents.commission, element: <Commissions /> },
+		{ path: routes.agents.publications, element: <AgentPublications /> },
+		{
+			path: routes.agents.agent_publication_detail,
+			element: <AgentPublicationDetails />,
+		},
 		{
 			path: routes.agents.withdraw_commission,
 			element: <WithdrawCommission />,
+		},
+		{
+			path: routes.agents.enlist,
+			element: <EnlistAgent />,
 		},
 		{ path: '*', element: <NotFound /> },
 	]);

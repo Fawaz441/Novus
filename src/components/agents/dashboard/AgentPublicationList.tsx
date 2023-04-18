@@ -24,32 +24,32 @@ const publications: { id: string; text: string; status: PublicationStatus }[] =
 			status: 'declined',
 		},
 		{
-			id: 'CON2345JHFHGHGH',
+			id: 'CON2345JHFHGHIH',
 			text: 'I ,formerly known as Emmanuel Martins , wish to be known and ',
 			status: 'pending',
 		},
 		{
-			id: 'CON2345JHFHGHGH',
+			id: 'CON2345JHFHGAGH',
 			text: 'I ,formerly known as Emmanuel Martins , wish to be known and ',
 			status: 'approved',
 		},
 		{
-			id: 'CON2345JHFHGHGH',
+			id: 'CON2345JH2FHGHGH',
 			text: 'I ,formerly known as Emmanuel Martins , wish to be known and ',
 			status: 'declined',
 		},
 		{
-			id: 'CON2345JHFHGHGH',
+			id: 'CON2345JH4FHGHGH',
 			text: 'I ,formerly known as Emmanuel Martins , wish to be known and ',
 			status: 'pending',
 		},
 		{
-			id: 'CON2345JHFHGHGH',
+			id: 'CON2345J9HFHGHGH',
 			text: 'I ,formerly known as Emmanuel Martins , wish to be known and ',
 			status: 'approved',
 		},
 		{
-			id: 'CON2345JHFHGHGH',
+			id: 'CON23045JHFHGHGH',
 			text: 'I ,formerly known as Emmanuel Martins , wish to be known and ',
 			status: 'pending',
 		},

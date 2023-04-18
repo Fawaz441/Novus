@@ -2,6 +2,7 @@ import { Wrapper } from 'components/agents/navigation';
 import { Input, Select } from 'components/inputs';
 import React, { useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { nigerianBanks } from 'utils/constants';
 import { validators } from 'utils/validation';
 
@@ -13,6 +14,7 @@ interface WithdrawCommissionValues {
 }
 
 const WithdrawCommission = () => {
+	const navigate = useNavigate();
 	const {
 		handleSubmit,
 		control,
@@ -30,8 +32,9 @@ const WithdrawCommission = () => {
 
 	return (
 		<Wrapper>
-			<div className="mt-[14px] flex justify-between">
+			<div className="mt-[14px] pb-5 flex justify-between">
 				<button
+					onClick={() => navigate(-1)}
 					type="button"
 					className="self-start font-bold text-sm text-[16.44px] text-black"
 				>

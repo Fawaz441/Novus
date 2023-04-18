@@ -30,6 +30,11 @@ export const routes = {
 		settings: '/agents/settings',
 		commission: '/agents/commission',
 		withdraw_commission: '/agents/commission/withdraw',
+		publications: '/agents/publications',
+		agent_publication_detail: '/agents/publications/:publicationRef/detail',
+		getAgentPubDetailRoute: (ref: string) =>
+			`/agents/publications/${ref}/detail`,
+		enlist: '/agents/enlist',
 	},
 };
 

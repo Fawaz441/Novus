@@ -1,7 +1,12 @@
 import { Location } from 'react-router-dom';
 
-export const hideAllPublicationActions = () => {
-	const tags = document.querySelectorAll('.publication-action');
+export const hideAllPublicationActions = (exceptionElement?: string) => {
+	let tags = document.querySelectorAll('.publication-action');
+	if (exceptionElement) {
+		tags = document.querySelectorAll(
+			`.publication-action:not(${exceptionElement})`
+		);
+	}
 	tags.forEach((tag) => tag.classList.remove('active'));
 };
 
@@ -12,12 +17,21 @@ export const toggleHiddenElement = (actionSelector: string, act?: ACTIONS) => {
 	if (action) {
 		if (act) {
 			if (act === 'hide') {
+				if (actionSelector.includes('#publication')) {
+					hideAllPublicationActions();
+				}
 				action.classList.remove('active');
 			}
 			if (act === 'show') {
+				if (actionSelector.includes('#publication')) {
+					hideAllPublicationActions();
+				}
 				action.classList.add('active');
 			}
 		} else {
+			if (actionSelector.includes('#publication')) {
+				hideAllPublicationActions(actionSelector);
+			}
 			action.classList.toggle('active');
 		}
 	}

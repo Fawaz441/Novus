@@ -17,12 +17,20 @@ const mainLinks = [
 ];
 
 const publicationLinks = [
-	{ path: routes.agents.dashboard, icon: <Add />, text: 'Create Publication' },
-	{ path: routes.agents.dashboard, icon: <Check />, text: 'Check Publication' },
+	{
+		path: routes.pub_forms.change_of_name,
+		icon: <Add />,
+		text: 'Create Publication',
+	},
+	{
+		path: routes.agents.publications,
+		icon: <Check />,
+		text: 'Check Publication',
+	},
 ];
 
 const agentLinks = [
-	{ path: routes.agents.dashboard, icon: <Add />, text: 'Enlist Agents' },
+	{ path: routes.agents.enlist, icon: <Add />, text: 'Enlist Agents' },
 	{ path: routes.agents.dashboard, icon: <Check />, text: 'View Agents' },
 ];
 

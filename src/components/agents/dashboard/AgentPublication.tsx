@@ -2,17 +2,21 @@ import React from 'react';
 import announcement from 'assets/images/publications/announcement.png';
 import { PublicationStatus } from 'components/publications';
 import { PublicationStatus as PublicationStatusType } from 'interfaces/publications';
+import { toggleHiddenElement } from 'utils/ui-functions';
+import PublicationActions from 'components/publications/PublicationActions';
 
 interface AgentPublicationProps {
 	status: PublicationStatusType;
 	text: string;
 	id: string;
+	showType?: boolean;
 }
 
 const AgentPublication: React.FC<AgentPublicationProps> = ({
 	status,
 	text,
 	id,
+	showType,
 }) => {
 	return (
 		<div className="flex items-center justify-between space-x-[60px]">
@@ -30,6 +34,11 @@ const AgentPublication: React.FC<AgentPublicationProps> = ({
 						<p className="text-9B9B9B text-12 font-medium">{text}</p>
 					</div>
 				</div>
+				{showType && (
+					<span className="flex-shrink-0 font-medium text-12 leading-[20.09px] text-575555">
+						3rd Party Publication
+					</span>
+				)}
 				<div className="flex-shrink-0">
 					<PublicationStatus
 						status={status}
@@ -38,17 +47,21 @@ const AgentPublication: React.FC<AgentPublicationProps> = ({
 					/>
 				</div>
 			</div>
-			<button
-				// onClick={(e) => {
-				// 	e.stopPropagation();
-				// }}
-				type="button"
-				className="flex flex-col pl-2 items-end space-y-[5px]"
-			>
-				<div className="bg-9B9B9B h-[4px] w-[4px] rounded-full border" />
-				<div className="bg-9B9B9B h-[4px] w-[4px] rounded-full border" />
-				<div className="bg-9B9B9B h-[4px] w-[4px] rounded-full border" />
-			</button>
+			<div className="relative">
+				<PublicationActions tag={id} isAgent />
+				<button
+					onClick={(e) => {
+						e.stopPropagation();
+						toggleHiddenElement(`#publication-${id}-actions`);
+					}}
+					type="button"
+					className="flex flex-col pl-2 items-end space-y-[5px]"
+				>
+					<div className="bg-9B9B9B h-[4px] w-[4px] rounded-full border" />
+					<div className="bg-9B9B9B h-[4px] w-[4px] rounded-full border" />
+					<div className="bg-9B9B9B h-[4px] w-[4px] rounded-full border" />
+				</button>
+			</div>
 		</div>
 	);
 };

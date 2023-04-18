@@ -25,7 +25,7 @@ const Wrapper: React.FC<WrapperProps> = ({
 	React.useEffect(() => {
 		document
 			.querySelector('body')
-			?.addEventListener('click', hideAllPublicationActions);
+			?.addEventListener('click', () => hideAllPublicationActions());
 		document
 			.querySelector('body')
 			?.addEventListener('click', () =>
@@ -36,7 +36,7 @@ const Wrapper: React.FC<WrapperProps> = ({
 		return () => {
 			document
 				.querySelector('body')
-				?.removeEventListener('click', hideAllPublicationActions);
+				?.removeEventListener('click', () => hideAllPublicationActions());
 			document
 				.querySelector('body')
 				?.removeEventListener('click', () =>
