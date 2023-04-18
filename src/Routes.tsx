@@ -26,6 +26,8 @@ import { Commissions, WithdrawCommission } from 'pages/agents/commission';
 import {
 	AgentPublications,
 	AgentPublicationDetails,
+	CheckPublications,
+	CreatePublication,
 } from 'pages/agents/publications';
 
 const AppRoutes: React.FC = () => {
@@ -80,7 +82,9 @@ const AppRoutes: React.FC = () => {
 		{ path: routes.agents.dashboard, element: <Dashboard /> },
 		{ path: routes.agents.settings, element: <Settings /> },
 		{ path: routes.agents.commission, element: <Commissions /> },
+		{ path: routes.agents.check_publications, element: <CheckPublications /> },
 		{ path: routes.agents.publications, element: <AgentPublications /> },
+		{ path: routes.agents.new_publication, element: <CreatePublication /> },
 		{
 			path: routes.agents.agent_publication_detail,
 			element: <AgentPublicationDetails />,

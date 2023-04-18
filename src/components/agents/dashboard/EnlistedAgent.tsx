@@ -1,5 +1,7 @@
 import React from 'react';
 import samplePicture from 'assets/images/agents/sample-picture.png';
+import { useModal } from 'hooks';
+import { MODALS } from 'utils/constants';
 
 interface EnlistedAgentProps {
 	name: string;
@@ -14,8 +16,13 @@ const EnlistedAgent: React.FC<EnlistedAgentProps> = ({
 	email,
 	active,
 }) => {
+	const { showModal } = useModal();
 	return (
-		<div className="flex items-center">
+		<div
+			className="flex items-center"
+			role="presentation"
+			onClick={() => showModal(MODALS.AGENT_DETAILS)}
+		>
 			<div className="flex space-x-[26px] items-center mr-[16px]">
 				<div className="h-[58px] w-[58px] rounded-full overflow-hidden">
 					<img src={samplePicture} alt="im" className="object-cover" />

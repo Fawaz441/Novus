@@ -7,6 +7,7 @@ export enum MODALS {
 	CHECK_PUBLICATIONS = 'check_publications',
 	EDIT_PUBLICATION = 'edit_publication',
 	DOWNLOAD_PUBLICATION = 'download_publication',
+	AGENT_DETAILS = 'agent_details',
 }
 
 export const routes = {
@@ -30,11 +31,13 @@ export const routes = {
 		settings: '/agents/settings',
 		commission: '/agents/commission',
 		withdraw_commission: '/agents/commission/withdraw',
-		publications: '/agents/publications',
+		publications: '/agents/publications-list',
 		agent_publication_detail: '/agents/publications/:publicationRef/detail',
 		getAgentPubDetailRoute: (ref: string) =>
 			`/agents/publications/${ref}/detail`,
 		enlist: '/agents/enlist',
+		check_publications: '/agents/publications/search',
+		new_publication: '/agents/publications/new',
 	},
 };
 
@@ -43,6 +46,7 @@ export enum STORAGE_KEYS {
 	NEW_LOD_PUBLICATION = 'new_lod_publication',
 	SHOW_NOVUS_PUBLICATION_LINKS = 'novus.show_pub_links',
 	SHOW_NOVUS_AGENT_LINKS = 'novus.show_agent_links',
+	NOVUS_AGENT_SCROLLBAR_POS = 'novus.agent_scrollbar_pos',
 }
 
 export enum APP_TERMS {

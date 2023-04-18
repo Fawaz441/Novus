@@ -20,17 +20,24 @@ const stepList: StepListItem[] = [
 interface PublicationCreationStepsProps {
 	activeStep: Step;
 	isLossOfDocument?: boolean;
+	isAgent?: boolean;
 }
 
 const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
 	activeStep,
 	isLossOfDocument,
+	isAgent,
 }) => {
 	return (
 		<div className="flex items-center space-x-[193px]">
 			<div className="flex items-center space-x-[14px]">
-				{isLossOfDocument ? <LossOfDocument /> : <Change />}
-				<span className="text-sm leading-[16.44px] text-black font-semibold">
+				{isAgent ? null : isLossOfDocument ? <LossOfDocument /> : <Change />}
+				<span
+					className={clsx(
+						'text-sm leading-[16.44px] text-black font-semibold',
+						{ '!text-7108F6 font-semibold': isAgent }
+					)}
+				>
 					{isLossOfDocument ? 'Loss Of Document' : 'Change Of Name'}
 				</span>
 			</div>

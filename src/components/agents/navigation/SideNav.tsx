@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'classnames';
 import { NavLink } from 'react-router-dom';
 import { STORAGE_KEYS, routes } from 'utils/constants';
@@ -18,12 +18,17 @@ const mainLinks = [
 
 const publicationLinks = [
 	{
-		path: routes.pub_forms.change_of_name,
+		path: routes.agents.publications,
+		icon: <Check />,
+		text: 'My Publications',
+	},
+	{
+		path: routes.agents.new_publication,
 		icon: <Add />,
 		text: 'Create Publication',
 	},
 	{
-		path: routes.agents.publications,
+		path: routes.agents.check_publications,
 		icon: <Check />,
 		text: 'Check Publication',
 	},
@@ -61,9 +66,36 @@ const SideNav = () => {
 		}
 	};
 
+	useEffect(() => {
+		const lastScrollPos = retrieveFromLS(
+			STORAGE_KEYS.NOVUS_AGENT_SCROLLBAR_POS
+		);
+		if (lastScrollPos) {
+			const inner = document.getElementById('agent-sidenav-inner');
+			if (inner) {
+				inner.scrollTop = lastScrollPos;
+			}
+		}
+	}, []);
+
+	const onScroll = () => {
+		const inner = document.getElementById('agent-sidenav-inner');
+		if (inner) {
+			const lastScrollPos = inner.scrollTop;
+			storeToLS(STORAGE_KEYS.NOVUS_AGENT_SCROLLBAR_POS, lastScrollPos);
+		}
+	};
+
 	return (
-		<div className="fixed left-0 top-0 h-screen z-[30] w-[211px] border border-EEEEEE bg-white rounded-tr-6 rounded-br-6">
-			<div className="h-screen overflow-y-auto scrollbar-hide">
+		<div
+			id="agent-sidenav"
+			className="fixed left-0 top-0 h-screen z-[30] w-[211px] border border-EEEEEE bg-white rounded-tr-6 rounded-br-6"
+		>
+			<div
+				className="h-screen overflow-y-auto scrollbar-hide"
+				id="agent-sidenav-inner"
+				onScroll={onScroll}
+			>
 				<div className="pt-7 pl-7 flex items-center space-x-[14px]">
 					<div className="bg-7108F6 w-10 h-[37.14px] rounded flex items-center justify-center">
 						<span className="text-white text-base font-bold">N</span>
@@ -109,7 +141,7 @@ const SideNav = () => {
 					</button>
 					<div
 						className={clsx(
-							'flex flex-col max-h-[100px] space-y-[46px] transition-all duration-[400]',
+							'flex flex-col max-h-[300px] space-y-[46px] transition-all duration-[400]',
 							{
 								'!max-h-0 overflow-hidden': !showPubLinks,
 							}

@@ -20,7 +20,9 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
 			<SideNav />
 			<div className="pl-[211px] w-full">
 				<TopNav />
-				<div className="px-[33px] pt-[90px] w-full">{children}</div>
+				<div className="px-[33px] pt-[90px] w-full" id="agent-wrapper">
+					{children}
+				</div>
 			</div>
 		</div>
 	);

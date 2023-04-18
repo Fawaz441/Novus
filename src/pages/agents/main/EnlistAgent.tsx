@@ -8,6 +8,8 @@ import { Input } from 'components/inputs';
 import { EnlistedAgent } from 'components/agents/dashboard';
 import { Pagination } from 'components/general';
 import samplePicture from 'assets/images/agents/sample-picture.png';
+import { ReactComponent as Copy } from 'assets/icons/agents/copy.svg';
+import EnlistedAgentDetails from 'components/agents/dashboard/EnlistedAgentDetails';
 
 const invitedAgents = [
 	{
@@ -26,11 +28,38 @@ const invitedAgents = [
 ];
 
 const EnlistAgent = () => {
+	const [inviteLinkVisible, setInviteLinkVisible] = useState(false);
 	const [filterText, setFilterText] = useState('');
 	const [searchText, setSearchText] = useState('');
 	const hasInvitedAgents = !isEmpty(invitedAgents);
 	return (
 		<Wrapper>
+			<EnlistedAgentDetails />
+			<div
+				role="presentation"
+				onClick={() => setInviteLinkVisible(false)}
+				className={clsx(
+					'z-[1000] absolute top-[-100px] left-[50%] translate-x-[-50%] transition-all duration-500',
+					{
+						'top-[171px]': inviteLinkVisible,
+					}
+				)}
+			>
+				<div className="cursor-pointer h-[67px] flex justify-between rounded-6 space-x-[74px] items-center px-[33px] py-3 bg-[#ECEEF2]">
+					<p className="font-medium text-sm text-575555">
+						Click to copy link to invite agent
+					</p>
+					<div className="bg-white rounded-full h-11 w-11 flex items-center justify-center">
+						<Copy />
+					</div>
+				</div>
+			</div>
+			{inviteLinkVisible && (
+				<div
+					onClick={() => setInviteLinkVisible(false)}
+					className="fixed bg-[black]/[.2] top-0 left-0 z-[999] h-full w-full transition-all duration-500"
+				/>
+			)}
 			<div className="mt-[41px] pb-10 flex justify-between">
 				<div className="flex flex-col space-y-[21px]">
 					<button
@@ -133,6 +162,7 @@ const EnlistAgent = () => {
 							'!opacity-100 !pointer-events-auto': hasInvitedAgents,
 						}
 					)}
+					onClick={() => setInviteLinkVisible(true)}
 				>
 					Invite Agents
 				</button>
