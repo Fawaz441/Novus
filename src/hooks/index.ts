@@ -1,3 +1,4 @@
 import useModal from './useModal';
+import useWindowSize from './useWindowSize';
 
-export { useModal };
+export { useModal, useWindowSize };

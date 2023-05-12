@@ -17,6 +17,8 @@ interface InputProps {
 	label?: string;
 	hasError?: boolean;
 	hasFilterIcon?: boolean;
+	filterIconClassName?: string;
+	filterIconWrapperClassName?: string;
 	icon?: React.ReactNode;
 	ref_?: RefCallBack;
 	onClick?: () => void;
@@ -34,6 +36,8 @@ const Input: React.FC<InputProps> = ({
 	value,
 	hasError,
 	hasFilterIcon = true,
+	filterIconClassName,
+	filterIconWrapperClassName,
 	onChange,
 	onClick,
 	icon,
@@ -45,16 +49,14 @@ const Input: React.FC<InputProps> = ({
 			className={clsx('flex flex-col space-y-[7px]', containerClassName, {
 				'cursor-pointer': onClick,
 			})}
-			onClick={onClick ?? doNothing}
-		>
+			onClick={onClick ?? doNothing}>
 			{label && (
 				<div className="flex space-x-[3px]">
 					<span
 						className={clsx(
 							'font-medium text-12 text-575555 leading-[14.09px]',
 							labelClassName
-						)}
-					>
+						)}>
 						{label}
 					</span>
 					{hasRequiredIcon && <Required />}
@@ -65,8 +67,7 @@ const Input: React.FC<InputProps> = ({
 					'flex items-center pl-[15px] h-12 pr-[18px] rounded-3 border-[0.2px] border-black',
 					!hasError && wrapperClassName,
 					{ '!border-FF012F': hasError }
-				)}
-			>
+				)}>
 				<input
 					placeholder={placeholder}
 					value={value}
@@ -81,8 +82,14 @@ const Input: React.FC<InputProps> = ({
 					)}
 				/>
 				{hasFilterIcon && (
-					<div className="flex-shrink-0 h-7 w-7 flex items-center justify-center bg-F9F9F9 rounded-3">
-						<Filter className="fill-9B9B9B stroke-EEEEEE" />
+					<div
+						className={clsx(
+							'flex-shrink-0 h-7 w-7 flex items-center justify-center bg-F9F9F9 rounded-3',
+							filterIconWrapperClassName
+						)}>
+						<Filter
+							className={clsx('fill-9B9B9B stroke-EEEEEE', filterIconClassName)}
+						/>
 					</div>
 				)}
 				{icon && icon}

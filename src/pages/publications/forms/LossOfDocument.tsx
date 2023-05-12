@@ -6,7 +6,10 @@ import {
 	TextArea,
 } from 'components/inputs';
 import { Wrapper } from 'components/navigation';
-import { PublicationCreationSteps } from 'components/publications';
+import {
+	MobileFormsNavigation,
+	PublicationCreationSteps,
+} from 'components/publications';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -70,12 +73,13 @@ const LossOfDocument = () => {
 
 	return (
 		<Wrapper isPublications>
+			<MobileFormsNavigation />
 			<PublicationCreationSteps isLossOfDocument activeStep="fill_forms" />
 			<div className="mt-7 pb-[200px]">
-				<form className="w-full flex space-x-[39px]">
-					<div className="flex-1 max-w-[1000px] flex flex-col space-y-5">
+				<form className="w-full flex flex-col mini:flex-row mini:space-x-[39px]">
+					<div className="flex-1 mini:max-w-[1000px] flex flex-col space-y-5">
 						{/* first name and middle name */}
-						<div className="flex items-center space-x-5">
+						<div className="flex items-center flex-col space-y-5 mid:flex-row mid:space-y-0 mid:space-x-5">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -111,7 +115,7 @@ const LossOfDocument = () => {
 							/>
 						</div>
 						{/* last name and gender */}
-						<div className="flex items-center space-x-5">
+						<div className="flex items-center flex-col space-y-5 mid:flex-row mid:space-y-0 mid:space-x-5">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -130,7 +134,7 @@ const LossOfDocument = () => {
 									/>
 								)}
 							/>
-							<div className="flex-1">
+							<div className="flex-1 w-full">
 								<div className="flex flex-col space-y-[6px]">
 									<div className="flex">
 										<span className="text-12 text-575555 font-medium leading-[14.09px] mr-[3px]">
@@ -162,7 +166,7 @@ const LossOfDocument = () => {
 							</div>
 						</div>
 						{/* email and phone number */}
-						<div className="flex items-center space-x-5">
+						<div className="flex items-center flex-col space-y-5 mid:flex-row mid:space-y-0 mid:space-x-5">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -235,7 +239,7 @@ const LossOfDocument = () => {
 							/>
 						</div>
 						{/* item lost and support id */}
-						<div className="flex items-center space-x-5">
+						<div className="flex items-center flex-col space-y-5 mid:flex-row mid:space-y-0 mid:space-x-5">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -272,7 +276,7 @@ const LossOfDocument = () => {
 							/>
 						</div>
 						{/* date_lost and issuer of item */}
-						<div className="flex items-center space-x-5">
+						<div className="flex items-center flex-col space-y-5 mid:flex-row mid:space-y-0 mid:space-x-5">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -308,7 +312,7 @@ const LossOfDocument = () => {
 								)}
 							/>
 						</div>
-						<div className="flex items-center space-x-5">
+						<div className="flex items-center flex-col space-y-5 mid:flex-row mid:space-y-0 mid:space-x-5">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -326,7 +330,7 @@ const LossOfDocument = () => {
 									/>
 								)}
 							/>
-							<div className="flex-1">
+							<div className="flex-1 w-full !mb-5 mini:!mb-0">
 								<div className="flex flex-col space-y-[6px]">
 									<span className="text-12 text-575555 font-medium leading-[14.09px] mr-[3px]">
 										Do you want to publish on a 3rd party news paper ?
@@ -357,7 +361,7 @@ const LossOfDocument = () => {
 							</div>
 						</div>
 						{publishWithThirdParty && (
-							<div className="mt-[29px]">
+							<div className="mini:!mt-[29px] !mt-0 !mb-[21px] mini:mb-0">
 								<Select
 									label="Select Newspaper"
 									hasRequiredIcon
@@ -366,10 +370,10 @@ const LossOfDocument = () => {
 							</div>
 						)}
 					</div>
-					<div className="space-y-[17px] flex flex-col w-[444px]">
+					<div className="space-y-[17px] flex flex-col mini:w-[444px]">
 						<Controller
 							control={control}
-							rules={validators.isRequiredString}
+							// rules={validators.isRequiredString}
 							name="physical_description"
 							render={({ field: { value, onChange, ref } }) => (
 								<TextArea
@@ -398,7 +402,7 @@ const LossOfDocument = () => {
 									placeholder="Details of what will be given or done for the person that finds the lost document or item"
 									value={value || ''}
 									onChange={onChange}
-									hasError={!!errors.physical_description}
+									hasError={!!errors.reward}
 								/>
 							)}
 						/>
@@ -423,8 +427,7 @@ const LossOfDocument = () => {
 						<button
 							type="submit"
 							onClick={handleSubmit(onSubmit)}
-							className="!mt-[39px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12"
-						>
+							className="!mt-[39px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12">
 							Submit
 						</button>
 					</div>

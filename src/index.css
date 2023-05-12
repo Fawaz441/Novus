@@ -59,3 +59,8 @@ html,body{
 .inactive-agent-navlink  svg {
   fill:#575555;
 }
+
+/* mobile sidenav */
+#mobile-sidenav.active{
+  left:0 !important;
+}

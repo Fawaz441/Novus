@@ -7,10 +7,10 @@ import { Headline, OtherNews, Video } from 'components/news/items';
 const Home: React.FC = () => (
 	<Wrapper>
 		<FilterAndSearch />
-		<div className="mt-[120px] relative">
-			<div className="flex-grow-0 mr-[422px]">
-				<div className="flex flex-col space-y-[15.14px] pb-[150px]">
-					<span className="text-black text-base">
+		<div className="mt-[112px] relative">
+			<div className="flex-grow-0 mini:mr-[422px]">
+				<div className="flex flex-col space-y-[15.14px] mini:pb-[150px] pb-11">
+					<span className="text-black text-12 550px:text-base">
 						Today&apos;s <span className="font-bold">Headlines</span>
 					</span>
 					<Headline
@@ -25,7 +25,7 @@ const Home: React.FC = () => (
 						links={1000}
 						tag={'FINANCE'}
 					/>
-					<div className="mt-[62px] flex flex-col space-y-[14px]">
+					<div className="mt-[62px] mid:flex flex-col space-y-[14px] hidden">
 						<h4 className="font-bold text-black text-base">Videos</h4>
 						<div className="flex space-x-[39px]">
 							<Video />

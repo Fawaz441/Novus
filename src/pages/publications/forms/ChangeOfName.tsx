@@ -6,7 +6,10 @@ import {
 	TextArea,
 } from 'components/inputs';
 import { Wrapper } from 'components/navigation';
-import { PublicationCreationSteps } from 'components/publications';
+import {
+	MobileFormsNavigation,
+	PublicationCreationSteps,
+} from 'components/publications';
 import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ReactComponent as Swap } from 'assets/icons/swap.svg';
@@ -87,15 +90,15 @@ const ChangeOfName = () => {
 
 	return (
 		<Wrapper isPublications>
-			<div className="flex flex-col space-y-[33px] pb-[200px]">
+			<div className="flex flex-col spave-y-[22px] mini:space-y-[33px] pb-[200px]">
+				<MobileFormsNavigation />
 				<PublicationCreationSteps activeStep="fill_forms" />
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					className="w-full flex space-x-[51px]"
-				>
-					<div className="flex-1 max-w-[1000px]">
+					className="w-full flex flex-col space-y-[51px] mini:flex-row mini:space-y-0 mini:space-x-[51px]">
+					<div className="flex-1 mini:max-w-[1000px]">
 						{/* first_name */}
-						<div className="flex items-center mb-[38px]">
+						<div className="flex flex-col space-y-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -114,7 +117,7 @@ const ChangeOfName = () => {
 									/>
 								)}
 							/>
-							<div className="flex-shrink-0 mt-[21.09px] mx-[7px] h-12 flex items-center justify-center">
+							<div className="hidden flex-shrink-0 !mt-[21.09px] mx-2 mid:mx-[7px] h-12 mid:flex items-center justify-center">
 								<Swap />
 							</div>
 							<Controller
@@ -134,7 +137,7 @@ const ChangeOfName = () => {
 							/>
 						</div>
 						{/* middle_name */}
-						<div className="flex items-center mb-[38px]">
+						<div className="flex flex-col space-y-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
 							<Controller
 								rules={validators.isRequiredString}
 								control={control}
@@ -152,7 +155,7 @@ const ChangeOfName = () => {
 									/>
 								)}
 							/>
-							<div className="flex-shrink-0 mt-[21.09px] mx-[7px] h-12 flex items-center justify-center">
+							<div className="hidden flex-shrink-0 !mt-[21.09px] mx-[7px] h-12 mid:flex items-center justify-center">
 								<Swap />
 							</div>
 							<Controller
@@ -172,7 +175,7 @@ const ChangeOfName = () => {
 							/>
 						</div>
 						{/* last_name */}
-						<div className="flex items-center mb-[50px]">
+						<div className="flex flex-col space-y-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -190,7 +193,7 @@ const ChangeOfName = () => {
 									/>
 								)}
 							/>
-							<div className="flex-shrink-0 mt-[21.09px] mx-[7px] h-12 flex items-center justify-center">
+							<div className="hidden flex-shrink-0 !mt-[21.09px] mx-[7px] h-12 mid:flex items-center justify-center">
 								<Swap />
 							</div>
 							<Controller
@@ -210,7 +213,7 @@ const ChangeOfName = () => {
 							/>
 						</div>
 						{/* reason for change */}
-						<div className="flex space-x-[38px] mb-[38px]">
+						<div className="flex flex-col mid:space-x-[34px] space-y-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
 							<Select
 								label="Reason for Name Change"
 								hasRequiredIcon
@@ -223,7 +226,7 @@ const ChangeOfName = () => {
 							/>
 						</div>
 						{/* email and phone number */}
-						<div className="flex items-center mb-[38px] space-x-[34px]">
+						<div className="flex flex-col space-y-[21px] mid:space-y-0 mid:space-x-[34px] mid:flex-row items-center mb-[21px] mid:mb-[38px]">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
@@ -277,8 +280,8 @@ const ChangeOfName = () => {
 								/>
 							)}
 						/>
-						<div className="mt-[27px] flex items-center space-x-[34px]">
-							<div className="flex-1">
+						<div className="flex mt-[21px] mid:mt-[38px] flex-col space-y-[21px] mid:space-y-0 mid:space-x-[34px] mid:flex-row items-center mb-[21px] mid:mb-[38px]">
+							<div className="flex-1 w-full">
 								<div className="flex flex-col space-y-[6px]">
 									<div className="flex">
 										<span className="text-12 text-575555 font-medium leading-[14.09px] mr-[3px]">
@@ -306,7 +309,7 @@ const ChangeOfName = () => {
 									/>
 								</div>
 							</div>
-							<div className="flex-1">
+							<div className="flex-1 w-full">
 								<div className="flex flex-col space-y-[6px]">
 									<span className="text-12 text-575555 font-medium leading-[14.09px] mr-[3px]">
 										Do you want to publish on a 3rd party news paper ?
@@ -385,8 +388,7 @@ const ChangeOfName = () => {
 						<button
 							type="submit"
 							onClick={handleSubmit(onSubmit)}
-							className="mt-[155px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12"
-						>
+							className="mt-[42px] mini:mt-[155px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12">
 							Submit
 						</button>
 					</div>

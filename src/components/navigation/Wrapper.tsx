@@ -53,7 +53,9 @@ const Wrapper: React.FC<WrapperProps> = ({
 				showPublicationsButton={showPublicationsButton}
 				isPublications={isPublications}
 			/>
-			<div className="pl-[239px] pt-[90px] pr-12">{children}</div>
+			<div className="mini:pl-[239px] pt-[60px] px-5 mini:pt-[90px] mini:pr-12 mini:px-[26px]">
+				{children}
+			</div>
 		</div>
 	);
 };

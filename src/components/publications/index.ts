@@ -3,6 +3,8 @@ import DeclineReason from './DeclineReason';
 import DownloadPublicationModal from './DownloadPublicationModal';
 import EditPublicationModal from './EditPublicationModal';
 import LosttDocument from './LostDocument';
+import MobileFormsNavigation from './MobileFormsNavigation';
+import MobilePublcationsTabs from './MobilePublicationsTabs';
 import Publication from './Publication';
 import PublicationButton from './PublicationButton';
 import PublicationCreationSteps from './PublicationCreationSteps';
@@ -18,4 +20,6 @@ export {
 	CheckPublicationModal,
 	PublicationStatus,
 	DownloadPublicationModal,
+	MobilePublcationsTabs,
+	MobileFormsNavigation,
 };

@@ -6,13 +6,14 @@ import {
 	PublicationDetail,
 	ChangeOfNameForm,
 	ChangeOfNamePreview,
-	Payment,
 	LossOfDocument,
 	LossOfDocumentPreview,
-	LossOfDocumentPublicationPayment,
 	LostDocumentList,
+	CheckOrCreatePublication,
+	LossOfDocumentPayment,
+	ChangeOfNamePayment,
 } from 'pages/publications';
-import { routes, STORAGE_KEYS } from 'utils/constants';
+import { MOBILE_WIDTH, routes, STORAGE_KEYS } from 'utils/constants';
 import { NotFound } from 'pages/misc';
 import { retrieveFromLS } from 'utils/functions';
 import { AppDispatch } from 'store';
@@ -29,8 +30,10 @@ import {
 	CheckPublications,
 	CreatePublication,
 } from 'pages/agents/publications';
+import { useWindowSize } from 'hooks';
 
 const AppRoutes: React.FC = () => {
+	const { width } = useWindowSize();
 	const [loading, setLoading] = useState(true);
 	const dispatch: AppDispatch = useDispatch();
 	useEffect(() => {
@@ -45,12 +48,25 @@ const AppRoutes: React.FC = () => {
 		setLoading(false);
 	}, [dispatch]);
 
+	const mobileRoutes =
+		width! > MOBILE_WIDTH
+			? []
+			: [
+					{
+						path: routes.pub_forms.mobile_check_or_create,
+						element: <CheckOrCreatePublication />,
+					},
+			  ];
+
 	const router = createBrowserRouter([
 		{ path: routes.home, element: <Home /> },
 		{ path: routes.change_of_name_publications, element: <PublicationList /> },
 		{ path: routes.lost_document_publications, element: <LostDocumentList /> },
 		{ path: routes.publication_detail, element: <PublicationDetail /> },
-		{ path: routes.pub_forms.change_of_name, element: <ChangeOfNameForm /> },
+		{
+			path: routes.pub_forms.change_of_name,
+			element: <ChangeOfNameForm />,
+		},
 		{
 			path: routes.pub_forms.change_of_name_preview,
 			element: <ChangeOfNamePreview />,
@@ -61,16 +77,17 @@ const AppRoutes: React.FC = () => {
 		},
 		{
 			path: routes.pub_forms.payment,
-			element: <Payment />,
+			element: <ChangeOfNamePayment />,
 		},
 		{
 			path: routes.pub_forms.loss_of_document_payment,
-			element: <LossOfDocumentPublicationPayment />,
+			element: <LossOfDocumentPayment />,
 		},
 		{
 			path: routes.pub_forms.loss_of_document,
 			element: <LossOfDocument />,
 		},
+		...mobileRoutes,
 		{
 			path: routes.agents.login,
 			element: <Login />,
