@@ -23,6 +23,7 @@ export const routes = {
 		loss_of_document_payment: '/publications/loss-of-document/create/payment',
 		loss_of_document: '/publications/loss-of-document/create',
 		loss_of_document_preview: '/publications/loss-of-document/create/preview',
+		mobile_check_or_create: '/publications/tabs',
 	},
 	agents: {
 		login: '/agents/login',
@@ -372,3 +373,6 @@ export const nigerianBanks = [
 		ussd: '*966#',
 	},
 ];
+
+export const MOBILE_SIDENAV = '#mobile-sidenav';
+export const MOBILE_WIDTH = 550;

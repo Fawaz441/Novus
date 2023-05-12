@@ -13,17 +13,15 @@ const Modal: React.FC<ModalProps> = ({ children, name }) => {
 	return (
 		<div
 			className={clsx(
-				'fixed top-0 z-[999] p-4 left-0 transition-all duration-150 flex items-center justify-center cursor-pointer h-screen w-screen bg-black/[.5] opacity-0 pointer-events-none',
+				'fixed top-0 z-[999] p-4 left-0 transition-all duration-150 flex mini:items-center justify-center cursor-pointer h-screen w-screen bg-black/[.5] opacity-0 pointer-events-none',
 				{ '!opacity-100 !pointer-events-auto': isVisible(name) }
 			)}
 			role="presentation"
-			onClick={closeModal}
-		>
+			onClick={closeModal}>
 			<div
-				className="cursor-default"
+				className="cursor-default pt-[100px] mini:!pt-0"
 				role={'presentation'}
-				onClick={(e) => e.stopPropagation()}
-			>
+				onClick={(e) => e.stopPropagation()}>
 				{children}
 			</div>
 		</div>

@@ -5,34 +5,32 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'store';
 
-const LossOfDocumentPublicationPayment = () => {
+const LossOfDocumentPayment = () => {
 	const navigate = useNavigate();
-	const { new_con_publication } = useSelector(
+	const { new_lod_publication } = useSelector(
 		(state: RootState) => state.publications
 	);
 
 	useEffect(() => {
-		if (!new_con_publication) {
+		if (!new_lod_publication) {
 			navigate(-1);
 		}
-	}, [navigate, new_con_publication]);
+	}, [navigate, new_lod_publication]);
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
-			<PublicationCreationSteps activeStep="payment" isLossOfDocument />
+			<PublicationCreationSteps activeStep="payment" />
 			<div className="pt-[63px] pb-5 flex flex-col space-y-[49px] max-w-[900px] mx-auto">
 				<button
 					type="button"
 					className="text-black self-start font-bold text-sm leading-[16.44px]"
-					onClick={() => navigate(-1)}
-				>
+					onClick={() => navigate(-1)}>
 					Back
 				</button>
 				<div className="mt-[49px] flex flex-col space-y-[15px]">
 					<button
 						type="button"
-						className="rounded-3 py-[11px] px-6 text-white font-bold text-12 bg-FF012F w-fit"
-					>
+						className="rounded-3 py-[11px] px-6 text-white font-bold text-12 bg-FF012F w-fit">
 						NOTE
 					</button>
 					<div className="bg-F9F9F9 rounded-6 px-[43px] pt-[26px] pb-[49px]">
@@ -77,8 +75,7 @@ const LossOfDocumentPublicationPayment = () => {
 							</div>
 							<button
 								type="button"
-								className="font-bold text-white text-12 flex items-center justify-center px-[29px] py-[11px] bg-08F692 rounded-3"
-							>
+								className="font-bold text-white text-12 flex items-center justify-center px-[29px] py-[11px] bg-08F692 rounded-3">
 								Proceed To Payment
 							</button>
 						</div>
@@ -89,4 +86,4 @@ const LossOfDocumentPublicationPayment = () => {
 	);
 };
 
-export default LossOfDocumentPublicationPayment;
+export default LossOfDocumentPayment;
