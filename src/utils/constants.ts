@@ -1,5 +1,5 @@
 import {
-	ChangeOfNamePublicationValues,
+	ChangeOfNamePublicationFields,
 	LossOfDocumentPublicationValues,
 } from 'interfaces/publications';
 
@@ -43,8 +43,8 @@ export const routes = {
 };
 
 export enum STORAGE_KEYS {
-	NEW_CON_PUBLICATION = 'new_con_publication',
-	NEW_LOD_PUBLICATION = 'new_lod_publication',
+	NEW_CON_PUBLICATION = 'newCONPublication',
+	NEW_LOD_PUBLICATION = 'newLODPublication',
 	SHOW_NOVUS_PUBLICATION_LINKS = 'novus.show_pub_links',
 	SHOW_NOVUS_AGENT_LINKS = 'novus.show_agent_links',
 	NOVUS_AGENT_SCROLLBAR_POS = 'novus.agent_scrollbar_pos',
@@ -76,19 +76,21 @@ export const emptyLossOfDocumentValues: LossOfDocumentPublicationValues = {
 	concerned_parties: '',
 };
 
-export const emptyChangeOfNameValues: ChangeOfNamePublicationValues = {
-	gender: 'male',
-	publish_on_third_party: true,
-	old_first_name: '',
-	new_first_name: '',
-	old_middle_name: '',
-	new_middle_name: '',
-	old_last_name: '',
-	new_last_name: '',
+export const emptyChangeOfNameValues: ChangeOfNamePublicationFields = {
+	oldFirstName: '',
+	newFirstName: '',
+	oldMiddleName: '',
+	newMiddleName: '',
+	oldLastName: '',
+	newLastName: '',
 	email: '',
-	phone_number: '',
-	house_address: '',
-	concerned_parties: '',
+	phone: '',
+	houseAddress: '',
+	gender: 'male',
+	concernParties: '',
+	reasonSelect: { value: null, label: null },
+	isExternal: false,
+	externalSelect: { value: null, label: null },
 };
 
 export const nigerianStates = [
@@ -376,3 +378,13 @@ export const nigerianBanks = [
 
 export const MOBILE_SIDENAV = '#mobile-sidenav';
 export const MOBILE_WIDTH = 550;
+
+export enum PUBLICATION_TYPES {
+	CHANGE_OF_NAME = 'change-of-name',
+	LOSS_OF_DOCUMENT = 'loss-of-document',
+	AGE_DECLARATION = 'age-declaration',
+	OBITUARY = 'obituary',
+	AFFIDAVIT = 'affidavit',
+}
+
+export const BASE_URL = 'https://www.theepitomenews.com';

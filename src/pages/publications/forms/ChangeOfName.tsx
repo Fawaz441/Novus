@@ -10,25 +10,32 @@ import {
 	MobileFormsNavigation,
 	PublicationCreationSteps,
 } from 'components/publications';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ReactComponent as Swap } from 'assets/icons/swap.svg';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
 import { validators } from 'utils/validation';
-import { ChangeOfNamePublicationValues, Gender } from 'interfaces/publications';
+import { ChangeOfNamePublicationFields, Gender } from 'interfaces/publications';
 import { AppDispatch, RootState } from 'store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewConPublication } from 'store/publications';
+import { publicationSlice } from 'store/publications';
 import { useNavigate } from 'react-router-dom';
-import { emptyChangeOfNameValues, routes, STORAGE_KEYS } from 'utils/constants';
+import {
+	emptyChangeOfNameValues,
+	PUBLICATION_TYPES,
+	routes,
+	STORAGE_KEYS,
+} from 'utils/constants';
 import { storeToLS } from 'utils/functions';
-import { isEmpty } from 'lodash';
+import { capitalize, isEmpty, trim } from 'lodash';
+import toast from 'react-hot-toast';
+
+const { actions } = publicationSlice;
 
 const ChangeOfName = () => {
 	const dispatch: AppDispatch = useDispatch();
-	const { new_con_publication } = useSelector(
-		(state: RootState) => state.publications
-	);
+	const { newCONPublication, publisherPrices, loadingPublisherPrices } =
+		useSelector((state: RootState) => state.publications);
 	const navigate = useNavigate();
 	const {
 		formState: { errors },
@@ -38,22 +45,36 @@ const ChangeOfName = () => {
 		setError,
 		control,
 		reset,
-	} = useForm<ChangeOfNamePublicationValues>({
+		getValues,
+	} = useForm<ChangeOfNamePublicationFields>({
 		defaultValues: emptyChangeOfNameValues,
 	});
+	const publishWithThirdParty = watch('isExternal');
 
 	const onGenderChange = (value: Gender) => setValue('gender', value);
 	const onThirdPartyOptionChange = (value: boolean) =>
-		setValue('publish_on_third_party', value);
+		setValue('isExternal', value);
 
-	const onSubmit = (data: ChangeOfNamePublicationValues) => {
+	const isValid = (data: ChangeOfNamePublicationFields) => {
+		const isSameFirstName = trim(data.oldFirstName) === trim(data.newFirstName);
+		const isSameMiddleName =
+			trim(data.oldMiddleName) === trim(data.newMiddleName);
+		const isSameLastName = trim(data.oldLastName) === trim(data.newLastName);
+
+		if (isSameFirstName && isSameMiddleName && isSameLastName) {
+			return false;
+		}
+		return true;
+	};
+
+	const onSubmit = (data: ChangeOfNamePublicationFields) => {
 		if (
-			isEmpty(data.new_first_name) &&
-			isEmpty(data.new_last_name) &&
-			isEmpty(data.new_middle_name)
+			isEmpty(data.newFirstName) &&
+			isEmpty(data.newLastName) &&
+			isEmpty(data.newMiddleName)
 		) {
 			setError(
-				'new_first_name',
+				'newFirstName',
 				{
 					message: 'Please type in a new first name, last name or middle name',
 				},
@@ -61,7 +82,20 @@ const ChangeOfName = () => {
 			);
 			return;
 		}
-		dispatch(addNewConPublication(data));
+		if (!isValid(data)) {
+			toast.error("Please enter in valid data. Your names can't be the same");
+			return;
+		}
+		if (publishWithThirdParty && !data?.externalSelect?.value) {
+			toast.error('Please select an external newspaper');
+			setError(
+				'externalSelect',
+				{ message: 'Please select an external newspaper' },
+				{ shouldFocus: true }
+			);
+			return;
+		}
+		dispatch(actions.addNewConPublication(data));
 		storeToLS(STORAGE_KEYS.NEW_CON_PUBLICATION, data);
 		navigate(routes.pub_forms.change_of_name_preview);
 	};
@@ -74,19 +108,33 @@ const ChangeOfName = () => {
 		{ label: 'Change of name', value: 'Change of name' },
 	];
 
-	const thirdPartyNewsPapers = [
-		{ label: 'Vanguard #4,500', value: 'Vanguard', price: '#4,500' },
-		{ label: 'Punch #4,500', value: 'Punch', price: '#4,500' },
-		{ label: 'Guardian #4,500', value: 'guardian', price: '#4,500' },
-	];
-
-	const publishWithThirdParty = watch('publish_on_third_party');
+	useEffect(() => {
+		if (newCONPublication) {
+			reset(newCONPublication);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
-		if (new_con_publication) {
-			reset(new_con_publication);
+		if (publishWithThirdParty && isEmpty(publisherPrices)) {
+			dispatch(
+				actions.fetchPublisherPrices({
+					publicationType: PUBLICATION_TYPES.CHANGE_OF_NAME,
+				})
+			);
 		}
-	}, [reset, new_con_publication]);
+		if (!publishWithThirdParty && getValues('externalSelect')?.value) {
+			setValue('externalSelect', emptyChangeOfNameValues.externalSelect);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [publishWithThirdParty]);
+
+	const thirdPartyNewsPapers = useMemo(() => {
+		return publisherPrices.map((price) => ({
+			label: `${capitalize(price.externalName)} #${price.price}`,
+			value: price.externalName,
+		}));
+	}, [publisherPrices]);
 
 	return (
 		<Wrapper isPublications>
@@ -102,7 +150,7 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="old_first_name"
+								name="oldFirstName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Firstname (Old)"
@@ -113,7 +161,7 @@ const ChangeOfName = () => {
 										ref_={ref}
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.old_first_name}
+										hasError={!!errors.oldFirstName}
 									/>
 								)}
 							/>
@@ -122,7 +170,7 @@ const ChangeOfName = () => {
 							</div>
 							<Controller
 								control={control}
-								name="new_first_name"
+								name="newFirstName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Firstname (New)"
@@ -131,7 +179,7 @@ const ChangeOfName = () => {
 										placeholder="Hannah"
 										ref_={ref}
 										onChange={onChange}
-										hasError={!!errors.new_first_name}
+										hasError={!!errors.newFirstName}
 									/>
 								)}
 							/>
@@ -141,7 +189,7 @@ const ChangeOfName = () => {
 							<Controller
 								rules={validators.isRequiredString}
 								control={control}
-								name="old_middle_name"
+								name="oldMiddleName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Middlename (Old)"
@@ -151,7 +199,7 @@ const ChangeOfName = () => {
 										placeholder="Paul"
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.old_middle_name}
+										hasError={!!errors.oldMiddleName}
 									/>
 								)}
 							/>
@@ -160,7 +208,7 @@ const ChangeOfName = () => {
 							</div>
 							<Controller
 								control={control}
-								name="new_middle_name"
+								name="newMiddleName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Middlename (New)"
@@ -169,7 +217,7 @@ const ChangeOfName = () => {
 										placeholder="Paul"
 										ref_={ref}
 										onChange={onChange}
-										hasError={!!errors.new_middle_name}
+										hasError={!!errors.newMiddleName}
 									/>
 								)}
 							/>
@@ -179,7 +227,7 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="old_last_name"
+								name="oldLastName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Lastname (Old)"
@@ -189,7 +237,7 @@ const ChangeOfName = () => {
 										ref_={ref}
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.old_last_name}
+										hasError={!!errors.oldLastName}
 									/>
 								)}
 							/>
@@ -198,7 +246,7 @@ const ChangeOfName = () => {
 							</div>
 							<Controller
 								control={control}
-								name="new_last_name"
+								name="newLastName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Lastname (New)"
@@ -207,22 +255,31 @@ const ChangeOfName = () => {
 										ref_={ref}
 										placeholder="Daniel"
 										onChange={onChange}
-										hasError={!!errors.new_last_name}
+										hasError={!!errors.newLastName}
 									/>
 								)}
 							/>
 						</div>
 						{/* reason for change */}
 						<div className="flex flex-col mid:space-x-[34px] space-y-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
-							<Select
-								label="Reason for Name Change"
-								hasRequiredIcon
-								options={nameChangeOptions}
+							<Controller
+								control={control}
+								name="reasonSelect"
+								render={({ field }) => (
+									<Select
+										label="Reason for Name Change"
+										hasRequiredIcon
+										options={nameChangeOptions}
+										{...field}
+									/>
+								)}
 							/>
 							<Select
 								label="Select Publication Type"
 								hasRequiredIcon
 								options={publicationTypes}
+								value={publicationTypes[0]}
+								isDisabled
 							/>
 						</div>
 						{/* email and phone number */}
@@ -247,7 +304,7 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="phone_number"
+								name="phone"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Phone Number"
@@ -257,7 +314,7 @@ const ChangeOfName = () => {
 										value={value}
 										placeholder="Provide a valid phone Number"
 										onChange={onChange}
-										hasError={!!errors.phone_number}
+										hasError={!!errors.phone}
 									/>
 								)}
 							/>
@@ -266,7 +323,7 @@ const ChangeOfName = () => {
 						<Controller
 							control={control}
 							rules={validators.isRequiredString}
-							name="house_address"
+							name="houseAddress"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="House Address"
@@ -276,7 +333,7 @@ const ChangeOfName = () => {
 									value={value}
 									onChange={onChange}
 									ref_={ref}
-									hasError={!!errors.house_address}
+									hasError={!!errors.houseAddress}
 								/>
 							)}
 						/>
@@ -316,7 +373,7 @@ const ChangeOfName = () => {
 									</span>
 									<Controller
 										control={control}
-										name="publish_on_third_party"
+										name="isExternal"
 										render={({ field: { value } }) => (
 											<div className="flex-1 space-x-[15px] flex">
 												<RadioOption
@@ -339,10 +396,18 @@ const ChangeOfName = () => {
 						</div>
 						{publishWithThirdParty && (
 							<div className="mt-[29px]">
-								<Select
-									label="Select Newspaper"
-									hasRequiredIcon
-									options={thirdPartyNewsPapers}
+								<Controller
+									control={control}
+									name="externalSelect"
+									render={({ field }) => (
+										<Select
+											label="Select Newspaper"
+											hasRequiredIcon
+											options={thirdPartyNewsPapers}
+											isLoading={loadingPublisherPrices}
+											{...field}
+										/>
+									)}
 								/>
 							</div>
 						)}
@@ -369,7 +434,7 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="concerned_parties"
+								name="concernParties"
 								render={({ field: { value, onChange, ref } }) => (
 									<TextArea
 										label="Concerned Parties"
@@ -380,7 +445,7 @@ const ChangeOfName = () => {
 										placeholder="Type in any concerned authority that is interested in this publication. E.g. General public, Bank name, School name, e.t.c."
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.concerned_parties}
+										hasError={!!errors.concernParties}
 									/>
 								)}
 							/>

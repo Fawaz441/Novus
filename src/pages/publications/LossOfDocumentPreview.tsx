@@ -12,18 +12,18 @@ import { RootState } from 'store';
 
 const LossOfDocumentPreview = () => {
 	const navigate = useNavigate();
-	const { new_lod_publication } = useSelector(
+	const { newLODPublication } = useSelector(
 		(state: RootState) => state.publications
 	);
 
 	useEffect(() => {
-		if (!new_lod_publication) {
+		if (!newLODPublication) {
 			navigate(-1);
 		}
-	}, [navigate, new_lod_publication]);
+	}, [navigate, newLODPublication]);
 
 	const getTitle = () =>
-		new_lod_publication?.gender === 'female' ? 'Mrs' : 'Mr';
+		newLODPublication?.gender === 'female' ? 'Mrs' : 'Mr';
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
@@ -66,7 +66,7 @@ const LossOfDocumentPreview = () => {
 				<div>
 					<h3 className="hidden mid:block font-medium text-xl leading-[23.48px] text-black">
 						<span className="font-bold">LOSS OF DOCUMENT :</span> {getTitle()}{' '}
-						{new_lod_publication?.first_name} {new_lod_publication?.last_name}
+						{newLODPublication?.first_name} {newLODPublication?.last_name}
 					</h3>
 					<div className="flex items-center justify-between mt-[74px] mid:mt-[21px] mid:mb-[23px]">
 						<div className="flex items-center justify-between mid:space-x-10 flex-row-reverse mid:flex-row">
@@ -115,31 +115,31 @@ const LossOfDocumentPreview = () => {
 					</div>
 					<p className="max-w-[960px] hidden mid:block text-black leading-6">
 						This is to notify the general public, that I , {getTitle()}{' '}
-						{new_lod_publication?.first_name} {new_lod_publication?.last_name}{' '}
-						of {new_lod_publication?.house_address} lost a{' '}
-						{new_lod_publication?.support_id_name} document with Property{' '}
-						{new_lod_publication?.id_value}., issued by{' '}
-						{new_lod_publication?.issuer_of_item}.The stated document above was
+						{newLODPublication?.first_name} {newLODPublication?.last_name} of{' '}
+						{newLODPublication?.house_address} lost a{' '}
+						{newLODPublication?.support_id_name} document with Property{' '}
+						{newLODPublication?.id_value}., issued by{' '}
+						{newLODPublication?.issuer_of_item}.The stated document above was
 						misplaced on the 17th November, 2018
 					</p>
 					<div className="hidden mid:block">
-						{new_lod_publication?.physical_description && (
+						{newLODPublication?.physical_description && (
 							<div className="mt-[19px] flex flex-col space-y-[6px]">
 								<h4 className="font-bold text-black text-sm leading-[16.44px]">
 									Extra Details
 								</h4>
 								<p className="leading-6 text-575555">
-									{new_lod_publication?.physical_description}
+									{newLODPublication?.physical_description}
 								</p>
 							</div>
 						)}
-						{new_lod_publication?.reward && (
+						{newLODPublication?.reward && (
 							<div className="mt-[31px] flex flex-col space-y-[9px]">
 								<div className="h-10 w-fit text-sm leading-[16.44px] px-[29px] flex items-center justify-center bg-black rounded-[20px] text-white font-semibold">
 									Reward
 								</div>
 								<p className="text-base text-575555 leading-6">
-									{new_lod_publication?.reward}
+									{newLODPublication?.reward}
 								</p>
 							</div>
 						)}
@@ -149,15 +149,15 @@ const LossOfDocumentPreview = () => {
 			<div className="mt-6 mid:hidden">
 				<h3 className="font-medium text-12 leading-[14.09px] text-black mb-[11px]">
 					<span className="font-bold">LOSS OF DOCUMENT :</span> {getTitle()}{' '}
-					{new_lod_publication?.first_name} {new_lod_publication?.last_name}
+					{newLODPublication?.first_name} {newLODPublication?.last_name}
 				</h3>
 				<p className="text-10 leading-[18px] text-black">
 					This is to notify the general public, that I , {getTitle()}{' '}
-					{new_lod_publication?.first_name} {new_lod_publication?.last_name} of{' '}
-					{new_lod_publication?.house_address} lost a{' '}
-					{new_lod_publication?.support_id_name} document with Property{' '}
-					{new_lod_publication?.id_value}., issued by{' '}
-					{new_lod_publication?.issuer_of_item}.The stated document above was
+					{newLODPublication?.first_name} {newLODPublication?.last_name} of{' '}
+					{newLODPublication?.house_address} lost a{' '}
+					{newLODPublication?.support_id_name} document with Property{' '}
+					{newLODPublication?.id_value}., issued by{' '}
+					{newLODPublication?.issuer_of_item}.The stated document above was
 					misplaced on the 17th November, 2018
 				</p>
 			</div>

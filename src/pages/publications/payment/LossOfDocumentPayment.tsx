@@ -7,15 +7,15 @@ import { RootState } from 'store';
 
 const LossOfDocumentPayment = () => {
 	const navigate = useNavigate();
-	const { new_lod_publication } = useSelector(
+	const { newLODPublication } = useSelector(
 		(state: RootState) => state.publications
 	);
 
 	useEffect(() => {
-		if (!new_lod_publication) {
+		if (!newLODPublication) {
 			navigate(-1);
 		}
-	}, [navigate, new_lod_publication]);
+	}, [navigate, newLODPublication]);
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>

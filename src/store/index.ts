@@ -1,12 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
 import PublicationsReducer from './publications';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './saga';
+
+const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
 	reducer: {
 		publications: PublicationsReducer,
 	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(sagaMiddleware),
 	devTools: process.env.NODE_ENV !== 'production',
 });
+
+sagaMiddleware.run(rootSaga);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

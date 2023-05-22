@@ -49,7 +49,7 @@ const AppRoutes: React.FC = () => {
 	}, [dispatch]);
 
 	const mobileRoutes =
-		width! > MOBILE_WIDTH
+		width! > 1332
 			? []
 			: [
 					{

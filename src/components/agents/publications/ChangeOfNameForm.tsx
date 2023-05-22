@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { ReactComponent as Swap } from 'assets/icons/swap.svg';
-import { ChangeOfNamePublicationValues, Gender } from 'interfaces/publications';
+import {
+	ChangeOfNamePublicationFields,
+	ChangeOfNamePublicationValues,
+	Gender,
+} from 'interfaces/publications';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewConPublication } from 'store/publications';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +25,7 @@ import { validators } from 'utils/validation';
 
 const ChangeOfNameForm = () => {
 	const dispatch: AppDispatch = useDispatch();
-	const { new_con_publication } = useSelector(
+	const { newCONPublication } = useSelector(
 		(state: RootState) => state.publications
 	);
 	const navigate = useNavigate();
@@ -33,21 +37,23 @@ const ChangeOfNameForm = () => {
 		setError,
 		control,
 		reset,
-	} = useForm<ChangeOfNamePublicationValues>({
+	} = useForm<ChangeOfNamePublicationFields>({
 		defaultValues: emptyChangeOfNameValues,
 	});
 	const onGenderChange = (value: Gender) => setValue('gender', value);
 	const onThirdPartyOptionChange = (value: boolean) =>
-		setValue('publish_on_third_party', value);
+		setValue('isExternal', value);
 
-	const onSubmit = (data: ChangeOfNamePublicationValues) => {
+	const onSubmit = (data: ChangeOfNamePublicationFields) => {
+		console.log(data);
+		return;
 		if (
-			isEmpty(data.new_first_name) &&
-			isEmpty(data.new_last_name) &&
-			isEmpty(data.new_middle_name)
+			isEmpty(data.newFirstName) &&
+			isEmpty(data.newLastName) &&
+			isEmpty(data.newMiddleName)
 		) {
 			setError(
-				'new_first_name',
+				'newFirstName',
 				{
 					message: 'Please type in a new first name, last name or middle name',
 				},
@@ -72,26 +78,25 @@ const ChangeOfNameForm = () => {
 		{ label: 'Punch #4,500', value: 'Punch', price: '#4,500' },
 		{ label: 'Guardian #4,500', value: 'guardian', price: '#4,500' },
 	];
-	const publishWithThirdParty = watch('publish_on_third_party');
+	const publishWithThirdParty = watch('isExternal');
 
 	useEffect(() => {
-		if (new_con_publication) {
-			reset(new_con_publication);
+		if (newCONPublication) {
+			reset(newCONPublication);
 		}
-	}, [reset, new_con_publication]);
+	}, [reset, newCONPublication]);
 	return (
 		<div className="pb-[100px]">
 			<form
 				onSubmit={handleSubmit(onSubmit)}
-				className="w-full flex space-x-[51px]"
-			>
+				className="w-full flex space-x-[51px]">
 				<div className="flex-1 max-w-[652px]">
 					{/* first_name */}
 					<div className="flex items-center mb-[38px]">
 						<Controller
 							control={control}
 							rules={validators.isRequiredString}
-							name="old_first_name"
+							name="oldFirstName"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Firstname (Old)"
@@ -102,7 +107,7 @@ const ChangeOfNameForm = () => {
 									ref_={ref}
 									value={value}
 									onChange={onChange}
-									hasError={!!errors.old_first_name}
+									hasError={!!errors.oldFirstName}
 								/>
 							)}
 						/>
@@ -111,7 +116,7 @@ const ChangeOfNameForm = () => {
 						</div>
 						<Controller
 							control={control}
-							name="new_first_name"
+							name="newFirstName"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Firstname (New)"
@@ -120,7 +125,7 @@ const ChangeOfNameForm = () => {
 									placeholder="Hannah"
 									ref_={ref}
 									onChange={onChange}
-									hasError={!!errors.new_first_name}
+									hasError={!!errors.newFirstName}
 								/>
 							)}
 						/>
@@ -130,7 +135,7 @@ const ChangeOfNameForm = () => {
 						<Controller
 							rules={validators.isRequiredString}
 							control={control}
-							name="old_middle_name"
+							name="oldMiddleName"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Middlename (Old)"
@@ -140,7 +145,7 @@ const ChangeOfNameForm = () => {
 									placeholder="Paul"
 									value={value}
 									onChange={onChange}
-									hasError={!!errors.old_middle_name}
+									hasError={!!errors.oldMiddleName}
 								/>
 							)}
 						/>
@@ -149,7 +154,7 @@ const ChangeOfNameForm = () => {
 						</div>
 						<Controller
 							control={control}
-							name="new_middle_name"
+							name="newMiddleName"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Middlename (New)"
@@ -158,7 +163,7 @@ const ChangeOfNameForm = () => {
 									placeholder="Paul"
 									ref_={ref}
 									onChange={onChange}
-									hasError={!!errors.new_middle_name}
+									hasError={!!errors.newMiddleName}
 								/>
 							)}
 						/>
@@ -168,7 +173,7 @@ const ChangeOfNameForm = () => {
 						<Controller
 							control={control}
 							rules={validators.isRequiredString}
-							name="old_last_name"
+							name="oldLastName"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Lastname (Old)"
@@ -178,7 +183,7 @@ const ChangeOfNameForm = () => {
 									ref_={ref}
 									value={value}
 									onChange={onChange}
-									hasError={!!errors.old_last_name}
+									hasError={!!errors.oldLastName}
 								/>
 							)}
 						/>
@@ -187,7 +192,7 @@ const ChangeOfNameForm = () => {
 						</div>
 						<Controller
 							control={control}
-							name="new_last_name"
+							name="newLastName"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Lastname (New)"
@@ -196,17 +201,24 @@ const ChangeOfNameForm = () => {
 									ref_={ref}
 									placeholder="Daniel"
 									onChange={onChange}
-									hasError={!!errors.new_last_name}
+									hasError={!!errors.newLastName}
 								/>
 							)}
 						/>
 					</div>
 					{/* reason for change */}
 					<div className="flex space-x-[38px] mb-[38px]">
-						<Select
-							label="Reason for Name Change"
-							hasRequiredIcon
-							options={nameChangeOptions}
+						<Controller
+							control={control}
+							name="reasonSelect"
+							render={({ field }) => (
+								<Select
+									label="Reason for Name Change"
+									hasRequiredIcon
+									options={nameChangeOptions}
+									{...field}
+								/>
+							)}
 						/>
 						<Select
 							label="Select Publication Type"
@@ -236,7 +248,7 @@ const ChangeOfNameForm = () => {
 						<Controller
 							control={control}
 							rules={validators.isRequiredString}
-							name="phone_number"
+							name="phone"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Phone Number"
@@ -246,7 +258,7 @@ const ChangeOfNameForm = () => {
 									value={value}
 									placeholder="Provide a valid phone Number"
 									onChange={onChange}
-									hasError={!!errors.phone_number}
+									hasError={!!errors.phone}
 								/>
 							)}
 						/>
@@ -255,7 +267,7 @@ const ChangeOfNameForm = () => {
 					<Controller
 						control={control}
 						rules={validators.isRequiredString}
-						name="house_address"
+						name="houseAddress"
 						render={({ field: { value, onChange, ref } }) => (
 							<Input
 								label="House Address"
@@ -265,7 +277,7 @@ const ChangeOfNameForm = () => {
 								value={value}
 								onChange={onChange}
 								ref_={ref}
-								hasError={!!errors.house_address}
+								hasError={!!errors.houseAddress}
 							/>
 						)}
 					/>
@@ -305,7 +317,7 @@ const ChangeOfNameForm = () => {
 								</span>
 								<Controller
 									control={control}
-									name="publish_on_third_party"
+									name="isExternal"
 									render={({ field: { value } }) => (
 										<div className="flex-1 space-x-[15px] flex">
 											<RadioOption
@@ -362,7 +374,7 @@ const ChangeOfNameForm = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="concerned_parties"
+								name="concernParties"
 								render={({ field: { value, onChange, ref } }) => (
 									<TextArea
 										label="Concerned Parties"
@@ -373,7 +385,7 @@ const ChangeOfNameForm = () => {
 										placeholder="Type in any concerned authority that is interested in this publication. E.g. General public, Bank name, School name, e.t.c."
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.concerned_parties}
+										hasError={!!errors.concernParties}
 									/>
 								)}
 							/>
@@ -382,8 +394,7 @@ const ChangeOfNameForm = () => {
 							<button
 								type="submit"
 								onClick={handleSubmit(onSubmit)}
-								className="w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12"
-							>
+								className="w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12">
 								Submit
 							</button>
 						</div>

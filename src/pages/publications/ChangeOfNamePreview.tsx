@@ -10,21 +10,22 @@ import { useNavigate } from 'react-router-dom';
 import { routes } from 'utils/constants';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
+import moment from 'moment';
 
 const ChangeOfNamePreview = () => {
 	const navigate = useNavigate();
-	const { new_con_publication } = useSelector(
+	const { newCONPublication } = useSelector(
 		(state: RootState) => state.publications
 	);
 
 	useEffect(() => {
-		if (!new_con_publication) {
+		if (!newCONPublication) {
 			navigate(-1);
 		}
-	}, [navigate, new_con_publication]);
+	}, [navigate, newCONPublication]);
 
 	const getTitle = () =>
-		new_con_publication?.gender === 'female' ? 'Mrs' : 'Mr';
+		newCONPublication?.gender === 'female' ? 'Mrs' : 'Mr';
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
@@ -65,8 +66,7 @@ const ChangeOfNamePreview = () => {
 				<div>
 					<h3 className="hidden mid:block font-medium text-xl leading-[23.48px] text-black">
 						<span className="font-bold">LOSS OF DOCUMENT :</span> {getTitle()}{' '}
-						{new_con_publication?.old_first_name}{' '}
-						{new_con_publication?.old_last_name}
+						{newCONPublication?.oldFirstName} {newCONPublication?.oldLastName}
 					</h3>
 					<div className="flex items-center justify-between mt-[74px] mid:mt-[21px] mid:mb-[23px]">
 						<div className="flex items-center justify-between mid:space-x-10 flex-row-reverse mid:flex-row">
@@ -75,7 +75,7 @@ const ChangeOfNamePreview = () => {
 									Date :
 								</span>
 								<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
-									13 Jan 2023
+									{moment(new Date()).format('DD MMM YYYY')}
 								</span>
 							</div>
 							<div className="mid:hidden w-[20px]" />
@@ -115,33 +115,30 @@ const ChangeOfNamePreview = () => {
 					</div>
 					<p className="max-w-[960px] hidden mid:block text-black leading-6">
 						“I, formerly known and addressed as {getTitle()}{' '}
-						{new_con_publication?.old_first_name}{' '}
-						{new_con_publication?.old_middle_name}{' '}
-						{new_con_publication?.old_last_name}, henceforth wish to be known
-						and addressed as {getTitle()}. {new_con_publication?.new_first_name}{' '}
-						{new_con_publication?.new_middle_name}
-						{new_con_publication?.new_last_name}. All former documents remain
-						valid. {new_con_publication?.concerned_parties} and the general
-						public to take note”
+						{newCONPublication?.oldFirstName} {newCONPublication?.oldMiddleName}{' '}
+						{newCONPublication?.oldLastName}, henceforth wish to be known and
+						addressed as {getTitle()}. {newCONPublication?.newFirstName}{' '}
+						{newCONPublication?.newMiddleName}
+						{newCONPublication?.newLastName}. All former documents remain valid.{' '}
+						{newCONPublication?.concernParties} and the general public to take
+						note”
 					</p>
 				</div>
 			</div>
 			<div className="mt-6 mid:hidden">
 				<h3 className="font-medium text-12 leading-[14.09px] text-black mb-[11px]">
 					<span className="font-bold">LOSS OF DOCUMENT :</span> {getTitle()}{' '}
-					{new_con_publication?.old_first_name}{' '}
-					{new_con_publication?.old_last_name}
+					{newCONPublication?.oldFirstName} {newCONPublication?.oldLastName}
 				</h3>
 				<p className="text-10 leading-[18px] text-black">
 					“I, formerly known and addressed as {getTitle()}{' '}
-					{new_con_publication?.old_first_name}{' '}
-					{new_con_publication?.old_middle_name}{' '}
-					{new_con_publication?.old_last_name}, henceforth wish to be known and
-					addressed as {getTitle()}. {new_con_publication?.new_first_name}{' '}
-					{new_con_publication?.new_middle_name}
-					{new_con_publication?.new_last_name}. All former documents remain
-					valid. {new_con_publication?.concerned_parties} and the general public
-					to take note”
+					{newCONPublication?.oldFirstName} {newCONPublication?.oldMiddleName}{' '}
+					{newCONPublication?.oldLastName}, henceforth wish to be known and
+					addressed as {getTitle()}. {newCONPublication?.newFirstName}{' '}
+					{newCONPublication?.newMiddleName}
+					{newCONPublication?.newLastName}. All former documents remain valid.{' '}
+					{newCONPublication?.concernParties} and the general public to take
+					note”
 				</p>
 			</div>
 			<div className="mt-8 flex mb-8">

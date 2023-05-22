@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import AppRoutes from 'Routes';
 import { MODALS } from 'utils/constants';
 import { store } from 'store';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 	const [activeModal, setActiveModal] = useState<MODALS | null>(null);
@@ -14,6 +15,7 @@ function App() {
 
 	return (
 		<div className="App">
+			<Toaster position="top-right" />
 			<Provider store={store}>
 				<ModalContext.Provider value={modalStateValue}>
 					<AppRoutes />

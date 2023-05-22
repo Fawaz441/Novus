@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from './constants';
+import { BASE_URL, STORAGE_KEYS, routes } from './constants';
 
 export const formatStatistic = (stat: number) => {
 	if (stat >= 1000000) {
@@ -26,4 +26,11 @@ export const retrieveFromLS = (key: STORAGE_KEYS, defaultValue?: any) => {
 
 export const removeFromLS = (key: STORAGE_KEYS) => {
 	localStorage.removeItem(key);
+};
+
+export const isApproved = (status: string | undefined) =>
+	status && status === 'approve';
+
+export const getPublicationLink = (reference: string) => {
+	return BASE_URL + routes.getPubDetailRoute(reference);
 };

@@ -33,7 +33,7 @@ import { useNavigate } from 'react-router-dom';
 const LossOfDocument = () => {
 	const navigate = useNavigate();
 	const dispatch: AppDispatch = useDispatch();
-	const { new_lod_publication } = useSelector(
+	const { newLODPublication } = useSelector(
 		(state: RootState) => state.publications
 	);
 	const {
@@ -66,10 +66,10 @@ const LossOfDocument = () => {
 	const publishWithThirdParty = watch('publish_on_third_party');
 
 	useEffect(() => {
-		if (new_lod_publication) {
-			reset(new_lod_publication);
+		if (newLODPublication) {
+			reset(newLODPublication);
 		}
-	}, [reset, new_lod_publication]);
+	}, [reset, newLODPublication]);
 
 	return (
 		<Wrapper isPublications>

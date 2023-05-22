@@ -1,39 +1,117 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
+	ChangeOfNamePublicationFields,
 	ChangeOfNamePublicationValues,
 	LossOfDocumentPublicationValues,
+	PublicationsListMeta,
 	PublicationsState,
+	PublisherPrice,
 } from 'interfaces/publications';
+import { PUBLICATION_TYPES } from 'utils/constants';
 
 const initialState: PublicationsState = {
-	loading_con_publications: false,
-	loading_lod_pulications: false,
-	new_con_publication: null,
-	new_lod_publication: null,
+	loadingCONPublications: true,
+	loadingLODPublications: true,
+	loadingPublisherPrices: false,
+	newCONPublication: null,
+	newLODPublication: null,
+	CONPublications: [],
+	CONPublicationsError: false,
+	CONPublicationsMeta: null,
+	publisherPrices: [],
+	publisherPricesError: false,
+	publishingCON: false,
+	publishCONError: false,
+	publishCONSuccess: false,
 };
 
 export const publicationSlice = createSlice({
 	name: 'counter',
 	initialState,
 	reducers: {
+		// publisher prices
+		fetchPublisherPrices: (
+			state,
+			action: PayloadAction<{ publicationType: PUBLICATION_TYPES }>
+		) => {
+			state.loadingPublisherPrices = true;
+			state.publisherPricesError = false;
+		},
+		fetchPublisherPricesError: (state) => {
+			state.publisherPricesError = true;
+			state.publisherPrices = [];
+			state.loadingPublisherPrices = false;
+		},
+		fetchPublisherPricesSuccess: (
+			state,
+			action: PayloadAction<PublisherPrice[]>
+		) => {
+			state.publisherPrices = action.payload;
+			state.loadingPublisherPrices = false;
+		},
+		// end publisher prices
 		addNewConPublication: (
 			state,
-			action: PayloadAction<ChangeOfNamePublicationValues>
+			action: PayloadAction<ChangeOfNamePublicationFields>
 		) => {
-			state.new_con_publication = action.payload;
+			state.newCONPublication = action.payload;
 		},
 		clearNewConPublication: (state) => {
-			state.new_con_publication = null;
+			state.newCONPublication = null;
 		},
 		addNewLodPublication: (
 			state,
 			action: PayloadAction<LossOfDocumentPublicationValues>
 		) => {
-			state.new_lod_publication = action.payload;
+			state.newLODPublication = action.payload;
 		},
 		clearNewLodPublication: (state) => {
-			state.new_lod_publication = null;
+			state.newLODPublication = null;
+		},
+		// change of name publications
+		getChangeOfNamePublications: (state) => {
+			state.loadingCONPublications = true;
+			state.CONPublicationsError = false;
+		},
+		getChangeOfNamePublicationsSuccess: (
+			state,
+			action: PayloadAction<{
+				meta: PublicationsListMeta;
+				publications: ChangeOfNamePublicationValues[];
+			}>
+		) => {
+			state.loadingCONPublications = false;
+			state.CONPublications = [
+				...state.CONPublications,
+				...action.payload.publications,
+			];
+			state.CONPublicationsMeta = action.payload.meta;
+		},
+		getChangeOfNamePublicationsError: (state) => {
+			// state.CONPublications = [];
+			state.CONPublicationsError = true;
+			state.loadingCONPublications = false;
+		},
+		// end change of name publications
+
+		// publishing CON
+		publishCON: (state, action) => {
+			state.publishingCON = true;
+			state.publishCONError = false;
+		},
+		publishCONSuccess: (state) => {
+			state.publishingCON = false;
+			state.newCONPublication = null;
+			state.newLODPublication = null;
+			state.publishCONSuccess = true;
+		},
+		resetPublishSuccess(state) {
+			state.publishCONSuccess = false;
+		},
+		publishCONError: (state) => {
+			state.publishCONError = true;
+			state.publishingCON = false;
 		},
 	},
 });
