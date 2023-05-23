@@ -45,6 +45,7 @@ const ChangeOfNamePayment = () => {
 
 	useEffect(() => {
 		if (publishCONSuccess) {
+			toast.success('Publication submitted successfully');
 			dispatch(actions.resetPublishSuccess());
 			navigate(routes.home);
 		}

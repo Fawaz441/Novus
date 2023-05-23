@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import {
 	ChangeOfNamePublicationFields,
 	ChangeOfNamePublicationValues,
-	LossOfDocumentPublicationValues,
+	LossOfDocumentPublicationFields,
 	PublicationsListMeta,
 	PublicationsState,
 	PublisherPrice,
@@ -24,6 +24,9 @@ const initialState: PublicationsState = {
 	publishingCON: false,
 	publishCONError: false,
 	publishCONSuccess: false,
+	publishingLOD: false,
+	publishLODError: false,
+	publishLODSuccess: false,
 };
 
 export const publicationSlice = createSlice({
@@ -62,7 +65,7 @@ export const publicationSlice = createSlice({
 		},
 		addNewLodPublication: (
 			state,
-			action: PayloadAction<LossOfDocumentPublicationValues>
+			action: PayloadAction<LossOfDocumentPublicationFields>
 		) => {
 			state.newLODPublication = action.payload;
 		},
@@ -106,12 +109,28 @@ export const publicationSlice = createSlice({
 			state.newLODPublication = null;
 			state.publishCONSuccess = true;
 		},
-		resetPublishSuccess(state) {
-			state.publishCONSuccess = false;
-		},
 		publishCONError: (state) => {
 			state.publishCONError = true;
 			state.publishingCON = false;
+		},
+		// publishing LOD
+		publishLOD: (state, action) => {
+			state.publishingLOD = true;
+			state.publishLODError = false;
+		},
+		publishLODSuccess: (state) => {
+			state.publishingLOD = false;
+			state.newLODPublication = null;
+			state.newLODPublication = null;
+			state.publishLODSuccess = true;
+		},
+		publishLODError: (state) => {
+			state.publishLODError = true;
+			state.publishingLOD = false;
+		},
+		resetPublishSuccess(state) {
+			state.publishCONSuccess = false;
+			state.publishLODSuccess = false;
 		},
 	},
 });

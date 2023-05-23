@@ -4,12 +4,15 @@ import publicationsAPI, {
 	PublicationsListAPICallResponse,
 	PublisherPriceListAPICallResponse,
 } from 'api/publications';
-import { PUBLICATION_TYPES } from 'utils/constants';
+import { PUBLICATION_TYPES, STORAGE_KEYS } from 'utils/constants';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
 	ChangeOfNamePublicationFields,
 	ChangeOfNamePublicationPayload,
+	LossOfDocumentPublicationFields,
+	LossOfDocumentPublicationPayload,
 } from 'interfaces/publications';
+import { removeFromLS } from 'utils/functions';
 
 const { actions } = publicationSlice;
 
@@ -51,13 +54,35 @@ function* publishCON(action: PayloadAction<ChangeOfNamePublicationFields>) {
 			...data,
 			reason: reasonSelect?.value || '',
 		};
-		if (!data.isExternal) {
-			delete publicationPayload.externalName;
+		if (data.isExternal) {
+			publicationPayload.externalName = externalSelect?.value || '';
 		}
 		yield call(publicationsAPI.createCONPublication, publicationPayload);
+		removeFromLS(STORAGE_KEYS.NEW_CON_PUBLICATION);
 		yield put(actions.publishCONSuccess());
 	} catch (e) {
 		yield put(actions.publishCONError());
+	}
+}
+
+function* publishLOD(action: PayloadAction<LossOfDocumentPublicationFields>) {
+	try {
+		const { externalSelect, stateSelect, countrySelect, ...data } =
+			action.payload;
+		const publicationPayload: LossOfDocumentPublicationPayload = {
+			...data,
+			state: stateSelect?.value || '',
+			country: countrySelect?.value || '',
+		};
+		if (data.isExternal) {
+			publicationPayload.externalName = externalSelect?.value || '';
+			publicationPayload.externalPageInfo = externalSelect?.label || '';
+		}
+		yield call(publicationsAPI.createLODPublication, publicationPayload);
+		removeFromLS(STORAGE_KEYS.NEW_LOD_PUBLICATION);
+		yield put(actions.publishLODSuccess());
+	} catch (e) {
+		yield put(actions.publishLODError());
 	}
 }
 
@@ -68,6 +93,7 @@ function* publicationsSaga() {
 	);
 	yield takeLatest(actions.fetchPublisherPrices.type, fetchPublisherPrices);
 	yield takeLatest(actions.publishCON.type, publishCON);
+	yield takeLatest(actions.publishLOD.type, publishLOD);
 }
 
 export default publicationsSaga;

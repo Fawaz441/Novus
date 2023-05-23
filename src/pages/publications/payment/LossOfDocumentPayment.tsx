@@ -1,15 +1,25 @@
 import { Wrapper } from 'components/navigation';
 import { PublicationCreationSteps } from 'components/publications';
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'store';
+import { publicationSlice } from 'store/publications';
+import toast from 'react-hot-toast';
+import { ErrorToast, Loader } from 'components/general';
+import { routes } from 'utils/constants';
+
+const { actions } = publicationSlice;
 
 const LossOfDocumentPayment = () => {
 	const navigate = useNavigate();
-	const { newLODPublication } = useSelector(
-		(state: RootState) => state.publications
-	);
+	const dispatch = useDispatch();
+	const {
+		newLODPublication,
+		publishLODError,
+		publishLODSuccess,
+		publishingLOD,
+	} = useSelector((state: RootState) => state.publications);
 
 	useEffect(() => {
 		if (!newLODPublication) {
@@ -17,8 +27,30 @@ const LossOfDocumentPayment = () => {
 		}
 	}, [navigate, newLODPublication]);
 
+	const publish = () => {
+		if (newLODPublication) {
+			dispatch(actions.publishLOD(newLODPublication));
+		}
+	};
+	useEffect(() => {
+		if (publishLODError) {
+			toast.custom((t) => <ErrorToast t={t} retry={publish} />);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [publishLODError]);
+
+	useEffect(() => {
+		if (publishLODSuccess) {
+			toast.success('Publication submitted successfully');
+			dispatch(actions.resetPublishSuccess());
+			navigate(routes.home);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [publishLODSuccess]);
+
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
+			<Loader loading={publishingLOD} transparent />
 			<PublicationCreationSteps activeStep="payment" />
 			<div className="pt-[63px] pb-5 flex flex-col space-y-[49px] max-w-[900px] mx-auto">
 				<button
@@ -74,6 +106,7 @@ const LossOfDocumentPayment = () => {
 								</p>
 							</div>
 							<button
+								onClick={publish}
 								type="button"
 								className="font-bold text-white text-12 flex items-center justify-center px-[29px] py-[11px] bg-08F692 rounded-3">
 								Proceed To Payment

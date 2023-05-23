@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { routes } from 'utils/constants';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
+import moment from 'moment';
 
 const LossOfDocumentPreview = () => {
 	const navigate = useNavigate();
@@ -66,7 +67,7 @@ const LossOfDocumentPreview = () => {
 				<div>
 					<h3 className="hidden mid:block font-medium text-xl leading-[23.48px] text-black">
 						<span className="font-bold">LOSS OF DOCUMENT :</span> {getTitle()}{' '}
-						{newLODPublication?.first_name} {newLODPublication?.last_name}
+						{newLODPublication?.firstName} {newLODPublication?.lastName}
 					</h3>
 					<div className="flex items-center justify-between mt-[74px] mid:mt-[21px] mid:mb-[23px]">
 						<div className="flex items-center justify-between mid:space-x-10 flex-row-reverse mid:flex-row">
@@ -115,21 +116,22 @@ const LossOfDocumentPreview = () => {
 					</div>
 					<p className="max-w-[960px] hidden mid:block text-black leading-6">
 						This is to notify the general public, that I , {getTitle()}{' '}
-						{newLODPublication?.first_name} {newLODPublication?.last_name} of{' '}
-						{newLODPublication?.house_address} lost a{' '}
-						{newLODPublication?.support_id_name} document with Property{' '}
-						{newLODPublication?.id_value}., issued by{' '}
-						{newLODPublication?.issuer_of_item}.The stated document above was
-						misplaced on the 17th November, 2018
+						{newLODPublication?.firstName} {newLODPublication?.lastName} of{' '}
+						{newLODPublication?.houseAddress} lost a{' '}
+						{newLODPublication?.itemLost} {newLODPublication?.supportIdName}{' '}
+						document with Property {newLODPublication?.idNumber}., issued by{' '}
+						{newLODPublication?.issuer}. The stated document above was misplaced
+						on the{' '}
+						{moment(newLODPublication?.dateLost)?.format('Do of MMMM, YYYY')}
 					</p>
 					<div className="hidden mid:block">
-						{newLODPublication?.physical_description && (
+						{newLODPublication?.physicalDesc && (
 							<div className="mt-[19px] flex flex-col space-y-[6px]">
 								<h4 className="font-bold text-black text-sm leading-[16.44px]">
 									Extra Details
 								</h4>
 								<p className="leading-6 text-575555">
-									{newLODPublication?.physical_description}
+									{newLODPublication?.physicalDesc}
 								</p>
 							</div>
 						)}
@@ -149,16 +151,16 @@ const LossOfDocumentPreview = () => {
 			<div className="mt-6 mid:hidden">
 				<h3 className="font-medium text-12 leading-[14.09px] text-black mb-[11px]">
 					<span className="font-bold">LOSS OF DOCUMENT :</span> {getTitle()}{' '}
-					{newLODPublication?.first_name} {newLODPublication?.last_name}
+					{newLODPublication?.firstName} {newLODPublication?.lastName}
 				</h3>
 				<p className="text-10 leading-[18px] text-black">
 					This is to notify the general public, that I , {getTitle()}{' '}
-					{newLODPublication?.first_name} {newLODPublication?.last_name} of{' '}
-					{newLODPublication?.house_address} lost a{' '}
-					{newLODPublication?.support_id_name} document with Property{' '}
-					{newLODPublication?.id_value}., issued by{' '}
-					{newLODPublication?.issuer_of_item}.The stated document above was
-					misplaced on the 17th November, 2018
+					{newLODPublication?.firstName} {newLODPublication?.lastName} of{' '}
+					{newLODPublication?.houseAddress} lost a {newLODPublication?.itemLost}{' '}
+					{newLODPublication?.supportIdName} document with Property{' '}
+					{newLODPublication?.idNumber}., issued by {newLODPublication?.issuer}.
+					The stated document above was misplaced on the{' '}
+					{moment(newLODPublication?.dateLost)?.format('Do of MMMM, YYYY')}
 				</p>
 			</div>
 		</Wrapper>

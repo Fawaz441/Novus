@@ -1,4 +1,5 @@
 import {
+	Calendar,
 	FileInput,
 	Input,
 	RadioOption,
@@ -11,31 +12,38 @@ import {
 	PublicationCreationSteps,
 } from 'components/publications';
 import { ReactComponent as Required } from 'assets/icons/required.svg';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { AppDispatch, RootState } from 'store';
 import {
-	LossOfDocumentPublicationValues,
 	Gender,
+	LossOfDocumentPublicationFields,
 } from 'interfaces/publications';
 import {
+	countries,
 	emptyLossOfDocumentValues,
 	nigerianStates,
+	PUBLICATION_TYPES,
 	routes,
 	STORAGE_KEYS,
 } from 'utils/constants';
 import { validators } from 'utils/validation';
-import { addNewLodPublication } from 'store/publications';
+import { addNewLodPublication, publicationSlice } from 'store/publications';
 import { storeToLS } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
+import { capitalize, isEmpty } from 'lodash';
+import toast from 'react-hot-toast';
+import moment from 'moment';
+
+const { actions } = publicationSlice;
 
 const LossOfDocument = () => {
+	const [showCalendar, setShowCalendar] = useState(false);
 	const navigate = useNavigate();
 	const dispatch: AppDispatch = useDispatch();
-	const { newLODPublication } = useSelector(
-		(state: RootState) => state.publications
-	);
+	const { newLODPublication, publisherPrices, loadingPublisherPrices } =
+		useSelector((state: RootState) => state.publications);
 	const {
 		formState: { errors },
 		setValue,
@@ -43,27 +51,38 @@ const LossOfDocument = () => {
 		control,
 		reset,
 		watch,
-	} = useForm<LossOfDocumentPublicationValues>({
+		setError,
+		getValues,
+	} = useForm<LossOfDocumentPublicationFields>({
 		defaultValues: emptyLossOfDocumentValues,
 	});
 
-	const thirdPartyNewsPapers = [
-		{ label: 'Vanguard #4,500', value: 'Vanguard', price: '#4,500' },
-		{ label: 'Punch #4,500', value: 'Punch', price: '#4,500' },
-		{ label: 'Guardian #4,500', value: 'guardian', price: '#4,500' },
-	];
+	const thirdPartyNewsPapers = useMemo(() => {
+		return publisherPrices.map((price) => ({
+			label: `${capitalize(price.externalName)} #${price.price}`,
+			value: price.externalName,
+		}));
+	}, [publisherPrices]);
+	const publishWithThirdParty = watch('isExternal');
 
-	const onSubmit = (data: LossOfDocumentPublicationValues) => {
+	const onSubmit = (data: LossOfDocumentPublicationFields) => {
+		if (publishWithThirdParty && !data?.externalSelect?.value) {
+			toast.error('Please select an external newspaper');
+			setError(
+				'externalSelect',
+				{ message: 'Please select an external newspaper' },
+				{ shouldFocus: true }
+			);
+			return;
+		}
 		dispatch(addNewLodPublication(data));
 		storeToLS(STORAGE_KEYS.NEW_LOD_PUBLICATION, data);
 		navigate(routes.pub_forms.loss_of_document_preview);
 	};
 
 	const onGenderChange = (value: Gender) => setValue('gender', value);
-	const countries = [{ label: 'Nigeria', value: 'Nigeria' }];
 	const onThirdPartyOptionChange = (value: boolean) =>
-		setValue('publish_on_third_party', value);
-	const publishWithThirdParty = watch('publish_on_third_party');
+		setValue('isExternal', value);
 
 	useEffect(() => {
 		if (newLODPublication) {
@@ -71,9 +90,32 @@ const LossOfDocument = () => {
 		}
 	}, [reset, newLODPublication]);
 
+	useEffect(() => {
+		if (publishWithThirdParty && isEmpty(publisherPrices)) {
+			dispatch(
+				actions.fetchPublisherPrices({
+					publicationType: PUBLICATION_TYPES.LOSS_OF_DOCUMENT,
+				})
+			);
+		}
+		if (!publishWithThirdParty && getValues('externalSelect')?.value) {
+			setValue('externalSelect', emptyLossOfDocumentValues.externalSelect);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [publishWithThirdParty]);
+
+	const dateLost = watch('dateLost');
+
 	return (
 		<Wrapper isPublications>
 			<MobileFormsNavigation />
+			<Calendar
+				visible={showCalendar}
+				onChange={(value) => setValue('dateLost', value?.toISOString())}
+				value={dateLost ? new Date(dateLost) : new Date()}
+				onClose={() => setShowCalendar(false)}
+				maxDate={new Date()}
+			/>
 			<PublicationCreationSteps isLossOfDocument activeStep="fill_forms" />
 			<div className="mt-7 pb-[200px]">
 				<form className="w-full flex flex-col mini:flex-row mini:space-x-[39px]">
@@ -83,7 +125,7 @@ const LossOfDocument = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="first_name"
+								name="firstName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Firstname"
@@ -94,13 +136,13 @@ const LossOfDocument = () => {
 										ref_={ref}
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.first_name}
+										hasError={!!errors.firstName}
 									/>
 								)}
 							/>
 							<Controller
 								control={control}
-								name="middle_name"
+								name="middleName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Middlename"
@@ -109,7 +151,7 @@ const LossOfDocument = () => {
 										placeholder="Hannah"
 										ref_={ref}
 										onChange={onChange}
-										hasError={!!errors.middle_name}
+										hasError={!!errors.middleName}
 									/>
 								)}
 							/>
@@ -119,7 +161,7 @@ const LossOfDocument = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="last_name"
+								name="lastName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Lastname"
@@ -130,7 +172,7 @@ const LossOfDocument = () => {
 										ref_={ref}
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.last_name}
+										hasError={!!errors.lastName}
 									/>
 								)}
 							/>
@@ -187,7 +229,7 @@ const LossOfDocument = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="phone_number"
+								name="phone"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Phone Number"
@@ -197,7 +239,7 @@ const LossOfDocument = () => {
 										value={value}
 										placeholder="Provide a valid phone Number"
 										onChange={onChange}
-										hasError={!!errors.phone_number}
+										hasError={!!errors.phone}
 									/>
 								)}
 							/>
@@ -206,7 +248,7 @@ const LossOfDocument = () => {
 						<Controller
 							control={control}
 							rules={validators.isRequiredString}
-							name="house_address"
+							name="houseAddress"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="House Address"
@@ -216,26 +258,42 @@ const LossOfDocument = () => {
 									value={value}
 									onChange={onChange}
 									ref_={ref}
-									hasError={!!errors.house_address}
+									hasError={!!errors.houseAddress}
 								/>
 							)}
 						/>
 						{/* country and state */}
 						<div className="flex items-center space-x-5">
-							<Select
-								label="Country"
-								isDisabled
-								hasRequiredIcon
-								options={countries}
-								value={countries[0]}
+							<Controller
+								control={control}
+								name="countrySelect"
+								render={({ field }) => (
+									<Select
+										label="Country"
+										isDisabled
+										hasRequiredIcon
+										options={countries}
+										{...field}
+									/>
+								)}
 							/>
-							<Select
-								label="State"
-								hasRequiredIcon
-								options={nigerianStates.map((state) => ({
-									value: state,
-									label: state,
-								}))}
+
+							<Controller
+								control={control}
+								name="stateSelect"
+								rules={{ validate: (v) => !isEmpty(v?.value) }}
+								render={({ field }) => (
+									<Select
+										label="State"
+										hasError={!!errors.stateSelect}
+										hasRequiredIcon
+										options={nigerianStates.map((state) => ({
+											value: state,
+											label: state,
+										}))}
+										{...field}
+									/>
+								)}
 							/>
 						</div>
 						{/* item lost and support id */}
@@ -243,7 +301,7 @@ const LossOfDocument = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="item_lost"
+								name="itemLost"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Item lost"
@@ -253,14 +311,14 @@ const LossOfDocument = () => {
 										placeholder="Phone, Land or house docs, car"
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.item_lost}
+										hasError={!!errors.itemLost}
 									/>
 								)}
 							/>
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="support_id_name"
+								name="supportIdName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Support ID name ( What type of ID is associated with the item or Document"
@@ -270,34 +328,35 @@ const LossOfDocument = () => {
 										value={value}
 										placeholder="IMEI, C of O,  Engine number, Phone number"
 										onChange={onChange}
-										hasError={!!errors.support_id_name}
+										hasError={!!errors.supportIdName}
 									/>
 								)}
 							/>
 						</div>
-						{/* date_lost and issuer of item */}
+						{/* dateLost and issuer of item */}
 						<div className="flex items-center flex-col space-y-5 mid:flex-row mid:space-y-0 mid:space-x-5">
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="date_lost"
+								name="dateLost"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
+										onClick={() => setShowCalendar(true)}
 										label="Date lost"
 										containerClassName="w-full"
 										hasRequiredIcon
 										ref_={ref}
 										placeholder="18/08/23"
-										value={value}
+										value={moment(value).format('DD/MM/YY')}
 										onChange={onChange}
-										hasError={!!errors.date_lost}
+										hasError={!!errors.dateLost}
 									/>
 								)}
 							/>
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="issuer_of_item"
+								name="issuer"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Issuer of item"
@@ -307,7 +366,7 @@ const LossOfDocument = () => {
 										value={value}
 										placeholder="Nigerian Embassy"
 										onChange={onChange}
-										hasError={!!errors.support_id_name}
+										hasError={!!errors.issuer}
 									/>
 								)}
 							/>
@@ -316,7 +375,7 @@ const LossOfDocument = () => {
 							<Controller
 								control={control}
 								rules={validators.isRequiredString}
-								name="id_value"
+								name="idNumber"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="ID Value"
@@ -326,7 +385,7 @@ const LossOfDocument = () => {
 										placeholder="0804456****"
 										value={value}
 										onChange={onChange}
-										hasError={!!errors.id_value}
+										hasError={!!errors.idNumber}
 									/>
 								)}
 							/>
@@ -337,7 +396,7 @@ const LossOfDocument = () => {
 									</span>
 									<Controller
 										control={control}
-										name="publish_on_third_party"
+										name="isExternal"
 										render={({ field: { value } }) => (
 											<div className="flex-1 space-x-[15px] flex">
 												<RadioOption
@@ -362,10 +421,19 @@ const LossOfDocument = () => {
 						</div>
 						{publishWithThirdParty && (
 							<div className="mini:!mt-[29px] !mt-0 !mb-[21px] mini:mb-0">
-								<Select
-									label="Select Newspaper"
-									hasRequiredIcon
-									options={thirdPartyNewsPapers}
+								<Controller
+									control={control}
+									name="externalSelect"
+									rules={{ validate: (v) => !isEmpty(v?.value) }}
+									render={({ field }) => (
+										<Select
+											label="Select Newspaper"
+											hasRequiredIcon
+											options={thirdPartyNewsPapers}
+											isLoading={loadingPublisherPrices}
+											{...field}
+										/>
+									)}
 								/>
 							</div>
 						)}
@@ -374,7 +442,7 @@ const LossOfDocument = () => {
 						<Controller
 							control={control}
 							// rules={validators.isRequiredString}
-							name="physical_description"
+							name="physicalDesc"
 							render={({ field: { value, onChange, ref } }) => (
 								<TextArea
 									label="Physical description (optional )"
@@ -385,7 +453,7 @@ const LossOfDocument = () => {
 									placeholder="Provide brief description of the lost document or item"
 									value={value}
 									onChange={onChange}
-									hasError={!!errors.physical_description}
+									hasError={!!errors.physicalDesc}
 								/>
 							)}
 						/>

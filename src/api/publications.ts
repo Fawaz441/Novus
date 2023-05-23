@@ -3,6 +3,8 @@ import rootAxios from './rootAxios';
 import {
 	ChangeOfNamePublicationPayload,
 	ChangeOfNamePublicationValues,
+	LossOfDocumentPublicationPayload,
+	LossOfDocumentPublicationValues,
 	PublicationsListMeta,
 	PublisherPrice,
 } from 'interfaces/publications';
@@ -23,6 +25,9 @@ export type PublisherPriceListAPICallResponse =
 
 export type CONPublicationsCreationResponse =
 	AxiosResponse<ChangeOfNamePublicationValues>;
+
+export type LODPublicationsCreationResponse =
+	AxiosResponse<LossOfDocumentPublicationValues>;
 
 const publicationsAPI = {
 	getPublications: (
@@ -50,6 +55,10 @@ const publicationsAPI = {
 		data: ChangeOfNamePublicationPayload
 	): Promise<CONPublicationsCreationResponse> =>
 		rootAxios.post('/publication/addChangeOfName', data),
+	createLODPublication: (
+		data: LossOfDocumentPublicationPayload
+	): Promise<LODPublicationsCreationResponse> =>
+		rootAxios.post('/publication/addLossDocument', data),
 };
 
 export default publicationsAPI;

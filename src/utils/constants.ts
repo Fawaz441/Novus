@@ -1,6 +1,6 @@
 import {
 	ChangeOfNamePublicationFields,
-	LossOfDocumentPublicationValues,
+	LossOfDocumentPublicationFields,
 } from 'interfaces/publications';
 
 export enum MODALS {
@@ -55,25 +55,28 @@ export enum APP_TERMS {
 	CHANGE_OF_NAME = 'change-of-name',
 }
 
-export const emptyLossOfDocumentValues: LossOfDocumentPublicationValues = {
-	first_name: '',
-	middle_name: '',
-	last_name: '',
+export const countries = [{ label: 'Nigeria', value: 'Nigeria' }];
+
+export const emptyLossOfDocumentValues: LossOfDocumentPublicationFields = {
+	firstName: '',
+	middleName: '',
+	lastName: '',
 	gender: 'male',
 	email: '',
-	phone_number: '',
-	house_address: '',
-	country: '',
-	state: '',
-	item_lost: '',
-	support_id_name: '',
-	date_lost: '',
-	issuer_of_item: '',
-	id_value: '',
-	publish_on_third_party: false,
-	physical_description: '',
+	phone: '',
+	houseAddress: '',
+	countrySelect: countries[0],
+	stateSelect: { value: null, label: null },
+	externalSelect: { value: null, label: null },
+	itemLost: '',
+	supportIdName: '',
+	dateLost: '',
+	issuer: '',
+	idNumber: '',
+	isExternal: false,
+	physicalDesc: '',
 	reward: '',
-	concerned_parties: '',
+	concernParties: '',
 };
 
 export const emptyChangeOfNameValues: ChangeOfNamePublicationFields = {

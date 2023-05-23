@@ -45,25 +45,42 @@ export interface ChangeOfNamePublicationValues
 	publicationDetail: string | null;
 }
 
-export interface LossOfDocumentPublicationValues {
-	first_name: string;
-	middle_name: string;
-	last_name: string;
-	gender: Gender;
+export interface LossOfDocumentPublicationFields {
+	firstName: string;
+	middleName: string;
+	lastName: string;
+	houseAddress: string;
 	email: string;
-	phone_number: string;
-	house_address: string;
-	country: string;
-	state: string;
-	item_lost: string;
-	support_id_name: string;
-	date_lost: string;
-	issuer_of_item: string;
-	id_value: string;
-	publish_on_third_party: boolean;
-	physical_description: string;
+	phone: string;
+	isExternal: boolean;
+	gender: Gender;
+	itemLost: string;
+	supportIdName: string;
+	issuer: string;
+	idNumber: string;
+	physicalDesc: string;
 	reward?: string;
-	concerned_parties: string;
+	externalSelect?: { value: string | null; label: string | null };
+	countrySelect?: { value: string | null; label: string | null };
+	stateSelect?: { value: string | null; label: string | null };
+	dateLost: string;
+	concernParties: string;
+}
+
+export interface LossOfDocumentPublicationValues
+	extends Omit<
+		LossOfDocumentPublicationFields,
+		'externalSelect,countrySelect'
+	> {
+	externalName?: string;
+	state: string;
+	country: string;
+	externalPageInfo: string;
+	deletedAt: string | null;
+	referral: string | null;
+	id: number;
+	updatedAt: string;
+	createdAt: string;
 }
 
 //
@@ -86,6 +103,27 @@ export interface ChangeOfNamePublicationPayload {
 	referral?: string;
 }
 
+export interface LossOfDocumentPublicationPayload {
+	firstName: string;
+	middleName: string;
+	lastName: string;
+	country: string;
+	email: string;
+	houseAddress: string;
+	gender: Gender;
+	state: string;
+	itemLost: string;
+	supportIdName: string;
+	dateLost: string;
+	issuer: string;
+	idNumber: string;
+	physicalDesc?: string;
+	reward?: string;
+	isExternal: boolean;
+	externalName?: string;
+	externalPageInfo?: string;
+}
+
 export interface PublisherPrice {
 	price: string;
 	externalName: string;
@@ -93,7 +131,8 @@ export interface PublisherPrice {
 }
 
 export interface PublicationsState {
-	newLODPublication: LossOfDocumentPublicationValues | null;
+	// lod
+	newLODPublication: LossOfDocumentPublicationFields | null;
 	loadingLODPublications: boolean;
 	// con
 	loadingCONPublications: boolean;
@@ -109,4 +148,8 @@ export interface PublicationsState {
 	publishingCON: boolean;
 	publishCONError: boolean;
 	publishCONSuccess: boolean;
+	// publishing lod
+	publishingLOD: boolean;
+	publishLODError: boolean;
+	publishLODSuccess: boolean;
 }

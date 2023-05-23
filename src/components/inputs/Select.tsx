@@ -14,6 +14,7 @@ interface SelectProps extends Props {
 	hasRequiredIcon?: boolean;
 	ClassNames?: ClassNamesConfig;
 	labelClassName?: string;
+	hasError?: boolean;
 	[key: string]: any;
 }
 
@@ -22,16 +23,16 @@ export interface OptionType {
 	value: string;
 }
 
-const customClassNames: ClassNamesConfig = {
+const customClassNames = (hasError: boolean): ClassNamesConfig => ({
 	control: (state) =>
-		`h-12 !border-[0.2px] outline-none !border-black !rounded-3 !text-12 font-semibold ${
+		`h-12 !border-[0.2px] outline-none  !rounded-3 !text-12 font-semibold ${
 			state.isFocused ? 'outline-none border-none shadow-none' : ''
-		}`,
+		} ${hasError ? '!border-[red]' : '!border-black'}`,
 	option: (state) =>
 		state.data === state.selectProps.value
 			? '!text-[#1e1e1e] !text-12 font-semibold !bg-[#EFEFEF]'
 			: 'hover:bg-[#EFEFEF] !text-12 !text-[#1e1e1e]',
-};
+});
 
 function Indicator({ isFocused }: DropdownIndicatorProps) {
 	return (
@@ -54,7 +55,14 @@ export default function Select<
 	IsMulti extends boolean = false,
 	Group extends GroupBase<Option> = GroupBase<Option>
 >(props: Props<Option, IsMulti, Group> & SelectProps) {
-	const { label, hasRequiredIcon, ClassNames, labelClassName, ...rest } = props;
+	const {
+		label,
+		hasRequiredIcon,
+		ClassNames,
+		labelClassName,
+		hasError,
+		...rest
+	} = props;
 	return (
 		<div className="flex flex-col space-y-[6px] w-full">
 			{label && (
@@ -63,8 +71,7 @@ export default function Select<
 						className={clsx(
 							'text-575555 font-medium text-12 leading-[14.09px]',
 							labelClassName
-						)}
-					>
+						)}>
 						{label}
 					</p>
 					{hasRequiredIcon && <Required />}
@@ -72,7 +79,10 @@ export default function Select<
 			)}
 			<ReactSelect
 				placeholder=""
-				classNames={{ ...customClassNames, ...ClassNames }}
+				classNames={{
+					...customClassNames(!!hasError),
+					...ClassNames,
+				}}
 				components={{
 					DropdownIndicator: Indicator,
 					IndicatorSeparator: null,
