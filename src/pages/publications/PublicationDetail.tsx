@@ -12,11 +12,15 @@ import {
 import { ReactComponent as PublicationSample } from 'assets/images/publications/sample.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useModal } from 'hooks';
-import { MODALS, PUBLICATION_TYPES, routes } from 'utils/constants';
+import {
+	MODALS,
+	PUBLICATION_TYPES,
+	PUBLICATION_TYPES_ACRONYMS,
+	routes,
+} from 'utils/constants';
 import publicationsAPI from 'api/publications';
 import { isEmpty } from 'lodash';
-import { ChangeOfNamePublicationValues } from 'interfaces/publications';
-import { getPublicationLink, isApproved } from 'utils/functions';
+import { getPublicationLink, getTitle, isApproved } from 'utils/functions';
 import moment from 'moment';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
@@ -27,22 +31,56 @@ const PublicationDetail = () => {
 	const params = useParams();
 	const { showModal } = useModal();
 	const [loading, setLoading] = useState(true);
-	const [detail, setDetail] = useState<ChangeOfNamePublicationValues | null>(
-		null
-	);
+	const [detail, setDetail] = useState<any>(null);
 	const publicationIsApproved = isApproved(detail?.status);
 
-	const getPublicationDetail = async (reference: string) => {
-		try {
-			const { data } = await publicationsAPI.getPublicationDetail(
+	const getPublicationType = () => {
+		const publicationRefSplit = params?.publicationRef?.split('-');
+		const publicationType = publicationRefSplit?.[0] || '';
+		const reference = publicationRefSplit?.[1] || '';
+		if (publicationType === PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME) {
+			return {
+				type: PUBLICATION_TYPES.CHANGE_OF_NAME,
 				reference,
-				PUBLICATION_TYPES.CHANGE_OF_NAME
-			);
-			setLoading(false);
-			if (!isEmpty(data?.items)) {
-				setDetail(data.items[0]);
+				title: 'CHANGE OF NAME',
+			};
+		}
+		if (publicationType === PUBLICATION_TYPES_ACRONYMS.AFFIDAVIT) {
+			return {
+				type: PUBLICATION_TYPES.AFFIDAVIT,
+				reference,
+				title: 'AFFIDAVIT',
+			};
+		}
+		if (publicationType === PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT) {
+			return {
+				type: PUBLICATION_TYPES.LOSS_OF_DOCUMENT,
+				reference,
+				title: 'LOSS OF DOCUMENT',
+			};
+		}
+		if (publicationType === PUBLICATION_TYPES_ACRONYMS.OBITUARY) {
+			return { type: PUBLICATION_TYPES.OBITUARY, reference, title: 'OBITUARY' };
+		}
+	};
+
+	const getPublicationDetail = async () => {
+		try {
+			const info = getPublicationType();
+			if (info) {
+				const { type, reference } = info;
+				const { data } = await publicationsAPI.getPublicationDetail(
+					reference,
+					type
+				);
+				setLoading(false);
+				if (!isEmpty(data?.items)) {
+					setDetail(data.items[0]);
+				} else {
+					toast.custom((t) => <ErrorToast t={t} />);
+				}
 			} else {
-				toast.custom((t) => <ErrorToast t={t} />);
+				navigate(routes.home);
 			}
 		} catch (e) {
 			console.log(e);
@@ -52,12 +90,35 @@ const PublicationDetail = () => {
 
 	useEffect(() => {
 		if (params?.publicationRef) {
-			getPublicationDetail(params?.publicationRef);
+			getPublicationDetail();
 		} else {
 			navigate(routes.home);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [params]);
+
+	const getText = () => {
+		const type = getPublicationType();
+		if (type?.type === PUBLICATION_TYPES.CHANGE_OF_NAME) {
+			return `
+			“I, formerly known and addressed as ${detail?.oldFirstName}
+			${detail?.oldMiddleName} ${detail?.oldLastName}, henceforth wish
+			to be known and addressed as ${detail?.newFirstName}
+			${detail?.newMiddleName} ${detail?.newLastName}. All former
+			documents remain valid. ${detail?.concernParties} and the general
+			public to take note”
+			`;
+		}
+		if (type?.type === PUBLICATION_TYPES.LOSS_OF_DOCUMENT) {
+			return `
+			This is to notify the general public, that I , ${getTitle(
+				detail?.gender || ''
+			)} ${detail?.firstName}
+			${detail?.middleName} ${detail?.lastName} of ${detail?.houseAddress} lost a
+			${detail?.itemLost} with Property ID ${detail?.idNumber}
+			`;
+		}
+	};
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
@@ -122,9 +183,13 @@ const PublicationDetail = () => {
 						</div>
 						<div className="hidden mini:block">
 							<h3 className="font-medium text-xl leading-[23.48px] text-black mb-2">
-								<span className="font-bold">CHANGE OF NAME :</span> Mrs{' '}
-								{detail?.newFirstName}
-								{detail?.newMiddleName} {detail?.newLastName}
+								<span className="font-bold">
+									{getPublicationType()?.title} :
+								</span>{' '}
+								{getTitle(detail?.gender || '')}{' '}
+								{detail?.newFirstName || detail?.firstName}
+								{detail?.newMiddleName}{' '}
+								{detail?.newLastName || detail?.lastName}
 							</h3>
 							{publicationIsApproved ? (
 								<div className="flex items-center justify-between">
@@ -157,7 +222,10 @@ const PublicationDetail = () => {
 										)}
 									</div>
 									<CopyToClipboard
-										text={getPublicationLink(detail?.reference || '')}
+										text={getPublicationLink(
+											PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
+											detail?.reference || ''
+										)}
 										onCopy={() => toast.success('Link copied to clipboard')}>
 										<button className="flex items-center space-x-2">
 											<div className="h-[30px] w-[30px] rounded-full bg-F4F4F4 border border-575555 flex items-center justify-center">
@@ -177,14 +245,7 @@ const PublicationDetail = () => {
 									Edit Publication
 								</button>
 							)}
-							<p className="max-w-[960px] text-black leading-6">
-								“I, formerly known and addressed as {detail?.oldFirstName}{' '}
-								{detail?.oldMiddleName} {detail?.oldLastName}, henceforth wish
-								to be known and addressed as {detail?.newFirstName}
-								{detail?.newMiddleName} {detail?.newLastName}. All former
-								documents remain valid. {detail?.concernParties} and the general
-								public to take note”
-							</p>
+							<p className="max-w-[960px] text-black leading-6">{getText()}</p>
 						</div>
 					</div>
 					<div className="mini:hidden mt-6">

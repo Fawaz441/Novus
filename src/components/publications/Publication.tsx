@@ -8,7 +8,7 @@ import PublicationActions from './PublicationActions';
 import { toggleHiddenElement } from 'utils/ui-functions';
 import { ChangeOfNamePublicationValues } from 'interfaces/publications';
 import { useNavigate } from 'react-router-dom';
-import { routes } from 'utils/constants';
+import { PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { getPublicationLink } from 'utils/functions';
@@ -53,11 +53,11 @@ const Publication: React.FC<PublicationProps> = ({ id, data }) => {
 						</span>
 					</div>
 					<div className="relative">
-						<PublicationActions tag={data?.reference||""} />
+						<PublicationActions tag={data?.reference || ''} />
 						<button
 							onClick={(e) => {
 								e.stopPropagation();
-								toggleHiddenElement(`#publication-${id}-actions`);
+								toggleHiddenElement(`#publication-${data?.reference}-actions`);
 							}}
 							type="button"
 							className="hidden mini:flex flex-col pl-2 items-end space-y-[5px]">
@@ -84,7 +84,10 @@ const Publication: React.FC<PublicationProps> = ({ id, data }) => {
 					</div>
 					<div className="flex items-center space-x-[34px] mini:hidden">
 						<CopyToClipboard
-							text={getPublicationLink(data?.reference || '')}
+							text={getPublicationLink(
+								PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
+								data?.reference || ''
+							)}
 							onCopy={() => toast.success('Link copied to clipboard')}>
 							<div className="flex items-center space-x-[7.15px]">
 								<LinkIcon className="stroke-9B9B9B" />
@@ -102,7 +105,13 @@ const Publication: React.FC<PublicationProps> = ({ id, data }) => {
 					</div>
 					<button
 						type="button"
-						onClick={() => navigate(routes.getPubDetailRoute(data.reference))}
+						onClick={() =>
+							navigate(
+								routes.getPubDetailRoute(
+									`${PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME}-${data.reference}`
+								)
+							)
+						}
 						className="text-[11px] leading-[18.41px] text-7108F6 font-medium rounded-6 bg-DFC7FF py-2 px-6">
 						View Publication
 					</button>

@@ -6,13 +6,19 @@ import lostDocumentMobile from 'assets/images/publications/loss-document-mobile.
 import PublicationActions from './PublicationActions';
 import { toggleHiddenElement } from 'utils/ui-functions';
 import { useNavigate } from 'react-router-dom';
-import { routes } from 'utils/constants';
+import { PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
+import { LossOfDocumentPublicationValues } from 'interfaces/publications';
+import moment from 'moment';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import toast from 'react-hot-toast';
+import { getPublicationLink } from 'utils/functions';
 
 interface LostDocumentProps {
 	id: number;
+	data: LossOfDocumentPublicationValues;
 }
 
-const LosttDocument: React.FC<LostDocumentProps> = ({ id }) => {
+const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 	const navigate = useNavigate();
 	return (
 		<div
@@ -35,23 +41,23 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id }) => {
 							Reference Number
 						</span>
 						<span className="text-black font-semibold text-12 leading-[14.09px]">
-							CON2345JHFHGHGH
+							{data?.reference}
 						</span>
 					</div>
 					<div className="mini:hidden flex justify-between items-center w-full">
 						<span className="font-semibold text-12 leading-[14.09px] text-black">
-							CON2345JHFHGHGH
+							{data?.reference}
 						</span>
 						<span className="text-1E1E1E text-12 leading-[14.09px] font-medium">
-							12 Jan 2023
+							{moment(data?.createdAt).format('DD MMM YYYY')}
 						</span>
 					</div>
 					<div className="relative">
-						<PublicationActions tag={id} />
+						<PublicationActions tag={data?.reference || ''} />
 						<button
 							onClick={(e) => {
 								e.stopPropagation();
-								toggleHiddenElement(`#publication-${id}-actions`);
+								toggleHiddenElement(`#publication-${data?.reference}-actions`);
 							}}
 							type="button"
 							className="hidden mini:flex flex-col pl-2 items-end space-y-[5px]">
@@ -62,9 +68,9 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id }) => {
 					</div>
 				</div>
 				<p className="text-[10px] leading-[16.74px] font-medium text-575555 mini:text-12 mini:leading-[20.09px] mb-3 mini:mb-[14px]">
-					This is to notify the general public, that I , Mr Adeolu olu of No 12
-					jakande street, Ipaja Lagos state lost a landed document with Property
-					ID 445 DED 7T0.,
+					This is to notify the general public, that I , Mr {data?.firstName}{' '}
+					{data?.middleName} {data?.lastName} of {data?.houseAddress} lost a{' '}
+					{data?.itemLost} with Property ID {data?.idNumber},
 				</p>
 				<div className="flex items-center justify-between w-full">
 					<div className="hidden mini:flex flex-col space-y-1">
@@ -72,16 +78,23 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id }) => {
 							Date Published :
 						</span>
 						<span className="text-black font-semibold text-12 leading-[14.09px]">
-							12 Jan 2023
+							{moment(data?.createdAt).format('DD MMM YYYY')}
 						</span>
 					</div>
 					<div className="flex items-center space-x-[34px] mini:hidden">
-						<div className="flex items-center space-x-[7.15px]">
-							<LinkIcon className="stroke-9B9B9B" />
-							<span className="text-[10px] leading-[11.74px] text-black">
-								Copy Link
-							</span>
-						</div>
+						<CopyToClipboard
+							text={getPublicationLink(
+								PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT,
+								data?.reference || ''
+							)}
+							onCopy={() => toast.success('Link copied to clipboard')}>
+							<div className="flex items-center space-x-[7.15px]">
+								<LinkIcon className="stroke-9B9B9B" />
+								<span className="text-[10px] leading-[11.74px] text-black">
+									Copy Link
+								</span>
+							</div>
+						</CopyToClipboard>
 						<div className="flex items-center space-x-[7.15px]">
 							<Download className="stroke-9B9B9B" />
 							<span className="text-[10px] leading-[11.74px] text-black">
@@ -90,7 +103,15 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id }) => {
 						</div>
 					</div>
 					<button
-						onClick={() => navigate(routes.publication_detail)}
+						onClick={() =>
+							navigate(
+								routes.getPubDetailRoute(
+									`${PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT}-${
+										data?.reference || ''
+									}`
+								)
+							)
+						}
 						type="button"
 						className="text-[11px] leading-[18.41px] text-7108F6 font-medium rounded-6 bg-DFC7FF py-2 px-6">
 						View Publication

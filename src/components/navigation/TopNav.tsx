@@ -79,7 +79,7 @@ const TopNav: React.FC<TopNavProps> = ({
 							<span className="text-7108F6 font-bold text-12">News Feed</span>
 						</div>
 						<button
-							onClick={() => navigate(routes.lost_document_publications)}
+							onClick={() => navigate(routes.change_of_name_publications)}
 							className="w-[149px] h-[37px] flex items-center justify-center bg-white rounded-6">
 							<span className="text-black font-medium text-12">
 								Classified Ads

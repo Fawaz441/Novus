@@ -81,6 +81,7 @@ export interface LossOfDocumentPublicationValues
 	id: number;
 	updatedAt: string;
 	createdAt: string;
+	reference?: string;
 }
 
 //
@@ -134,6 +135,9 @@ export interface PublicationsState {
 	// lod
 	newLODPublication: LossOfDocumentPublicationFields | null;
 	loadingLODPublications: boolean;
+	LODPublicationsError: boolean;
+	LODPublications: LossOfDocumentPublicationValues[];
+	LODPublicationsMeta: PublicationsListMeta | null;
 	// con
 	loadingCONPublications: boolean;
 	CONPublicationsError: boolean;

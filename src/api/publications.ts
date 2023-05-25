@@ -15,6 +15,11 @@ interface PublicationsListData {
 	meta: PublicationsListMeta;
 }
 
+interface LossOfDocumentsData {
+	items: LossOfDocumentPublicationValues[];
+	meta: PublicationsListMeta;
+}
+
 type PublisherPricesData = PublisherPrice[];
 
 export type PublicationsListAPICallResponse =
@@ -29,11 +34,21 @@ export type CONPublicationsCreationResponse =
 export type LODPublicationsCreationResponse =
 	AxiosResponse<LossOfDocumentPublicationValues>;
 
+export type LODPublicationListResponse = AxiosResponse<LossOfDocumentsData>;
+
 const publicationsAPI = {
 	getPublications: (
 		publicationType: PUBLICATION_TYPES
 	): Promise<PublicationsListAPICallResponse> =>
 		rootAxios.get(`/publication/publications/${publicationType}`),
+	getLostDocumentPublications: (): Promise<LODPublicationListResponse> =>
+		rootAxios.get(
+			`/publication/publications/${PUBLICATION_TYPES.LOSS_OF_DOCUMENT}`
+		),
+	getObituaryPublications: () =>
+		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.OBITUARY}`),
+	getAffidavitPublications: () =>
+		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.AFFIDAVIT}`),
 	getPublicationDetail: (
 		reference: string,
 		publicationType: PUBLICATION_TYPES

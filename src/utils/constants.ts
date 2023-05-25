@@ -390,4 +390,12 @@ export enum PUBLICATION_TYPES {
 	AFFIDAVIT = 'affidavit',
 }
 
+export enum PUBLICATION_TYPES_ACRONYMS {
+	CHANGE_OF_NAME = 'CON',
+	LOSS_OF_DOCUMENT = 'LOD',
+	OBITUARY = 'OB',
+	AFFIDAVIT = 'AFF',
+	PUBLIC_NOTICE = 'PN',
+}
+
 export const BASE_URL = 'https://www.theepitomenews.com';

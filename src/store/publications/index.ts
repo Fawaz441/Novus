@@ -4,6 +4,7 @@ import {
 	ChangeOfNamePublicationFields,
 	ChangeOfNamePublicationValues,
 	LossOfDocumentPublicationFields,
+	LossOfDocumentPublicationValues,
 	PublicationsListMeta,
 	PublicationsState,
 	PublisherPrice,
@@ -11,22 +12,29 @@ import {
 import { PUBLICATION_TYPES } from 'utils/constants';
 
 const initialState: PublicationsState = {
+	// loaders
 	loadingCONPublications: true,
 	loadingLODPublications: true,
 	loadingPublisherPrices: false,
+	publishingCON: false,
+	publishingLOD: false,
+	// data
+	LODPublications: [],
 	newCONPublication: null,
 	newLODPublication: null,
 	CONPublications: [],
-	CONPublicationsError: false,
 	CONPublicationsMeta: null,
+	LODPublicationsMeta: null,
 	publisherPrices: [],
-	publisherPricesError: false,
-	publishingCON: false,
-	publishCONError: false,
+	// success
 	publishCONSuccess: false,
-	publishingLOD: false,
-	publishLODError: false,
 	publishLODSuccess: false,
+	// error
+	LODPublicationsError: false,
+	CONPublicationsError: false,
+	publisherPricesError: false,
+	publishCONError: false,
+	publishLODError: false,
 };
 
 export const publicationSlice = createSlice({
@@ -97,6 +105,32 @@ export const publicationSlice = createSlice({
 			state.loadingCONPublications = false;
 		},
 		// end change of name publications
+
+		// lost document publications
+		getLostDocumentPublications: (state) => {
+			state.loadingLODPublications = true;
+			state.LODPublicationsError = false;
+		},
+		getLostDocumentsPublicationsSuccess: (
+			state,
+			action: PayloadAction<{
+				meta: PublicationsListMeta;
+				publications: LossOfDocumentPublicationValues[];
+			}>
+		) => {
+			state.loadingLODPublications = false;
+			state.LODPublications = [
+				...state.LODPublications,
+				...action.payload.publications,
+			];
+			state.LODPublicationsMeta = action.payload.meta;
+		},
+		getLostDocumentsPublicationsError: (state) => {
+			// state.CONPublications = [];
+			state.LODPublicationsError = true;
+			state.loadingLODPublications = false;
+		},
+		// end lost document publications
 
 		// publishing CON
 		publishCON: (state, action) => {

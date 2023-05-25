@@ -13,22 +13,36 @@ const PublicationsSideNav: React.FC = () => {
 	const location = useLocation();
 	const { showModal } = useModal();
 	const navigate = useNavigate();
+	const isCreation = location.pathname.includes('create');
 	return (
 		<div>
 			<div className="hidden w-[199px] pb-[135px] scrollbar-hide overflow-hidden mini:flex flex-col space-y-[200px] fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[13px]">
-				<div className="flex flex-col space-y-10">
+				<div className="flex flex-col space-y-8">
 					<PublicationButton
 						text={'Change Of Name'}
 						isActive={pathIncludesName(location, APP_TERMS.CHANGE_OF_NAME)}
-						onClick={() => navigate(routes.pub_forms.change_of_name)}
+						onClick={() =>
+							navigate(
+								isCreation
+									? routes.pub_forms.change_of_name
+									: routes.change_of_name_publications
+							)
+						}
 					/>
 					<PublicationButton
 						text={'Loss Of Document'}
 						isActive={pathIncludesName(location, APP_TERMS.LOSS_OF_DOCUMENT)}
-						onClick={() => navigate(routes.pub_forms.loss_of_document)}
+						onClick={() =>
+							navigate(
+								isCreation
+									? routes.pub_forms.loss_of_document
+									: routes.lost_document_publications
+							)
+						}
 					/>
-					<PublicationButton text={'Age Declaration'} />
+					<PublicationButton text={'Public Notice'} />
 					<PublicationButton text={'Obituary'} />
+					<PublicationButton text={'Affidavit'} />
 				</div>
 				<div className="flex flex-col space-y-10">
 					<PublicationButton

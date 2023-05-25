@@ -4,10 +4,11 @@ import { ReactComponent as Download } from 'assets/icons/publications/download.s
 import { ReactComponent as AltDownload } from 'assets/icons/agents/download.svg';
 import { ReactComponent as Location } from 'assets/icons/agents/location.svg';
 import { useNavigate } from 'react-router-dom';
-import { routes } from 'utils/constants';
+import { PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { getPublicationLink } from 'utils/functions';
+import { hideAllPublicationActions } from 'utils/ui-functions';
 
 interface PublicationActionsProps {
 	tag: number | string;
@@ -28,8 +29,14 @@ const PublicationActions: React.FC<PublicationActionsProps> = ({
 			{isAgent ? (
 				<>
 					<CopyToClipboard
-						text={getPublicationLink(`${tag}` || '')}
-						onCopy={() => toast.success('Link copied to clipboard')}>
+						text={getPublicationLink(
+							PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
+							`${tag}` || ''
+						)}
+						onCopy={() => {
+							toast.success('Link copied to clipboard');
+							hideAllPublicationActions();
+						}}>
 						<button className="flex items-center justify-between">
 							<span className="font-medium text-10 leading-[16.74px]">
 								Copy Url
@@ -56,12 +63,22 @@ const PublicationActions: React.FC<PublicationActionsProps> = ({
 				</>
 			) : (
 				<>
-					<button className="flex items-center justify-between">
-						<span className="font-medium text-10 leading-[16.74px]">
-							Copy Url
-						</span>
-						<LinkIcon className='stroke-9B9B9B"' />
-					</button>
+					<CopyToClipboard
+						text={getPublicationLink(
+							PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
+							`${tag}` || ''
+						)}
+						onCopy={() => {
+							toast.success('Link copied to clipboard');
+							hideAllPublicationActions();
+						}}>
+						<button className="flex items-center justify-between">
+							<span className="font-medium text-10 leading-[16.74px]">
+								Copy Url
+							</span>
+							<LinkIcon className='stroke-9B9B9B"' />
+						</button>
+					</CopyToClipboard>
 					<button className="flex items-center justify-between">
 						<span className="font-medium text-10 leading-[16.74px]">
 							Download Publication

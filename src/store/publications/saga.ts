@@ -1,6 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { publicationSlice } from '.';
 import publicationsAPI, {
+	LODPublicationListResponse,
 	PublicationsListAPICallResponse,
 	PublisherPriceListAPICallResponse,
 } from 'api/publications';
@@ -30,6 +31,21 @@ function* fetchChangeOfNamePublications() {
 		);
 	} catch (e) {
 		yield put(actions.getChangeOfNamePublicationsError());
+	}
+}
+function* fetchLostDocumentPublications() {
+	try {
+		const { data }: LODPublicationListResponse = yield call(
+			publicationsAPI.getLostDocumentPublications
+		);
+		yield put(
+			actions.getLostDocumentsPublicationsSuccess({
+				meta: data.meta,
+				publications: data.items,
+			})
+		);
+	} catch (e) {
+		yield put(actions.getLostDocumentsPublicationsError());
 	}
 }
 
@@ -94,6 +110,10 @@ function* publicationsSaga() {
 	yield takeLatest(actions.fetchPublisherPrices.type, fetchPublisherPrices);
 	yield takeLatest(actions.publishCON.type, publishCON);
 	yield takeLatest(actions.publishLOD.type, publishLOD);
+	yield takeLatest(
+		actions.getLostDocumentPublications.type,
+		fetchLostDocumentPublications
+	);
 }
 
 export default publicationsSaga;
