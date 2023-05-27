@@ -26,19 +26,31 @@ const Registration = () => {
 	};
 
 	return (
-		<div className="flex w-full h-full bg-white">
-			<Welcome />
-			<div className="ml-[50%] py-[60px] pr-[124px] w-1/2 h-full pl-[10px] mt-[67px]">
-				<div className="max-w-[500px] rounded-6 border border-EEEEEE bg-F9F9F9 px-10 pb-4 pt-[39px]">
-					<h4 className="font-bold text-xl leading-[33.48px] text-black mb-[9px]">
+		<div className="lg:flex w-full h-full bg-white">
+			<div className="hidden lg:block">
+				<Welcome />
+			</div>
+			<div className="h-[60px] bg-white shadow-[0_1px_4px_0px_rgba(238,238,238,1)] flex space-x-3 items-center justify-center lg:hidden">
+				<div className="w-10 h-[37.14px] rounded-sm bg-7108F6 flex items-center justify-center">
+					<span className="font-bold text-base leading-[20.8px] uppercase text-white">
+						E
+					</span>
+				</div>
+				<p className="text-sm text-black">
+					Epitome <span className="font-bold">Agent</span>
+				</p>
+			</div>
+			<div className="lg:ml-[50%] lg:py-[60px] lg:pr-[124px] lg:w-1/2 h-full lg:pl-[10px] lg:mt-[67px]">
+				<div className="lg:max-w-[500px] rounded-6 border border-EEEEEE bg-F9F9F9 px-[34px] lg:px-10 pb-4 pt-[39px]">
+					<h4 className="hidden lg:block font-bold text-xl leading-[33.48px] text-black mb-[9px]">
 						NOVUS
 					</h4>
-					<p className="text-[12px] leading-[15.6px] text-575555 mb-[55px]">
+					<p className="text-center lg:text-left text-[12px] leading-[15.6px] text-575555 mb-[55px]">
 						Welcome to Novus, sign up as an{' '}
 						<span className="font-bold">agent</span>
 					</p>
 					<button className="bg-white justify-center w-full h-[50px] flex items-center space-x-[17px]">
-						<div className="h-8 w-8 flex items-center rounded-6 justify-center rounded-full border-[0.5px] border-EEEEEE bg-white">
+						<div className="h-8 w-8 flex items-center justify-center rounded-full border-[0.5px] border-EEEEEE bg-white">
 							<Google />
 						</div>
 						<span className="text-575555 text-[12px] leading-[15.6px]">
@@ -89,6 +101,7 @@ const Registration = () => {
 										labelClassName="!text-black"
 										hasError={!!errors.password}
 										hasRequiredIcon
+										type="password"
 									/>
 								)}
 							/>
@@ -108,14 +121,14 @@ const Registration = () => {
 										labelClassName="!text-black"
 										hasError={!!errors.confirm_password}
 										hasRequiredIcon
+										type="password"
 									/>
 								)}
 							/>
 						</div>
 						<button
 							type="submit"
-							className="mt-[50px] w-full bg-7108F6 h-[55px] flex items-center justify-center text-center rounded-sm text-white text-base font-bold leading-[20.8px]"
-						>
+							className="mt-[50px] w-full bg-7108F6 h-[55px] flex items-center justify-center text-center rounded-sm text-white text-base font-bold leading-[20.8px]">
 							Sign Up
 						</button>
 						<div className="mt-6 flex flex-col space-y-[23px]">
@@ -123,8 +136,7 @@ const Registration = () => {
 								Have an account?,{' '}
 								<button
 									title="Sign in"
-									onClick={() => navigate(routes.agents.login)}
-								>
+									onClick={() => navigate(routes.agents.login)}>
 									<span className="font-bold text-black">Sign In</span>
 								</button>
 							</p>
