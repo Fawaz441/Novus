@@ -3,8 +3,8 @@ import AgentSummaryCard from './AgentSummaryCard';
 
 const AgentSummaryAndType = () => {
 	return (
-		<div className="flex space-x-12 items-center">
-			<div className="flex space-x-[10.8px]">
+		<div className="flex lg:flex-row lg:space-x-12 flex-col-reverse items-center">
+			<div className="w-full lg:w-auto flex lg:flex-row lg:space-x-[10.8px] flex-col lg:space-y-0 space-y-[14px]">
 				<AgentSummaryCard
 					text="Made"
 					bold_text="Publication"
@@ -24,7 +24,7 @@ const AgentSummaryAndType = () => {
 					blob_color="#FFBB0B"
 				/>
 			</div>
-			<div className="bg-F4F4F4 border-[0.5px] border-D9D9D9 rounded-6 flex space-x-[132px] items-center py-[26px] px-[29px]">
+			<div className="bg-F4F4F4 border-[0.5px] border-D9D9D9 rounded-6 flex mb-[26px] lg:mb-0 space-x-[132px] items-center py-[26px] px-[29px]">
 				<div className="max-w-[57px]">
 					<span className="text-12 text-black leading-[15.6px] block">
 						Agent

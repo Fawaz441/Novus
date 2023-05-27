@@ -379,6 +379,7 @@ export const nigerianBanks = [
 	},
 ];
 
+export const MOBILE_AGENT_SIDENAV = '#mobile-agent-sidenav';
 export const MOBILE_SIDENAV = '#mobile-sidenav';
 export const MOBILE_WIDTH = 550;
 

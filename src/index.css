@@ -61,7 +61,9 @@ html,body{
 }
 
 /* mobile sidenav */
-#mobile-sidenav.active{
+#mobile-sidenav.active,
+#mobile-agent-sidenav.active
+{
   left:0 !important;
 }
 
