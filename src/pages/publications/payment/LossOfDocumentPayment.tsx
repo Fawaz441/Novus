@@ -72,7 +72,8 @@ const LossOfDocumentPayment = () => {
 							</h3>
 							<p className="mt-[6px] leading-[18.78px] font-medium text-black">
 								To publish this classified ads on{' '}
-								<span className="text-7108F6">NOVUS</span> will cost 4500
+								<span className="text-7108F6">The Epitome News</span> will cost
+								4500
 							</p>
 							<p className="font-medium text-575555 leading-[22.86px] mt-[10px]">
 								After payment has been made, a reference number will be sent to
@@ -81,20 +82,23 @@ const LossOfDocumentPayment = () => {
 								the above said period
 							</p>
 						</div>
-						<div className="mt-[54px]">
-							<h3 className="font-bold text-xl leading-[23.48px]">
-								Additional Cost
-							</h3>
-							<p className="mt-[6px] leading-[18.78px] font-medium text-black">
-								To publish this classified ads on Vanguard will cost 4500
-							</p>
-							<p className="font-medium text-575555 leading-[22.86px] mt-[10px]">
-								Publishing on vanguard will take 3 - 4 working days after
-								approval on Novus. Once publication has been approved on NOVUS
-								lookout for the print publication on the vanguard newspaper
-								after the waiting period.
-							</p>
-						</div>
+						{newLODPublication?.externalSelect?.value && (
+							<div className="mt-[54px]">
+								<h3 className="font-bold text-xl leading-[23.48px]">
+									Additional Cost
+								</h3>
+								<p className="mt-[6px] leading-[18.78px] font-medium text-black">
+									To publish this classified ads on{' '}
+									{newLODPublication?.externalSelect?.value} will cost 4500
+								</p>
+								<p className="font-medium text-575555 leading-[22.86px] mt-[10px]">
+									Publishing on vanguard will take 3 - 4 working days after
+									approval on The Epitome News. Once publication has been
+									approved on The Epitome News lookout for the print publication
+									on the vanguard newspaper after the waiting period.
+								</p>
+							</div>
+						)}
 						<div className="mt-[50px] flex items-center justify-between">
 							<div className="flex flex-col space-y-[7px]">
 								<h3 className="font-bold text-black text-xl leading-[23.48px]">

@@ -9,11 +9,10 @@ const Welcome = () => {
 		<div className="w-1/2 h-screen fixed left-0 top-0 py-[60px] pl-[124px]">
 			<button
 				className="flex items-center space-x-3 mb-[67px]"
-				onClick={() => navigate('/')}
-			>
+				onClick={() => navigate('/')}>
 				<ArrowLeft />
 				<span className="text-base font-semibold leading-[20.8px] text-black">
-					Back to Novus News
+					Back to The Epitome News
 				</span>
 			</button>
 			<div className="ml-[73px] h-[calc(100vh_-_211px)] max-w-[calc(100%_-_141px)] relative rounded-[10px]">
@@ -26,7 +25,7 @@ const Welcome = () => {
 					<div>
 						<h4 className="text-[32px] leading-[53.57px] text-white">BECOME</h4>
 						<h4 className="text-[32px] leading-[53.57px] text-white">
-							A NOVUS <span className="font-bold">AGENT</span>
+							An Epitome News <span className="font-bold">AGENT</span>
 						</h4>
 					</div>
 				</div>

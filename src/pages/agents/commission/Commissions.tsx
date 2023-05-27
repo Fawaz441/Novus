@@ -6,10 +6,18 @@ import { CommissionGraph } from 'components/agents/commission';
 const Commissions = () => {
 	return (
 		<Wrapper>
-			<div className="mt-[13px]">
-				<h4 className="text-[18px] font-semibold leading-[23.4px] text-black mb-[26px]">
+			<div className="mt-[23px] lg:mt-[13px]">
+				<h4 className="hidden lg:block text-[18px] font-semibold leading-[23.4px] text-black mb-[26px]">
 					Commissions
 				</h4>
+				<div className="lg:hidden flex items-center justify-between mb-4">
+					<p className="font-inter text-12 leading-[15.6px] text-575555">
+						Commissions <span className="font-bold">Breakdown</span>
+					</p>
+					<button className="text-7108F6 text-10 leading-[13px] font-inter font-bold">
+						Show Chart
+					</button>
+				</div>
 				<div className="w-full h-[88px] bg-[#4285F4] rounded-6 px-[17.01px] py-[17.84px] flex items-center space-x-11">
 					{/* total commission earned */}
 					<div className="flex items-center space-x-[21px]">

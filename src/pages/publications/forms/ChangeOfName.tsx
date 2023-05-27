@@ -26,9 +26,10 @@ import {
 	routes,
 	STORAGE_KEYS,
 } from 'utils/constants';
-import { storeToLS } from 'utils/functions';
+import { removeFromLS, storeToLS } from 'utils/functions';
 import { capitalize, isEmpty, trim } from 'lodash';
 import toast from 'react-hot-toast';
+import { clearNewConPublication } from 'store/publications';
 
 const { actions } = publicationSlice;
 
@@ -450,12 +451,24 @@ const ChangeOfName = () => {
 								)}
 							/>
 						</div>
-						<button
-							type="submit"
-							onClick={handleSubmit(onSubmit)}
-							className="mt-[42px] mini:mt-[155px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12">
-							Submit
-						</button>
+						<div className="flex space-x-2 items-center">
+							<button
+								type="submit"
+								onClick={handleSubmit(onSubmit)}
+								className="mt-[42px] mini:mt-[155px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12">
+								Submit
+							</button>
+							<button
+								type="button"
+								onClick={() => {
+									dispatch(clearNewConPublication());
+									reset(emptyChangeOfNameValues);
+									removeFromLS(STORAGE_KEYS.NEW_CON_PUBLICATION);
+								}}
+								className="mt-[42px] mini:mt-[155px] w-[182px] h-10 bg-white border border-7108F6 rounded-3 flex items-center text-center justify-center text-7108F6 font-semibold text-12">
+								Reset
+							</button>
+						</div>
 					</div>
 				</form>
 			</div>

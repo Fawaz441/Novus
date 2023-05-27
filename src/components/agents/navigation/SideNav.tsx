@@ -34,11 +34,11 @@ const mobileNavLinks = [
 	},
 	{
 		name: 'Check Publication',
-		path: routes.agents.check_publications,
+		route: routes.agents.check_publications,
 		icon: <Check />,
 	},
 	{ name: 'Enlist Agents', route: routes.agents.enlist, icon: <Add /> },
-	{ path: routes.agents.dashboard, icon: <Check />, text: 'View Agents' },
+	{ route: routes.agents.dashboard, icon: <Check />, name: 'View Agents' },
 ];
 
 const publicationLinks = [
@@ -127,7 +127,7 @@ const SideNav = () => {
 						</div>
 						<div className="flex flex-col space-y-[6px]">
 							<p className="text-sm text-black leading-[14px]">
-								Novus <span className="font-bold">Agent</span>
+								The Epitome News <span className="font-bold">Agent</span>
 							</p>
 							<span className="text-9B9B9B text-12 leading-[14px]">
 								#23DE12

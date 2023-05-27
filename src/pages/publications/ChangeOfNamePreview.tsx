@@ -54,7 +54,7 @@ const ChangeOfNamePreview = () => {
 				</div>
 			</div>
 			<div className="hidden mini:block">
-				<PublicationCreationSteps isLossOfDocument activeStep="preview" />
+				<PublicationCreationSteps activeStep="preview" />
 			</div>
 			<div className="mt-[22px] mini:mt-[33px] flex space-x-[31px]">
 				<div className="flex-shrink-0 mid:h-[175px] mid:w-[169px] h-[109px] w-[105px] mid:rounded-none rounded-6 bg-F4F4F4 flex flex-col items-center justify-center space-y-[14.91px]">
@@ -65,7 +65,7 @@ const ChangeOfNamePreview = () => {
 				</div>
 				<div>
 					<h3 className="hidden mid:block font-medium text-xl leading-[23.48px] text-black">
-						<span className="font-bold">LOSS OF DOCUMENT :</span> {getTitle()}{' '}
+						<span className="font-bold">CHANGE OF NAME :</span> {getTitle()}{' '}
 						{newCONPublication?.oldFirstName} {newCONPublication?.oldLastName}
 					</h3>
 					<div className="flex items-center justify-between mt-[74px] mid:mt-[21px] mid:mb-[23px]">
@@ -84,30 +84,31 @@ const ChangeOfNamePreview = () => {
 									By :
 								</span>
 								<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
-									Novus News
+									The Epitome News
 								</span>
 							</div>
-							<div className="items-center space-x-[7px] hidden mid:flex">
-								<span className="mid:text-12 mid:leading-[14.09px] text-black text-[10px]">
-									Paper :
-								</span>
-								<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
-									Vanguard, 4 weeks from approval
-								</span>
-							</div>
+							{newCONPublication?.externalSelect?.value && (
+								<div className="items-center space-x-[7px] hidden mid:flex">
+									<span className="mid:text-12 mid:leading-[14.09px] text-black text-[10px]">
+										Paper :
+									</span>
+									<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
+										{newCONPublication?.externalSelect?.value}, 4 weeks from
+										approval
+									</span>
+								</div>
+							)}
 						</div>
 						<div className="hidden mid:flex items-center space-y-2 flex-col 2xl:flex-row 2xl:space-x-2 2xl:space-y-0">
 							<button
 								type="button"
-								onClick={() => navigate(routes.pub_forms.loss_of_document)}
+								onClick={() => navigate(routes.pub_forms.change_of_name)}
 								className=" text-575555 font-semibold text-12 py-[10px] px-[35px] rounded-3 bg-EEEEEE flex items-center justify-center">
 								Edit Publication
 							</button>
 							<button
 								type="button"
-								onClick={() =>
-									navigate(routes.pub_forms.loss_of_document_payment)
-								}
+								onClick={() => navigate(routes.pub_forms.payment)}
 								className=" text-white font-semibold ml-6 text-12 py-[10px] px-[35px] rounded-3 bg-08F692 flex items-center justify-center">
 								Confirm Publication
 							</button>
@@ -118,8 +119,8 @@ const ChangeOfNamePreview = () => {
 						{newCONPublication?.oldFirstName} {newCONPublication?.oldMiddleName}{' '}
 						{newCONPublication?.oldLastName}, henceforth wish to be known and
 						addressed as {getTitle()}. {newCONPublication?.newFirstName}{' '}
-						{newCONPublication?.newMiddleName}
-						{newCONPublication?.newLastName}. All former documents remain valid.{' '}
+						{newCONPublication?.newMiddleName} {newCONPublication?.newLastName}.
+						All former documents remain valid.{' '}
 						{newCONPublication?.concernParties} and the general public to take
 						note”
 					</p>

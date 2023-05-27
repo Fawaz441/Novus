@@ -207,7 +207,7 @@ const PublicationDetail = () => {
 												By :
 											</span>
 											<span className="text-sm font-bold leading-[16.44px] text-575555">
-												Novus News
+												The Epitome News
 											</span>
 										</div>
 										{detail?.externalSelect?.value && (

@@ -21,27 +21,26 @@ const CommissionGraph = () => {
 	const [activeTab, setActiveTab] = useState(COMMISSION_TYPES[0].type);
 	return (
 		<div className="flex flex-col space-y-[35px] pb-5">
-			<div className="flex items-center mt-[22px] justify-between">
-				<div className="flex items-center space-x-[122px]">
+			<div className="flex items-center mt-[22px] lg:justify-between">
+				<div className="flex items-center lg:space-x-[122px]">
 					<div className="flex items-center space-x-2">
 						{COMMISSION_TYPES.map((commissionType, index) => (
 							<button
 								type="button"
 								key={index}
 								className={clsx(
-									'h-10 bg-F9F9F9 text-sm text-575555 flex font-medium items-center justify-center rounded-3 py-2 px-[23px]',
+									'h-10 bg-F9F9F9 text-10 lg:text-sm text-575555 flex font-medium items-center justify-center rounded-3 py-2 px-[23px]',
 									{
 										'!text-[#7600FF] !bg-EADAFF':
 											commissionType.type === activeTab,
 									}
 								)}
-								onClick={() => setActiveTab(commissionType.type)}
-							>
+								onClick={() => setActiveTab(commissionType.type)}>
 								{commissionType.text}
 							</button>
 						))}
 					</div>
-					<div className="flex items-center space-x-[35px]">
+					<div className="items-center space-x-[35px] hidden lg:flex">
 						<p className="font-inter text-12 leading-[15.6px] text-575555">
 							Commissions <span className="font-bold">Earned</span>
 						</p>
@@ -61,11 +60,11 @@ const CommissionGraph = () => {
 						</div>
 					</div>
 				</div>
-				<div className="w-[127px]">
+				<div className="w-[127px] hidden lg:block">
 					<Select options={getYears()} defaultValue={getYears()[0]} />
 				</div>
 			</div>
-			<div className="flex space-x-[124px]">
+			<div className="lg:flex space-x-[124px] hidden">
 				<div className="w-[358px]">
 					<div className="flex flex-col space-y-[22px]">
 						<Commission />

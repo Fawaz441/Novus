@@ -29,8 +29,12 @@ import {
 	STORAGE_KEYS,
 } from 'utils/constants';
 import { validators } from 'utils/validation';
-import { addNewLodPublication, publicationSlice } from 'store/publications';
-import { storeToLS } from 'utils/functions';
+import {
+	addNewLodPublication,
+	clearNewLodPublication,
+	publicationSlice,
+} from 'store/publications';
+import { removeFromLS, storeToLS } from 'utils/functions';
 import { useNavigate } from 'react-router-dom';
 import { capitalize, isEmpty } from 'lodash';
 import toast from 'react-hot-toast';
@@ -165,7 +169,6 @@ const LossOfDocument = () => {
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Lastname"
-										autoFocus
 										containerClassName="w-full flex-1"
 										placeholder="Zechariah"
 										hasRequiredIcon
@@ -492,12 +495,24 @@ const LossOfDocument = () => {
 							</div>
 							<FileInput />
 						</div>
-						<button
-							type="submit"
-							onClick={handleSubmit(onSubmit)}
-							className="!mt-[39px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12">
-							Submit
-						</button>
+						<div className="flex space-x-2 items-center">
+							<button
+								type="submit"
+								onClick={handleSubmit(onSubmit)}
+								className="!mt-[39px] w-[182px] h-10 bg-7108F6 rounded-3 flex items-center text-center justify-center text-white font-semibold text-12">
+								Submit
+							</button>
+							<button
+								type="button"
+								onClick={() => {
+									dispatch(clearNewLodPublication());
+									reset(emptyLossOfDocumentValues);
+									removeFromLS(STORAGE_KEYS.NEW_LOD_PUBLICATION);
+								}}
+								className="mt-[39px] w-[182px] h-10 bg-white border border-7108F6 rounded-3 flex items-center text-center justify-center text-7108F6 font-semibold text-12">
+								Reset
+							</button>
+						</div>
 					</div>
 				</form>
 			</div>

@@ -120,12 +120,11 @@ const DownloadPublicationModal: React.FC = () => {
 					{
 						'!max-w-[522px] lg:!w-[522px]': downloaded,
 					}
-				)}
-			>
+				)}>
 				{downloaded ? (
 					<div className="flex flex-col justify-center items-center">
 						<h3 className="text-7108F6 font-bold text-xl leading-[23.48px] text-center mb-[23px]">
-							NOVUS
+							The Epitome News
 						</h3>
 						<p className="max-w-[203px] text-12 text-center mb-[13.08px] font-medium text-9B9B9B leading-[20.09px]">
 							<span className="font-bold text-black">Congratulations,</span> 200
@@ -139,7 +138,7 @@ const DownloadPublicationModal: React.FC = () => {
 					<div>
 						<div className="flex items-center justify-between">
 							<h3 className="font-bold text-xl leading-[23.48px] text-black">
-								NOVUS
+								The Epitome News
 							</h3>
 							<div className="flex space-x-[6px] items-center">
 								<span className="text-9B9B9B text-sm font-medium leading-[16.44px]">
@@ -164,8 +163,7 @@ const DownloadPublicationModal: React.FC = () => {
 									/>
 									<button
 										className="border-none outline-none h-7 w-7 bg-white rounded-[3px] flex-shrink-0 flex items-center justify-center"
-										type="button"
-									>
+										type="button">
 										<Filter className="fill-08F692 stroke-EEEEEE" />
 									</button>
 								</div>
@@ -187,14 +185,12 @@ const DownloadPublicationModal: React.FC = () => {
 								<div className="flex space-x-[17px]">
 									<button
 										onClick={() => showCalendar('start_date')}
-										className="h-12 w-[102px] text-9B9B9B font-medium text-12 leading-[14.09px] bg-F9F9F9 rounded-6"
-									>
+										className="h-12 w-[102px] text-9B9B9B font-medium text-12 leading-[14.09px] bg-F9F9F9 rounded-6">
 										{startDate ? startDate?.toLocaleDateString() : 'Start Date'}
 									</button>
 									<button
 										onClick={() => showCalendar('end_date')}
-										className="h-12 w-[102px] text-9B9B9B font-medium text-12 leading-[14.09px] bg-F9F9F9 rounded-6"
-									>
+										className="h-12 w-[102px] text-9B9B9B font-medium text-12 leading-[14.09px] bg-F9F9F9 rounded-6">
 										{endDate ? endDate?.toLocaleDateString() : 'End Date'}
 									</button>
 								</div>
@@ -240,8 +236,7 @@ const DownloadPublicationModal: React.FC = () => {
 								{publications >= 200 ? <FilterDownloads /> : <div />}
 								<button
 									onClick={() => setDownloaded(true)}
-									className="text-sm bg-08F692 h-12 rounded-6 px-[18px] flex items-center justify-center text-white font-semibold"
-								>
+									className="text-sm bg-08F692 h-12 rounded-6 px-[18px] flex items-center justify-center text-white font-semibold">
 									Download Publications
 								</button>
 							</div>

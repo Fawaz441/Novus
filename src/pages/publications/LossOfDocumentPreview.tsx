@@ -85,17 +85,20 @@ const LossOfDocumentPreview = () => {
 									By :
 								</span>
 								<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
-									Novus News
+									The Epitome News
 								</span>
 							</div>
-							<div className="items-center space-x-[7px] hidden mid:flex">
-								<span className="mid:text-12 mid:leading-[14.09px] text-black text-[10px]">
-									Paper :
-								</span>
-								<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
-									Vanguard, 4 weeks from approval
-								</span>
-							</div>
+							{newLODPublication?.externalSelect?.value && (
+								<div className="items-center space-x-[7px] hidden mid:flex">
+									<span className="mid:text-12 mid:leading-[14.09px] text-black text-[10px]">
+										Paper :
+									</span>
+									<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
+										{newLODPublication?.externalSelect?.value}, 4 weeks from
+										approval
+									</span>
+								</div>
+							)}
 						</div>
 						<div className="hidden mid:flex items-center space-y-2 flex-col 2xl:flex-row 2xl:space-x-2 2xl:space-y-0">
 							<button

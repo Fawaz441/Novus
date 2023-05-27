@@ -46,10 +46,10 @@ const Settings = () => {
 				maxDate={new Date(2005, 10, 1)}
 			/>
 			<div className="mt-2 flex items-center justify-center">
-				<div className="border-[0.5px] border-D9D9D9 rounded-6 py-[25px] px-12 mb-5">
+				<div className="w-full lg:w-auto lg:border-[0.5px] lg:border-D9D9D9 rounded-6 lg:py-[25px] lg:px-12 mb-5">
 					<form onSubmit={handleSubmit(onSubmit)}>
 						{/* 1. personal details */}
-						<div className="flex items-center mb-[10px] space-x-[56px]">
+						<div className="flex flex-col space-y-2 lg:flex-row lg:space-y-0 items-center mb-[10px] lg:space-x-[56px]">
 							<div className="flex space-x-[19px] items-center">
 								<div className="w-8 h-[30px] rounded-3 bg-7108F6 flex items-center justify-center">
 									<span className="font-inter text-white font-semibold text-12">
@@ -83,7 +83,7 @@ const Settings = () => {
 								</button>
 							</div>
 						</div>
-						<div className="flex mb-[19px] space-x-[43px]">
+						<div className="flex flex-col lg:flex-row  mb-[19px] space-y-[19px] lg:space-y-0 lg:space-x-[43px]">
 							{/* first name */}
 							<Controller
 								control={control}
@@ -125,7 +125,7 @@ const Settings = () => {
 								)}
 							/>
 						</div>
-						<div className="flex mb-[19px] space-x-[43px]">
+						<div className="flex flex-col lg:flex-row  mb-[19px] space-y-[19px] lg:space-y-0 lg:space-x-[43px]">
 							{/* email */}
 							<Controller
 								control={control}
@@ -157,7 +157,7 @@ const Settings = () => {
 								/>
 							</div>
 						</div>
-						<div className="flex mb-[19px] space-x-[43px]">
+						<div className="flex flex-col lg:flex-row  mb-[19px] space-y-[19px] lg:space-y-0 lg:space-x-[43px]">
 							{/* dob */}
 							<Controller
 								control={control}
@@ -210,7 +210,7 @@ const Settings = () => {
 									Account Details
 								</span>
 							</div>
-							<div className="mt-[11px] mb-[19px] space-x-[43px] flex">
+							<div className="mt-[11px] flex flex-col lg:flex-row  mb-[19px] space-y-[19px] lg:space-y-0 lg:space-x-[43px]">
 								{/* banks */}
 								<div className="flex-1">
 									<Select
@@ -276,7 +276,7 @@ const Settings = () => {
 								</div>
 								<span className="text-13 font-inter text-7108F6">Security</span>
 							</div>
-							<div className="mt-[11px] mb-[19px] space-x-[43px] flex">
+							<div className="mt-[11px] flex flex-col lg:flex-row  mb-[19px] space-y-[19px] lg:space-y-0 lg:space-x-[43px]">
 								{/* security email */}
 								<Controller
 									control={control}

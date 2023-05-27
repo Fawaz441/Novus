@@ -29,7 +29,7 @@ const CheckPublicationModal = () => {
 			<div className="max-w-[578px] rounded-6 px-[30px] py-[35px] bg-white border border-9B9B9B lg:w-[578px]">
 				<div className="flex items-center justify-between">
 					<h3 className="font-bold text-xl leading-[23.48px] text-black">
-						NOVUS
+						THE EPITOME NEWS
 					</h3>
 					<div className="flex space-x-[6px] items-center">
 						<span className="text-9B9B9B text-sm font-medium leading-[16.44px]">
@@ -40,8 +40,7 @@ const CheckPublicationModal = () => {
 				</div>
 				<form
 					className="mt-[18px] flex flex-col space-y-5"
-					onSubmit={(e) => e.preventDefault()}
-				>
+					onSubmit={(e) => e.preventDefault()}>
 					<span className="text-12 leading-[14.09px] text-black">
 						Please enter publication reference number
 					</span>
@@ -56,8 +55,7 @@ const CheckPublicationModal = () => {
 							/>
 							<button
 								className="border-none outline-none h-7 w-7 bg-white rounded-[3px] flex-shrink-0 flex items-center justify-center"
-								type="button"
-							>
+								type="button">
 								<Filter className="fill-08F692 stroke-EEEEEE" />
 							</button>
 						</div>
@@ -65,8 +63,7 @@ const CheckPublicationModal = () => {
 							<button
 								type="button"
 								onClick={goToPublication}
-								className="font-semibold text-white text-sm bg-08F692 h-12 w-[179px] rounded-6"
-							>
+								className="font-semibold text-white text-sm bg-08F692 h-12 w-[179px] rounded-6">
 								Go To Publication
 							</button>
 						)}

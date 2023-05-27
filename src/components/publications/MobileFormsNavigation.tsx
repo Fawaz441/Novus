@@ -6,15 +6,15 @@ import { routes } from 'utils/constants';
 const links = [
 	{ name: 'Change Of Name', route: routes.pub_forms.change_of_name },
 	{ name: 'Loss Of Document', route: routes.pub_forms.loss_of_document },
-	{ name: 'Obituary', route: routes.pub_forms.change_of_name },
-	{ name: 'Affidavit', route: routes.pub_forms.change_of_name },
+	{ name: 'Obituary', route: routes.pub_forms.obituary },
+	{ name: 'Affidavit', route: routes.pub_forms.affidavit },
 ];
 
 const listLinks = [
 	{ name: 'Change Of Name', route: routes.change_of_name_publications },
 	{ name: 'Loss Of Document', route: routes.lost_document_publications },
-	{ name: 'Obituary', route: routes.change_of_name_publications },
-	{ name: 'Affidavit', route: routes.change_of_name_publications },
+	{ name: 'Obituary', route: routes.obituary_publications },
+	{ name: 'Affidavit', route: routes.affidavit_publications },
 ];
 
 const MobileFormsNavigation = ({

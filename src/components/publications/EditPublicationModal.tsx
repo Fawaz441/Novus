@@ -32,7 +32,7 @@ const EditPublicationModal = () => {
 			<div className="max-w-[578px] rounded-6 px-[30px] py-[35px] bg-white border border-9B9B9B lg:w-[578px]">
 				<div className="flex items-center justify-between">
 					<h3 className="font-bold text-xl leading-[23.48px] text-black">
-						NOVUS
+						The Epitome News
 					</h3>
 					{emailSent ? (
 						<span className="text-9B9B9B font-medium text-12 leading-[14.09px]">
@@ -52,8 +52,7 @@ const EditPublicationModal = () => {
 					onSubmit={(e) => {
 						e.preventDefault();
 						sendEmail();
-					}}
-				>
+					}}>
 					{emailSent ? (
 						<div className="flex justify-between items-center">
 							<p className="text-12 max-w-[358px] leading-[17.09px] text-black">
@@ -81,16 +80,14 @@ const EditPublicationModal = () => {
 								/>
 								<button
 									className="border-none outline-none h-7 w-7 bg-white rounded-[3px] flex-shrink-0 flex items-center justify-center"
-									type="button"
-								>
+									type="button">
 									<Filter className="fill-08F692 stroke-EEEEEE" />
 								</button>
 							</div>
 							{email?.trim()?.length > 0 && (
 								<button
 									type="submit"
-									className="font-semibold text-white text-sm bg-08F692 h-12 w-[179px] rounded-6"
-								>
+									className="font-semibold text-white text-sm bg-08F692 h-12 w-[179px] rounded-6">
 									Send Email
 								</button>
 							)}
@@ -100,8 +97,7 @@ const EditPublicationModal = () => {
 				{emailSent && (
 					<button
 						className="font-medium mt-[2.69px] text-9B9B9B text-12 leading-[14.09px]"
-						onClick={closeModal}
-					>
+						onClick={closeModal}>
 						CLOSE
 					</button>
 				)}

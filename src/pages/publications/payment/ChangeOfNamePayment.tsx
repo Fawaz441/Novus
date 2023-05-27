@@ -87,7 +87,8 @@ const ChangeOfNamePayment = () => {
 								</h3>
 								<p className="mt-3 mid:mt-[6px] text-12 leading-[14.09px] mid:text-base mid:leading-[18.78px] font-medium text-black">
 									To publish this classified ads on{' '}
-									<span className="text-7108F6">NOVUS</span> will cost 4500
+									<span className="text-7108F6">The Epitome News</span> will
+									cost 4500
 								</p>
 								<p className="text-10 leading-[17px] font-medium text-575555 mid:text-base mid:leading-[22.86px] mt-[10px]">
 									After payment has been made, a reference number will be sent
@@ -96,21 +97,23 @@ const ChangeOfNamePayment = () => {
 									approved after the above said period
 								</p>
 							</div>
-							<div className="mt-[30px] mid:mt-[54px]">
-								<h3 className="font-bold text-[15px] leading-[17.61px] mid:text-xl mid:leading-[23.48px]">
-									Additional Cost
-								</h3>
-								<p className="mt-[14px] mid:mt-[6px] text-12 mid:text-base leading-[14.09px] mid:leading-[18.78px] font-medium text-black">
-									To publish this classified ads on Vanguard will cost 4500
-								</p>
-								<p className="text-10 leading-[17px] font-medium text-575555 mid:text-base mid:leading-[22.86px] mt-[10px]">
-									Publishing on {newCONPublication?.externalSelect?.value} will
-									take 3 - 4 working days after approval on Novus. Once
-									publication has been approved on NOVUS lookout for the print
-									publication on the vanguard newspaper after the waiting
-									period.
-								</p>
-							</div>
+							{newCONPublication?.externalSelect?.value && (
+								<div className="mt-[30px] mid:mt-[54px]">
+									<h3 className="font-bold text-[15px] leading-[17.61px] mid:text-xl mid:leading-[23.48px]">
+										Additional Cost
+									</h3>
+									<p className="mt-[14px] mid:mt-[6px] text-12 mid:text-base leading-[14.09px] mid:leading-[18.78px] font-medium text-black">
+										To publish this classified ads on Vanguard will cost 4500
+									</p>
+									<p className="text-10 leading-[17px] font-medium text-575555 mid:text-base mid:leading-[22.86px] mt-[10px]">
+										Publishing on {newCONPublication?.externalSelect?.value}{' '}
+										will take 3 - 4 working days after approval on The Epitome
+										News. Once publication has been approved on The Epitome News
+										lookout for the print publication on the vanguard newspaper
+										after the waiting period.
+									</p>
+								</div>
+							)}
 							<div className="mt-[35px] mid:mt-[50px] flex flex-col space-y-12 mid:space-y-0 mid:flex-row mid:items-center mid:justify-between">
 								<div className="flex flex-col space-y-[7px]">
 									<h3 className="font-bold text-black mid:text-xl mid:leading-[23.48px] text-[15px] leading-[17.61px]">

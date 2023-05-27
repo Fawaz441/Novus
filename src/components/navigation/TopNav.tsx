@@ -57,9 +57,7 @@ const TopNav: React.FC<TopNavProps> = ({
 				<div className="flex-1 items-center justify-between px-11 hidden mini:flex">
 					<ul className="flex items-center space-x-10">
 						<li>
-							<span className="font-medium text-black text-sm">
-								About Novus
-							</span>
+							<span className="font-medium text-black text-sm">About Us</span>
 						</li>
 						<li>
 							<span className="font-medium text-black text-sm">Products</span>

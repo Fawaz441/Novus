@@ -43,10 +43,10 @@ const Registration = () => {
 			<div className="lg:ml-[50%] lg:py-[60px] lg:pr-[124px] lg:w-1/2 h-full lg:pl-[10px] lg:mt-[67px]">
 				<div className="lg:max-w-[500px] rounded-6 border border-EEEEEE bg-F9F9F9 px-[34px] lg:px-10 pb-4 pt-[39px]">
 					<h4 className="hidden lg:block font-bold text-xl leading-[33.48px] text-black mb-[9px]">
-						NOVUS
+						The Epitome News
 					</h4>
 					<p className="text-center lg:text-left text-[12px] leading-[15.6px] text-575555 mb-[55px]">
-						Welcome to Novus, sign up as an{' '}
+						Welcome to The Epitome News, sign up as an{' '}
 						<span className="font-bold">agent</span>
 					</p>
 					<button className="bg-white justify-center w-full h-[50px] flex items-center space-x-[17px]">
@@ -147,7 +147,7 @@ const Registration = () => {
 									</span>
 								</div>
 								<span className="text-575555 text-[10px] leading-[13px]">
-									Novus, {new Date().getFullYear()}
+									The Epitome News, {new Date().getFullYear()}
 								</span>
 							</div>
 						</div>
