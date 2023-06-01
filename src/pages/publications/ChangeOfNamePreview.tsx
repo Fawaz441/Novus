@@ -92,7 +92,7 @@ const ChangeOfNamePreview = () => {
 									<span className="mid:text-12 mid:leading-[14.09px] text-black text-[10px]">
 										Paper :
 									</span>
-									<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
+									<span className="mid:text-sm font-bold capitalize mid:leading-[16.44px] text-575555 text-[10px]">
 										{newCONPublication?.externalSelect?.value}, 4 weeks from
 										approval
 									</span>

@@ -76,7 +76,7 @@ const LossOfDocumentPreview = () => {
 									Date :
 								</span>
 								<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
-									13 Jan 2023
+									{moment(newLODPublication?.dateLost)?.format("DD MMM YYYY")}
 								</span>
 							</div>
 							<div className="mid:hidden w-[20px]" />
@@ -93,7 +93,7 @@ const LossOfDocumentPreview = () => {
 									<span className="mid:text-12 mid:leading-[14.09px] text-black text-[10px]">
 										Paper :
 									</span>
-									<span className="mid:text-sm font-bold mid:leading-[16.44px] text-575555 text-[10px]">
+									<span className="mid:text-sm font-bold mid:leading-[16.44px] capitalize text-575555 text-[10px]">
 										{newLODPublication?.externalSelect?.value}, 4 weeks from
 										approval
 									</span>

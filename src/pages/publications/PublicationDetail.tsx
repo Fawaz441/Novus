@@ -187,7 +187,7 @@ const PublicationDetail = () => {
 									{getPublicationType()?.title} :
 								</span>{' '}
 								{getTitle(detail?.gender || '')}{' '}
-								{detail?.newFirstName || detail?.firstName}
+								{detail?.newFirstName || detail?.firstName}{" "}
 								{detail?.newMiddleName}{' '}
 								{detail?.newLastName || detail?.lastName}
 							</h3>
@@ -250,8 +250,8 @@ const PublicationDetail = () => {
 					</div>
 					<div className="mini:hidden mt-6">
 						<h3 className="font-medium text-[12px] leading-[14.09px] text-black">
-							<span className="font-bold">CHANGE OF NAME :</span> Mrs Deborah
-							Barak
+							<span className="font-bold">{getPublicationType()?.title} :</span> {getTitle(detail?.gender || '')} {detail?.newFirstName}{" "}
+							{detail?.newMiddleName} {detail?.newLastName}
 						</h3>
 						<p className="text-black leading-[18px] text-[10px]">
 							“I, formerly known and addressed as {detail?.oldFirstName}{' '}

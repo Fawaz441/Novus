@@ -46,6 +46,7 @@ const LossOfDocument = () => {
 	const [showCalendar, setShowCalendar] = useState(false);
 	const navigate = useNavigate();
 	const dispatch: AppDispatch = useDispatch();
+	const [hasMounted, setHasMounted] = useState(false)
 	const { newLODPublication, publisherPrices, loadingPublisherPrices } =
 		useSelector((state: RootState) => state.publications);
 	const {
@@ -67,6 +68,7 @@ const LossOfDocument = () => {
 			value: price.externalName,
 		}));
 	}, [publisherPrices]);
+
 	const publishWithThirdParty = watch('isExternal');
 
 	const onSubmit = (data: LossOfDocumentPublicationFields) => {
@@ -92,7 +94,9 @@ const LossOfDocument = () => {
 		if (newLODPublication) {
 			reset(newLODPublication);
 		}
-	}, [reset, newLODPublication]);
+		setHasMounted(true)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		if (publishWithThirdParty && isEmpty(publisherPrices)) {
@@ -102,13 +106,14 @@ const LossOfDocument = () => {
 				})
 			);
 		}
-		if (!publishWithThirdParty && getValues('externalSelect')?.value) {
+		if (!publishWithThirdParty && hasMounted && getValues('externalSelect')?.value) {
 			setValue('externalSelect', emptyLossOfDocumentValues.externalSelect);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [publishWithThirdParty]);
 
 	const dateLost = watch('dateLost');
+
 
 	return (
 		<Wrapper isPublications>
@@ -427,7 +432,7 @@ const LossOfDocument = () => {
 								<Controller
 									control={control}
 									name="externalSelect"
-									rules={{ validate: (v) => !isEmpty(v?.value) }}
+									// rules={{ validate: (v) => !isEmpty(v?.value) }}
 									render={({ field }) => (
 										<Select
 											label="Select Newspaper"

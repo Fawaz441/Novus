@@ -13,7 +13,7 @@ import {
 	LossOfDocumentPayment,
 	ChangeOfNamePayment,
 } from 'pages/publications';
-import { MOBILE_WIDTH, routes, STORAGE_KEYS } from 'utils/constants';
+import { routes, STORAGE_KEYS } from 'utils/constants';
 import { NotFound } from 'pages/misc';
 import { retrieveFromLS } from 'utils/functions';
 import { AppDispatch } from 'store';

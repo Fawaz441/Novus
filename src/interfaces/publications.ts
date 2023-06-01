@@ -26,6 +26,8 @@ export interface ChangeOfNamePublicationFields {
 	isExternal: boolean;
 	externalSelect?: { value: string | null; label: string | null };
 	reasonSelect: { value: string | null; label: string | null };
+	file?:any;
+	image?:any;
 }
 
 export interface ChangeOfNamePublicationValues

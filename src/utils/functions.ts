@@ -44,4 +44,4 @@ export const getPublicationLink = (
 };
 
 export const getTitle = (gender: string) =>
-	gender === 'female' ? 'Mrs' : 'Mr';
+	gender === 'female' ? 'Mrs.' : 'Mr.';

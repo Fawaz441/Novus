@@ -21,9 +21,7 @@ const PublicationList: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(CONPublications)) {
-			getPublications();
-		}
+		getPublications();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

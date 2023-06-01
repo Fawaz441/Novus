@@ -1,23 +1,70 @@
 import React from 'react';
+import clsx from 'classnames'
 import { ReactComponent as Document } from 'assets/icons/document.svg';
 
-const FileInput = () => {
-	const inputRef = React.useRef<HTMLInputElement>(null);
+
+const FileInput = (props:any) => {
+	const {ref_,fileValue, ...rest} = props;
+	const [blob, setBlob] = React.useState<any>(null)
+	console.log(props)
+
+	const handleSelectedFile = (e:any, isProp?:boolean) => {
+		let file;
+		if(isProp){
+			file = e
+		}
+		else{
+			 file = e.target.files[0]
+		}
+		const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+			if(validImageTypes.includes(file?.type)){
+				const url = URL.createObjectURL(file)
+				setBlob(url)
+			}
+	}
+
+
+	React.useEffect(()=>{
+		if(fileValue){
+			if(typeof fileValue !== "string"){
+				handleSelectedFile(fileValue, true)
+		}
+		else{
+			setBlob(fileValue)
+		}
+	}
+	},[fileValue])
+
 	return (
 		<div
-			onClick={() => inputRef?.current?.click()}
-			className="h-[150px] relative bg-EEEEEE cursor-pointer rounded-6 w-full flex flex-col space-y-[11px] pt-[15px] justify-center"
+			className={clsx("h-[150px] relative bg-EEEEEE cursor-pointer rounded-6 w-full flex flex-col space-y-[11px] pt-[15px] justify-center",{
+				"!border-[red] border":props.hasError
+			})}
 		>
 			<span className="text-center text-7108F6 text-12 leading-[14.09px] font-semibold">
-				Click or Drag to upload Document
+				Click to upload Document
 			</span>
 			<div className="flex items-center justify-center">
 				<Document className="h-[66px] w-[66px]" />
 			</div>
+			{blob&&
+			<img
+			src={blob}
+			className="absolute top-0 left-0 h-full w-full object-contain bg-575555/[.7] rounded-6"
+			alt="user"
+			id="selected-file"
+			/>
+			}
 			<input
-				ref={inputRef}
+				ref={ref_}
 				type="file"
-				className="opacity-0 absolute top-0 left-0 pointer-events-none"
+				className="opacity-0 absolute top-0 left-0 h-full w-full"
+				accept="image/jpeg,image/png,application/pdf"
+				{...rest}
+				onChange={(x) => {
+					props.onChange(x)
+					handleSelectedFile(x)
+				}}
 			/>
 		</div>
 	);

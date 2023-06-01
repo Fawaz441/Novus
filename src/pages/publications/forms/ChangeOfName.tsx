@@ -35,6 +35,7 @@ const { actions } = publicationSlice;
 
 const ChangeOfName = () => {
 	const dispatch: AppDispatch = useDispatch();
+	const [hasMounted, setHasMounted] = React.useState(false)
 	const { newCONPublication, publisherPrices, loadingPublisherPrices } =
 		useSelector((state: RootState) => state.publications);
 	const navigate = useNavigate();
@@ -47,6 +48,7 @@ const ChangeOfName = () => {
 		control,
 		reset,
 		getValues,
+		register
 	} = useForm<ChangeOfNamePublicationFields>({
 		defaultValues: emptyChangeOfNameValues,
 	});
@@ -69,6 +71,25 @@ const ChangeOfName = () => {
 	};
 
 	const onSubmit = (data: ChangeOfNamePublicationFields) => {
+		if(!data.image){
+			setError("image",{message:"Please select an image"})
+			return
+		}
+		if(!data.file){
+			setError("file",{message:"Please select a document"})
+			return
+		}
+		try{
+		if(data.file && typeof data.file !== "string"){
+			data.file = URL.createObjectURL(data.file)
+		}
+		if(data.image && typeof data.image !== "string"){
+			data.image = URL.createObjectURL(data.image)
+		}
+	}
+	catch(e){
+		console.log(e)
+	}
 		if (
 			isEmpty(data.newFirstName) &&
 			isEmpty(data.newLastName) &&
@@ -102,17 +123,44 @@ const ChangeOfName = () => {
 	};
 
 	const nameChangeOptions = [
-		{ label: 'Personal Preference', value: 'Personal Preference' },
+		{ label: 'Personal Reasons', value: 'Personal Reasons' },
+		{ label: 'Marriage', value: 'Marriage' },
 	];
 
 	const publicationTypes = [
 		{ label: 'Change of name', value: 'Change of name' },
 	];
 
+
+	const getBlob = async(name:"file"|"image",url:string) => {
+		const r = await fetch(url)
+		const blob = await r.blob()
+		const file = new File([blob], name,{ type: "image/png" })
+		return file
+	}
+
+	const sortOutNewPublication = async() => {
+		const data = {...newCONPublication}
+		try{
+		if(data.file){
+			data.file = await getBlob("file",data.file)
+		}
+		if(data.image){
+			data.image = await getBlob("image",data.image)
+		}
+	}
+		catch(e){
+			data.file = ""
+			data.image = ""
+		}
+		reset(data)
+	}
+
 	useEffect(() => {
 		if (newCONPublication) {
-			reset(newCONPublication);
+			sortOutNewPublication()
 		}
+		setHasMounted(true)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -124,7 +172,7 @@ const ChangeOfName = () => {
 				})
 			);
 		}
-		if (!publishWithThirdParty && getValues('externalSelect')?.value) {
+		if (!publishWithThirdParty && hasMounted&& getValues('externalSelect')?.value) {
 			setValue('externalSelect', emptyChangeOfNameValues.externalSelect);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,6 +184,11 @@ const ChangeOfName = () => {
 			value: price.externalName,
 		}));
 	}, [publisherPrices]);
+
+	const { ref:fileRef, ...fileField } = register("file");
+	const {ref:imageRef, ...imageField} = register("image")
+
+	console.log(errors, "errors")
 
 	return (
 		<Wrapper isPublications>
@@ -266,10 +319,12 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								name="reasonSelect"
+								rules={{validate:v => !isEmpty(v.value)}}
 								render={({ field }) => (
 									<Select
 										label="Reason for Name Change"
 										hasRequiredIcon
+										hasError={!!errors.reasonSelect}
 										options={nameChangeOptions}
 										{...field}
 									/>
@@ -421,15 +476,25 @@ const ChangeOfName = () => {
 								</span>
 								<Required />
 							</div>
-							<FileInput />
+							<FileInput
+							hasError={!!errors.file}
+							ref_={fileRef}
+							fileValue={getValues("file")}
+							{...fileField}
+							/>
 						</div>
 						<div className="flex flex-col space-y-[7px] mt-[43px]">
 							<div className="flex space-x-6">
 								<span className="text-12 text-575555 font-medium leading-[14.09px]">
 									Upload Passport Photograph
 								</span>
-							</div>
-							<FileInput />
+							</div>		
+						<FileInput 
+						hasError={!!errors.image}
+						ref_={imageRef}
+						fileValue={getValues("image")}
+						{...imageField}
+						/>
 						</div>
 						<div className="flex flex-col space-y-[5px] mt-[38px]">
 							<Controller

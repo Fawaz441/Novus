@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'store';
 import { publicationSlice } from 'store/publications';
-import { routes } from 'utils/constants';
+import { PUBLICATION_TYPES, routes } from 'utils/constants';
 import toast from 'react-hot-toast';
+import { capitalize } from 'lodash';
 
 const { actions } = publicationSlice;
 
@@ -22,6 +23,8 @@ const ChangeOfNamePayment = () => {
 		publishingCON,
 		publishCONError,
 		publishCONSuccess,
+		publisherPrices,
+		loadingPublisherPrices
 	} = useSelector((state: RootState) => state.publications);
 
 	const publish = () => {
@@ -33,8 +36,13 @@ const ChangeOfNamePayment = () => {
 	useEffect(() => {
 		if (!newCONPublication) {
 			navigate(-1);
+			return
 		}
-	}, [navigate, newCONPublication]);
+		if(publisherPrices?.length===0){
+			dispatch(actions.fetchPublisherPrices({publicationType:PUBLICATION_TYPES.CHANGE_OF_NAME}))
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [newCONPublication]);
 
 	useEffect(() => {
 		if (publishCONError) {
@@ -52,9 +60,22 @@ const ChangeOfNamePayment = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [publishCONSuccess]);
 
+	const epitomeNewsPrice = React.useMemo(()=>{
+		return Number(publisherPrices.find(price => !!price.isPlatform)?.price)
+	},[publisherPrices])
+
+	const externalNewsPaperPrice = React.useMemo(()=>{
+		if(newCONPublication?.externalSelect?.value && publisherPrices.length > 0){
+			const price =  publisherPrices?.find(price => price?.externalName===newCONPublication?.externalSelect?.value)?.price
+			return Number(price||0)
+		}
+	},[publisherPrices, newCONPublication?.externalSelect])
+
+	const total = epitomeNewsPrice + (externalNewsPaperPrice||0)
+
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
-			<Loader loading={publishingCON} transparent />
+			<Loader loading={publishingCON||loadingPublisherPrices} transparent />
 			<div>
 				<div className="hidden mid:block">
 					<PublicationCreationSteps activeStep="payment" />
@@ -88,7 +109,7 @@ const ChangeOfNamePayment = () => {
 								<p className="mt-3 mid:mt-[6px] text-12 leading-[14.09px] mid:text-base mid:leading-[18.78px] font-medium text-black">
 									To publish this classified ads on{' '}
 									<span className="text-7108F6">The Epitome News</span> will
-									cost 4500
+									cost {epitomeNewsPrice}
 								</p>
 								<p className="text-10 leading-[17px] font-medium text-575555 mid:text-base mid:leading-[22.86px] mt-[10px]">
 									After payment has been made, a reference number will be sent
@@ -103,13 +124,13 @@ const ChangeOfNamePayment = () => {
 										Additional Cost
 									</h3>
 									<p className="mt-[14px] mid:mt-[6px] text-12 mid:text-base leading-[14.09px] mid:leading-[18.78px] font-medium text-black">
-										To publish this classified ads on Vanguard will cost 4500
+										To publish this classified ads on {capitalize(newCONPublication?.externalSelect?.value)} will cost {externalNewsPaperPrice}
 									</p>
 									<p className="text-10 leading-[17px] font-medium text-575555 mid:text-base mid:leading-[22.86px] mt-[10px]">
 										Publishing on {newCONPublication?.externalSelect?.value}{' '}
 										will take 3 - 4 working days after approval on The Epitome
 										News. Once publication has been approved on The Epitome News
-										lookout for the print publication on the vanguard newspaper
+										lookout for the print publication on the {capitalize(newCONPublication?.externalSelect?.value)} newspaper
 										after the waiting period.
 									</p>
 								</div>
@@ -121,7 +142,7 @@ const ChangeOfNamePayment = () => {
 									</h3>
 									<p className="font-medium text-black text-12 mid:text-base mid:leading-[19.36px]">
 										The total cost for this publication is{' '}
-										<span className="font-bold">9000</span>
+										<span className="font-bold">{total}</span>
 									</p>
 								</div>
 								<button

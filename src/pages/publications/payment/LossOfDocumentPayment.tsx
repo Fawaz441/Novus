@@ -7,7 +7,8 @@ import { RootState } from 'store';
 import { publicationSlice } from 'store/publications';
 import toast from 'react-hot-toast';
 import { ErrorToast, Loader } from 'components/general';
-import { routes } from 'utils/constants';
+import { PUBLICATION_TYPES, routes } from 'utils/constants';
+import { capitalize } from 'lodash';
 
 const { actions } = publicationSlice;
 
@@ -19,13 +20,20 @@ const LossOfDocumentPayment = () => {
 		publishLODError,
 		publishLODSuccess,
 		publishingLOD,
+		publisherPrices,
+		loadingPublisherPrices
 	} = useSelector((state: RootState) => state.publications);
 
 	useEffect(() => {
 		if (!newLODPublication) {
 			navigate(-1);
+			return
 		}
-	}, [navigate, newLODPublication]);
+		if(publisherPrices?.length===0){
+			dispatch(actions.fetchPublisherPrices({publicationType:PUBLICATION_TYPES.LOSS_OF_DOCUMENT}))
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [newLODPublication]);
 
 	const publish = () => {
 		if (newLODPublication) {
@@ -48,9 +56,22 @@ const LossOfDocumentPayment = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [publishLODSuccess]);
 
+		const epitomeNewsPrice = React.useMemo(()=>{
+		return Number(publisherPrices.find(price => !!price.isPlatform)?.price)
+	},[publisherPrices])
+
+	const externalNewsPaperPrice = React.useMemo(()=>{
+		if(newLODPublication?.externalSelect?.value && publisherPrices.length > 0){
+			const price =  publisherPrices?.find(price => price?.externalName===newLODPublication?.externalSelect?.value)?.price
+			return Number(price||0)
+		}
+	},[publisherPrices, newLODPublication?.externalSelect])
+
+	const total = epitomeNewsPrice + (externalNewsPaperPrice||0)
+
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
-			<Loader loading={publishingLOD} transparent />
+			<Loader loading={publishingLOD||loadingPublisherPrices} transparent />
 			<PublicationCreationSteps activeStep="payment" />
 			<div className="pt-[63px] pb-5 flex flex-col space-y-[49px] max-w-[900px] mx-auto">
 				<button
@@ -73,7 +94,7 @@ const LossOfDocumentPayment = () => {
 							<p className="mt-[6px] leading-[18.78px] font-medium text-black">
 								To publish this classified ads on{' '}
 								<span className="text-7108F6">The Epitome News</span> will cost
-								4500
+								{" "}{epitomeNewsPrice}
 							</p>
 							<p className="font-medium text-575555 leading-[22.86px] mt-[10px]">
 								After payment has been made, a reference number will be sent to
@@ -89,10 +110,10 @@ const LossOfDocumentPayment = () => {
 								</h3>
 								<p className="mt-[6px] leading-[18.78px] font-medium text-black">
 									To publish this classified ads on{' '}
-									{newLODPublication?.externalSelect?.value} will cost 4500
+									{capitalize(newLODPublication?.externalSelect?.value)} will cost {epitomeNewsPrice}
 								</p>
 								<p className="font-medium text-575555 leading-[22.86px] mt-[10px]">
-									Publishing on vanguard will take 3 - 4 working days after
+									Publishing on {newLODPublication?.externalSelect?.value} will take 3 - 4 working days after
 									approval on The Epitome News. Once publication has been
 									approved on The Epitome News lookout for the print publication
 									on the vanguard newspaper after the waiting period.
@@ -106,7 +127,7 @@ const LossOfDocumentPayment = () => {
 								</h3>
 								<p className="font-medium text-black leading-[19.36px]">
 									The total cost for this publication is{' '}
-									<span className="font-bold">9000</span>
+									<span className="font-bold">{total}</span>
 								</p>
 							</div>
 							<button

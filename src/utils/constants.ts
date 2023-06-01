@@ -98,6 +98,8 @@ export const emptyChangeOfNameValues: ChangeOfNamePublicationFields = {
 	reasonSelect: { value: null, label: null },
 	isExternal: false,
 	externalSelect: { value: null, label: null },
+	file:"",
+	image:""
 };
 
 export const nigerianStates = [

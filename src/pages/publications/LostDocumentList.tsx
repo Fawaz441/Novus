@@ -21,9 +21,7 @@ const LostDocumentList: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(LODPublications)) {
-			getPublications();
-		}
+		getPublications();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

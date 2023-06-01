@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { ReactComponent as Swap } from 'assets/icons/swap.svg';
 import {
 	ChangeOfNamePublicationFields,
-	ChangeOfNamePublicationValues,
 	Gender,
 } from 'interfaces/publications';
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,8 +44,6 @@ const ChangeOfNameForm = () => {
 		setValue('isExternal', value);
 
 	const onSubmit = (data: ChangeOfNamePublicationFields) => {
-		console.log(data);
-		return;
 		if (
 			isEmpty(data.newFirstName) &&
 			isEmpty(data.newLastName) &&
