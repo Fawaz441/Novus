@@ -57,8 +57,11 @@ const ChangeOfNamePreview = () => {
 				<PublicationCreationSteps activeStep="preview" />
 			</div>
 			<div className="mt-[22px] mini:mt-[33px] flex space-x-[31px]">
-				<div className="flex-shrink-0 mid:h-[175px] mid:w-[169px] h-[109px] w-[105px] mid:rounded-none rounded-6 bg-F4F4F4 flex flex-col items-center justify-center space-y-[14.91px]">
-					<Camera />
+				<div className="flex-shrink-0 mid:h-[175px] relative mid:w-[169px] h-[109px] w-[105px] mid:rounded-none rounded-6 bg-F4F4F4 flex flex-col items-center justify-center space-y-[14.91px]">
+					{newCONPublication?.image ?
+					<img className='absolute top-0 left-0 h-full w-full object-cover' alt="passport" src={newCONPublication?.image}/>
+					:
+					<Camera />}
 					<p className="max-w-[82px] text-12 text-center text-black">
 						Passport Photograph
 					</p>
@@ -143,7 +146,11 @@ const ChangeOfNamePreview = () => {
 				</p>
 			</div>
 			<div className="mt-8 flex mb-8">
-				<PublicationSample className="flex-shrink-0 w-full" />
+				{newCONPublication?.file &&
+				<div className='bg-D9D9D9 p-5 max-h-[500px] max-w-[500px] mx-auto'>
+					<img src={newCONPublication?.file} className='h-full w-full' alt="publication file"/>
+				</div>
+				}
 			</div>
 		</Wrapper>
 	);

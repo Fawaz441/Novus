@@ -6,8 +6,6 @@ import { ReactComponent as Document } from 'assets/icons/document.svg';
 const FileInput = (props:any) => {
 	const {ref_,fileValue, ...rest} = props;
 	const [blob, setBlob] = React.useState<any>(null)
-	console.log(props)
-
 	const handleSelectedFile = (e:any, isProp?:boolean) => {
 		let file;
 		if(isProp){
@@ -23,18 +21,6 @@ const FileInput = (props:any) => {
 			}
 	}
 
-
-	React.useEffect(()=>{
-		if(fileValue){
-			if(typeof fileValue !== "string"){
-				handleSelectedFile(fileValue, true)
-		}
-		else{
-			setBlob(fileValue)
-		}
-	}
-	},[fileValue])
-
 	return (
 		<div
 			className={clsx("h-[150px] relative bg-EEEEEE cursor-pointer rounded-6 w-full flex flex-col space-y-[11px] pt-[15px] justify-center",{
@@ -47,9 +33,9 @@ const FileInput = (props:any) => {
 			<div className="flex items-center justify-center">
 				<Document className="h-[66px] w-[66px]" />
 			</div>
-			{blob&&
+			{(blob||fileValue)&&
 			<img
-			src={blob}
+			src={blob ?? fileValue}
 			className="absolute top-0 left-0 h-full w-full object-contain bg-575555/[.7] rounded-6"
 			alt="user"
 			id="selected-file"

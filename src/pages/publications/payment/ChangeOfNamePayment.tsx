@@ -61,7 +61,7 @@ const ChangeOfNamePayment = () => {
 	}, [publishCONSuccess]);
 
 	const epitomeNewsPrice = React.useMemo(()=>{
-		return Number(publisherPrices.find(price => !!price.isPlatform)?.price)
+		return Number(publisherPrices.find(price => !!price.isPlatform)?.price||0)
 	},[publisherPrices])
 
 	const externalNewsPaperPrice = React.useMemo(()=>{

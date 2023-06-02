@@ -71,6 +71,7 @@ const ChangeOfName = () => {
 	};
 
 	const onSubmit = (data: ChangeOfNamePublicationFields) => {
+	
 		if(!data.image){
 			setError("image",{message:"Please select an image"})
 			return
@@ -81,11 +82,12 @@ const ChangeOfName = () => {
 		}
 		try{
 		if(data.file && typeof data.file !== "string"){
-			data.file = URL.createObjectURL(data.file)
+			data.file = URL.createObjectURL(data.file[0])
 		}
 		if(data.image && typeof data.image !== "string"){
-			data.image = URL.createObjectURL(data.image)
+			data.image = URL.createObjectURL(data.image[0])
 		}
+		
 	}
 	catch(e){
 		console.log(e)
@@ -132,27 +134,15 @@ const ChangeOfName = () => {
 	];
 
 
-	const getBlob = async(name:"file"|"image",url:string) => {
-		const r = await fetch(url)
-		const blob = await r.blob()
-		const file = new File([blob], name,{ type: "image/png" })
-		return file
-	}
+	// const getBlob = async(name:"file"|"image",url:string) => {
+	// 	const r = await fetch(url)
+	// 	const blob = await r.blob()
+	// 	const file = [new File([blob], name,{ type: "image/png" })]
+	// 	return file
+	// }
 
 	const sortOutNewPublication = async() => {
 		const data = {...newCONPublication}
-		try{
-		if(data.file){
-			data.file = await getBlob("file",data.file)
-		}
-		if(data.image){
-			data.image = await getBlob("image",data.image)
-		}
-	}
-		catch(e){
-			data.file = ""
-			data.image = ""
-		}
 		reset(data)
 	}
 
