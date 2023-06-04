@@ -2,7 +2,6 @@ import { ErrorToast, Loader, Pagination } from 'components/general';
 import { Wrapper } from 'components/navigation';
 import { FilterAndSearch } from 'components/news/interactions';
 import { MobileFormsNavigation, Publication } from 'components/publications';
-import { isEmpty } from 'lodash';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'store';
@@ -13,11 +12,24 @@ const { actions } = publicationSlice;
 
 const PublicationList: React.FC = () => {
 	const dispatch: AppDispatch = useDispatch();
-	const { CONPublications, loadingCONPublications, CONPublicationsError } =
-		useSelector((state: RootState) => state.publications);
+	const {
+		CONPublications,
+		CONPublicationsMeta,
+		loadingCONPublications,
+		CONPublicationsError,
+	} = useSelector((state: RootState) => state.publications);
 
-	const getPublications = () => {
-		dispatch(actions.getChangeOfNamePublications());
+	const getPublications = (filter?: any) => {
+		dispatch(
+			actions.getChangeOfNamePublications({
+				params: {
+					sort: JSON.stringify({
+						createdAt: 'DESC',
+					}),
+					...filter,
+				},
+			})
+		);
 	};
 
 	useEffect(() => {
@@ -51,7 +63,26 @@ const PublicationList: React.FC = () => {
 					))}
 				</div>
 				<div className="flex items-center justify-center h-[81px] flex-shrink-0">
-					<Pagination />
+					<Pagination
+						onPrevClick={() =>
+							getPublications({
+								page: JSON.stringify((CONPublicationsMeta?.currentPage || 0) - 1),
+							})
+						}
+						onNextClick={() =>
+							getPublications({
+								page: JSON.stringify((CONPublicationsMeta?.currentPage || 0) + 1),
+							})
+						}
+						prevDisabled={
+							CONPublicationsMeta?.currentPage === 1 ||
+							!CONPublicationsMeta?.currentPage
+						}
+						nextDisabled={
+							!CONPublicationsMeta?.currentPage ||
+							CONPublicationsMeta.totalPages === CONPublicationsMeta.currentPage
+						}
+					/>
 				</div>
 			</div>
 		</Wrapper>

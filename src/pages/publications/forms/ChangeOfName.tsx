@@ -35,7 +35,9 @@ const { actions } = publicationSlice;
 
 const ChangeOfName = () => {
 	const dispatch: AppDispatch = useDispatch();
-	const [hasMounted, setHasMounted] = React.useState(false)
+	const [fileError, setFileError] = React.useState(false);
+	const [imageError, setimageError] = React.useState(false);
+	const [hasMounted, setHasMounted] = React.useState(false);
 	const { newCONPublication, publisherPrices, loadingPublisherPrices } =
 		useSelector((state: RootState) => state.publications);
 	const navigate = useNavigate();
@@ -48,7 +50,7 @@ const ChangeOfName = () => {
 		control,
 		reset,
 		getValues,
-		register
+		register,
 	} = useForm<ChangeOfNamePublicationFields>({
 		defaultValues: emptyChangeOfNameValues,
 	});
@@ -71,27 +73,25 @@ const ChangeOfName = () => {
 	};
 
 	const onSubmit = (data: ChangeOfNamePublicationFields) => {
-	
-		if(!data.image){
-			setError("image",{message:"Please select an image"})
-			return
+		if (!data.file) {
+			setError('file', { message: 'Please select a document' });
+			return;
 		}
-		if(!data.file){
-			setError("file",{message:"Please select a document"})
-			return
+		if (!data.image) {
+			setError('image', { message: 'Please select an image' });
+			return;
 		}
-		try{
-		if(data.file && typeof data.file !== "string"){
-			data.file = URL.createObjectURL(data.file[0])
+
+		if (imageError) {
+			toast.error('Please re-upload your image');
+			setValue('image', '');
+			return;
 		}
-		if(data.image && typeof data.image !== "string"){
-			data.image = URL.createObjectURL(data.image[0])
+		if (fileError) {
+			toast.error('Please re-upload your supporting document');
+			setValue('file', '');
+			return;
 		}
-		
-	}
-	catch(e){
-		console.log(e)
-	}
 		if (
 			isEmpty(data.newFirstName) &&
 			isEmpty(data.newLastName) &&
@@ -133,24 +133,16 @@ const ChangeOfName = () => {
 		{ label: 'Change of name', value: 'Change of name' },
 	];
 
-
-	// const getBlob = async(name:"file"|"image",url:string) => {
-	// 	const r = await fetch(url)
-	// 	const blob = await r.blob()
-	// 	const file = [new File([blob], name,{ type: "image/png" })]
-	// 	return file
-	// }
-
-	const sortOutNewPublication = async() => {
-		const data = {...newCONPublication}
-		reset(data)
-	}
+	const sortOutNewPublication = async () => {
+		const data = { ...newCONPublication };
+		reset(data);
+	};
 
 	useEffect(() => {
 		if (newCONPublication) {
-			sortOutNewPublication()
+			sortOutNewPublication();
 		}
-		setHasMounted(true)
+		setHasMounted(true);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -162,7 +154,11 @@ const ChangeOfName = () => {
 				})
 			);
 		}
-		if (!publishWithThirdParty && hasMounted&& getValues('externalSelect')?.value) {
+		if (
+			!publishWithThirdParty &&
+			hasMounted &&
+			getValues('externalSelect')?.value
+		) {
 			setValue('externalSelect', emptyChangeOfNameValues.externalSelect);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -175,10 +171,18 @@ const ChangeOfName = () => {
 		}));
 	}, [publisherPrices]);
 
-	const { ref:fileRef, ...fileField } = register("file");
-	const {ref:imageRef, ...imageField} = register("image")
+	const { ref: fileRef } = register('file');
+	const { ref: imageRef } = register('image');
 
-	console.log(errors, "errors")
+	const setDocument = async(fileType: 'file' | 'image',e: any) => {
+		const selectedFile = e.target.files[0];
+		const reader = new FileReader();
+		reader.onload = function (event) {
+			const fileData = event?.target?.result;
+			setValue(fileType,fileData)
+		};
+		reader.readAsDataURL(selectedFile);
+	};
 
 	return (
 		<Wrapper isPublications>
@@ -309,7 +313,7 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								name="reasonSelect"
-								rules={{validate:v => !isEmpty(v.value)}}
+								rules={{ validate: (v) => !isEmpty(v.value) }}
 								render={({ field }) => (
 									<Select
 										label="Reason for Name Change"
@@ -317,6 +321,7 @@ const ChangeOfName = () => {
 										hasError={!!errors.reasonSelect}
 										options={nameChangeOptions}
 										{...field}
+										ref={null}
 									/>
 								)}
 							/>
@@ -467,10 +472,16 @@ const ChangeOfName = () => {
 								<Required />
 							</div>
 							<FileInput
-							hasError={!!errors.file}
-							ref_={fileRef}
-							fileValue={getValues("file")}
-							{...fileField}
+								onLoadError={()=>setFileError(true)}
+								removeError={() => {
+									if (fileError) {
+										setFileError(false);
+									}
+								}}
+								hasError={!!errors.file}
+								onChange={(e: any) => setDocument('file', e)}
+								ref_={fileRef}
+								fileValue={getValues('file')}
 							/>
 						</div>
 						<div className="flex flex-col space-y-[7px] mt-[43px]">
@@ -478,13 +489,20 @@ const ChangeOfName = () => {
 								<span className="text-12 text-575555 font-medium leading-[14.09px]">
 									Upload Passport Photograph
 								</span>
-							</div>		
-						<FileInput 
-						hasError={!!errors.image}
-						ref_={imageRef}
-						fileValue={getValues("image")}
-						{...imageField}
-						/>
+							</div>
+							<FileInput
+								onLoadError={()=>setimageError(true)}
+								removeError={() => {
+									if (imageError) {
+										setimageError(false);
+									}
+								}}
+								hasError={!!errors.image}
+								onChange={(e: any) => setDocument('image', e)}
+								ref_={imageRef}
+								fileValue={getValues('image')}
+								accepts="image/jpeg,image/png"
+							/>
 						</div>
 						<div className="flex flex-col space-y-[5px] mt-[38px]">
 							<Controller

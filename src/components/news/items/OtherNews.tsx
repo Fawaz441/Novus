@@ -1,5 +1,6 @@
 import React from 'react';
 import woman from 'assets/images/woman.png';
+import nis from 'assets/icons/publications/nis.png';
 import OtherNewsItem from './OtherNewsItem';
 import OtherNewsTags from './OtherNewsTags';
 
@@ -19,8 +20,9 @@ const OtherNews: React.FC = () => (
 		<div className="flex flex-col space-y-[34px] overflow-auto pb-[150px] scrollbar-hide mini:h-[calc(100vh_-_210px)]">
 			<OtherNewsItem
 				header="Governorship election: APC, Sanwo-Olu jittery as Obi’s  ..."
-				tag="ELECTIONS"
-				image={woman}
+				tag="Nigeria Immigration"
+				image={nis}
+				tagButtonClassName='!bg-[#BFFFE4] !text-[#009A49]'
 				date="2 days ago"
 				description="The All Progressives Congress, APC, in Lagos State and Governor Babajide Sanwo-Olu are wide awake ahead of the next round of general elections."
 				author="OLUIBADAN, JAJA OF OPOBO and PROF JULIET "

@@ -17,11 +17,12 @@ import { removeFromLS } from 'utils/functions';
 
 const { actions } = publicationSlice;
 
-function* fetchChangeOfNamePublications() {
+function* fetchChangeOfNamePublications(action:PayloadAction<{ params: any }>) {
 	try {
 		const { data }: PublicationsListAPICallResponse = yield call(
 			publicationsAPI.getPublications,
-			PUBLICATION_TYPES.CHANGE_OF_NAME
+			PUBLICATION_TYPES.CHANGE_OF_NAME,
+			action?.payload?.params
 		);
 		yield put(
 			actions.getChangeOfNamePublicationsSuccess({
@@ -30,13 +31,15 @@ function* fetchChangeOfNamePublications() {
 			})
 		);
 	} catch (e) {
+		console.log(e)
 		yield put(actions.getChangeOfNamePublicationsError());
 	}
 }
-function* fetchLostDocumentPublications() {
+function* fetchLostDocumentPublications(action:PayloadAction<{ params: any }>) {
 	try {
 		const { data }: LODPublicationListResponse = yield call(
-			publicationsAPI.getLostDocumentPublications
+			publicationsAPI.getLostDocumentPublications,
+			action?.payload?.params
 		);
 		yield put(
 			actions.getLostDocumentsPublicationsSuccess({
@@ -65,7 +68,7 @@ function* fetchPublisherPrices(
 
 function* publishCON(action: PayloadAction<ChangeOfNamePublicationFields>) {
 	try {
-		const { externalSelect, reasonSelect, ...data } = action.payload;
+		const { externalSelect, reasonSelect,file,image, ...data } = action.payload;
 		const publicationPayload: ChangeOfNamePublicationPayload = {
 			...data,
 			reason: reasonSelect?.value || '',
@@ -73,7 +76,29 @@ function* publishCON(action: PayloadAction<ChangeOfNamePublicationFields>) {
 		if (data.isExternal) {
 			publicationPayload.externalName = externalSelect?.value || '';
 		}
-		yield call(publicationsAPI.createCONPublication, publicationPayload);
+		const {data:response} = yield call(publicationsAPI.createCONPublication, publicationPayload);
+		// upload image
+		const photoFormData = new FormData()
+		photoFormData.append("publishType",PUBLICATION_TYPES.CHANGE_OF_NAME)
+		photoFormData.append("type","passport")
+		photoFormData.append("publishId",response.id)
+		let pubImage:Blob = yield fetch(image).then((res) => res.blob());
+		pubImage = new File([pubImage],"image",{type:pubImage.type})
+		photoFormData.append("image",pubImage)
+		// end upload image
+
+		// upload document
+		const documentFormData = new FormData()
+		documentFormData.append("publishType",PUBLICATION_TYPES.CHANGE_OF_NAME)
+		documentFormData.append("type","document")
+		documentFormData.append("publishId",response.id)
+		let document:Blob = yield fetch(file).then((res) => res.blob())
+		document = new File([document],"document",{type:document.type})
+		documentFormData.append("image",document)
+		// end upload document
+
+		yield call(publicationsAPI.uploadDocument,photoFormData)
+		yield call(publicationsAPI.uploadDocument,documentFormData)
 		removeFromLS(STORAGE_KEYS.NEW_CON_PUBLICATION);
 		yield put(actions.publishCONSuccess());
 	} catch (e) {
@@ -83,7 +108,7 @@ function* publishCON(action: PayloadAction<ChangeOfNamePublicationFields>) {
 
 function* publishLOD(action: PayloadAction<LossOfDocumentPublicationFields>) {
 	try {
-		const { externalSelect, stateSelect, countrySelect, ...data } =
+		const { externalSelect, stateSelect, countrySelect,file,image, ...data } =
 			action.payload;
 		const publicationPayload: LossOfDocumentPublicationPayload = {
 			...data,
@@ -94,7 +119,29 @@ function* publishLOD(action: PayloadAction<LossOfDocumentPublicationFields>) {
 			publicationPayload.externalName = externalSelect?.value || '';
 			publicationPayload.externalPageInfo = externalSelect?.label || '';
 		}
-		yield call(publicationsAPI.createLODPublication, publicationPayload);
+		const {data:response} = yield call(publicationsAPI.createLODPublication, publicationPayload);
+		// upload image
+		const photoFormData = new FormData()
+		photoFormData.append("publishType",PUBLICATION_TYPES.LOSS_OF_DOCUMENT)
+		photoFormData.append("type","passport")
+		photoFormData.append("publishId",response.id)
+		let pubImage:Blob = yield fetch(image).then((res) => res.blob());
+		pubImage = new File([pubImage],"image",{type:pubImage.type})
+		photoFormData.append("image",pubImage)
+		// end upload image
+
+		// upload document
+		const documentFormData = new FormData()
+		documentFormData.append("publishType",PUBLICATION_TYPES.LOSS_OF_DOCUMENT)
+		documentFormData.append("type","document")
+		documentFormData.append("publishId",response.id)
+		let document:Blob = yield fetch(file).then((res) => res.blob())
+		document = new File([document],"document",{type:document.type})
+		documentFormData.append("image",document)
+		// end upload document
+
+		yield call(publicationsAPI.uploadDocument,photoFormData)
+		yield call(publicationsAPI.uploadDocument,documentFormData)
 		removeFromLS(STORAGE_KEYS.NEW_LOD_PUBLICATION);
 		yield put(actions.publishLODSuccess());
 	} catch (e) {

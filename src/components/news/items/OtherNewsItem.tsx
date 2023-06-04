@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'classnames'
 import { ReactComponent as Trend } from 'assets/icons/trend.svg';
 import NewsTag from './NewsTag';
 
@@ -9,6 +10,7 @@ interface OtherNewsItemProps {
 	date: string;
 	description: string;
 	author: string;
+	tagButtonClassName?:string;
 }
 
 const OtherNewsItem: React.FC<OtherNewsItemProps> = ({
@@ -18,6 +20,7 @@ const OtherNewsItem: React.FC<OtherNewsItemProps> = ({
 	date,
 	description,
 	author,
+	tagButtonClassName
 }) => (
 	<div className="flex flex-col space-y-[17px]">
 		<div className="flex flex-col space-y-3">
@@ -27,7 +30,7 @@ const OtherNewsItem: React.FC<OtherNewsItemProps> = ({
 				alt={header}
 			/>
 			<div className="flex items-center justify-between">
-				<NewsTag name={tag} className="w-[120px] bg-BF12312 text-BF1231" />
+				<NewsTag name={tag} className={clsx("w-[120px] bg-BF12312 text-BF1231",tagButtonClassName)} />
 				<div className="flex items-center space-x-[5px]">
 					<div className="h-[26px] w-[26px] flex items-center justify-center rounded-[3px] bg-F4F4F4">
 						<Trend />

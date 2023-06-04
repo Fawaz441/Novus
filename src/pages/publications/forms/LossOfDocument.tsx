@@ -43,6 +43,8 @@ import moment from 'moment';
 const { actions } = publicationSlice;
 
 const LossOfDocument = () => {
+	const [fileError, setFileError] = React.useState(false);
+	const [imageError, setimageError] = React.useState(false);
 	const [showCalendar, setShowCalendar] = useState(false);
 	const navigate = useNavigate();
 	const dispatch: AppDispatch = useDispatch();
@@ -58,6 +60,7 @@ const LossOfDocument = () => {
 		watch,
 		setError,
 		getValues,
+		register
 	} = useForm<LossOfDocumentPublicationFields>({
 		defaultValues: emptyLossOfDocumentValues,
 	});
@@ -72,6 +75,24 @@ const LossOfDocument = () => {
 	const publishWithThirdParty = watch('isExternal');
 
 	const onSubmit = (data: LossOfDocumentPublicationFields) => {
+		if (!data.file) {
+			setError('file', { message: 'Please select a document' });
+			return;
+		}
+		if (!data.image) {
+			setError('image', { message: 'Please select an image' });
+			return;
+		}
+		if (imageError) {
+			toast.error('Please re-upload your image');
+			setValue('image', '');
+			return;
+		}
+		if (fileError) {
+			toast.error('Please re-upload your supporting document');
+			setValue('file', '');
+			return;
+		}
 		if (publishWithThirdParty && !data?.externalSelect?.value) {
 			toast.error('Please select an external newspaper');
 			setError(
@@ -114,6 +135,19 @@ const LossOfDocument = () => {
 
 	const dateLost = watch('dateLost');
 
+	const { ref: fileRef } = register('file');
+	const { ref: imageRef } = register('image');
+
+	const setDocument = async(fileType: 'file' | 'image',e: any) => {
+		const selectedFile = e.target.files[0];
+		const reader = new FileReader();
+		reader.onload = function (event) {
+			const fileData = event?.target?.result;
+			setValue(fileType,fileData)
+			console.log("successful")
+		};
+		reader.readAsDataURL(selectedFile);
+	};
 
 	return (
 		<Wrapper isPublications>
@@ -282,6 +316,7 @@ const LossOfDocument = () => {
 										hasRequiredIcon
 										options={countries}
 										{...field}
+										ref={null}
 									/>
 								)}
 							/>
@@ -300,6 +335,7 @@ const LossOfDocument = () => {
 											label: state,
 										}))}
 										{...field}
+										ref={null}
 									/>
 								)}
 							/>
@@ -440,6 +476,7 @@ const LossOfDocument = () => {
 											options={thirdPartyNewsPapers}
 											isLoading={loadingPublisherPrices}
 											{...field}
+											ref={null}
 										/>
 									)}
 								/>
@@ -489,7 +526,19 @@ const LossOfDocument = () => {
 								</span>
 								<Required />
 							</div>
-							<FileInput />
+							<FileInput
+								onLoadError={()=>setimageError(true)}
+								removeError={() => {
+									if (imageError) {
+										setimageError(false);
+									}
+								}}
+								hasError={!!errors.image}
+								onChange={(e: any) => setDocument('image', e)}
+								ref_={imageRef}
+								fileValue={getValues('image')}
+								accepts='image/jpeg,image/png'
+							/>
 						</div>
 						<div className="flex flex-col space-y-[7px] mt-[43px]">
 							<div className="flex space-x-6">
@@ -498,7 +547,18 @@ const LossOfDocument = () => {
 								</span>
 								<Required />
 							</div>
-							<FileInput />
+							<FileInput
+								onLoadError={()=>setFileError(true)}
+								removeError={() => {
+									if (fileError) {
+										setFileError(false);
+									}
+								}}
+								hasError={!!errors.file}
+								onChange={(e: any) => setDocument('file', e)}
+								ref_={fileRef}
+								fileValue={getValues('file')}
+							/>
 						</div>
 						<div className="flex space-x-2 items-center">
 							<button

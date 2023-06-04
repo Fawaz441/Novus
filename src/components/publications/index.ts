@@ -8,9 +8,11 @@ import MobilePublcationsTabs from './MobilePublicationsTabs';
 import Publication from './Publication';
 import PublicationButton from './PublicationButton';
 import PublicationCreationSteps from './PublicationCreationSteps';
+import PublicationPayment from './PublicationPayment';
 import PublicationStatus from './PublicationStatus';
 
 export {
+	PublicationPayment,
 	LosttDocument,
 	PublicationCreationSteps,
 	EditPublicationModal,

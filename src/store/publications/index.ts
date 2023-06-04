@@ -61,6 +61,9 @@ export const publicationSlice = createSlice({
 			state.publisherPrices = action.payload;
 			state.loadingPublisherPrices = false;
 		},
+		clearPublisherPrices:(state)=>{
+			state.publisherPrices = []
+		},
 		// end publisher prices
 		addNewConPublication: (
 			state,
@@ -81,7 +84,7 @@ export const publicationSlice = createSlice({
 			state.newLODPublication = null;
 		},
 		// change of name publications
-		getChangeOfNamePublications: (state) => {
+		getChangeOfNamePublications: (state,action?:PayloadAction<any>) => {
 			state.loadingCONPublications = true;
 			state.CONPublicationsError = false;
 		},
@@ -93,10 +96,7 @@ export const publicationSlice = createSlice({
 			}>
 		) => {
 			state.loadingCONPublications = false;
-			state.CONPublications = [
-				...state.CONPublications,
-				...action.payload.publications,
-			];
+			state.CONPublications = action.payload.publications;
 			state.CONPublicationsMeta = action.payload.meta;
 		},
 		getChangeOfNamePublicationsError: (state) => {
@@ -107,7 +107,7 @@ export const publicationSlice = createSlice({
 		// end change of name publications
 
 		// lost document publications
-		getLostDocumentPublications: (state) => {
+		getLostDocumentPublications: (state,action?:PayloadAction<any>) => {
 			state.loadingLODPublications = true;
 			state.LODPublicationsError = false;
 		},
@@ -119,10 +119,7 @@ export const publicationSlice = createSlice({
 			}>
 		) => {
 			state.loadingLODPublications = false;
-			state.LODPublications = [
-				...state.LODPublications,
-				...action.payload.publications,
-			];
+			state.LODPublications = action.payload.publications;
 			state.LODPublicationsMeta = action.payload.meta;
 		},
 		getLostDocumentsPublicationsError: (state) => {

@@ -68,7 +68,7 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 					</div>
 				</div>
 				<p className="text-[10px] leading-[16.74px] font-medium text-575555 mini:text-12 mini:leading-[20.09px] mb-3 mini:mb-[14px]">
-					This is to notify the general public, that I , Mr {data?.firstName}{' '}
+					This is to notify the general public, that I, Mr {data?.firstName}{' '}
 					{data?.middleName} {data?.lastName} of {data?.houseAddress} lost a{' '}
 					{data?.itemLost} with Property ID {data?.idNumber},
 				</p>

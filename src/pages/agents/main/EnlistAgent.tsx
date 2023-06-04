@@ -136,7 +136,10 @@ const EnlistAgent = () => {
 							<div>
 								<div className="relative pb-[30px]">
 									<div className="absolute bottom-0 h-[30px] w-full left-0 flex items-center justify-center">
-										<Pagination />
+										<Pagination
+										nextDisabled
+										prevDisabled
+										 />
 									</div>
 									<ul className="flex flex-col space-y-[18px] overflow-y-auto h-[500px]">
 										{invitedAgents.map((agent) => (

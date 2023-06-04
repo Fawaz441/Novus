@@ -5,11 +5,9 @@ import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Change } from 'assets/icons/publications/change.svg';
 import { ReactComponent as Camera } from 'assets/images/publications/camera.svg';
 import {
-	DeclineReason,
 	EditPublicationModal,
 	PublicationStatus,
 } from 'components/publications';
-import { ReactComponent as PublicationSample } from 'assets/images/publications/sample.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useModal } from 'hooks';
 import {
@@ -64,6 +62,7 @@ const PublicationDetail = () => {
 		}
 	};
 
+
 	const getPublicationDetail = async () => {
 		try {
 			const info = getPublicationType();
@@ -111,7 +110,7 @@ const PublicationDetail = () => {
 		}
 		if (type?.type === PUBLICATION_TYPES.LOSS_OF_DOCUMENT) {
 			return `
-			This is to notify the general public, that I , ${getTitle(
+			This is to notify the general public, that I, ${getTitle(
 				detail?.gender || ''
 			)} ${detail?.firstName}
 			${detail?.middleName} ${detail?.lastName} of ${detail?.houseAddress} lost a
@@ -119,6 +118,28 @@ const PublicationDetail = () => {
 			`;
 		}
 	};
+
+	const getSubHeader = () => {
+		const type = getPublicationType();
+		if(type?.type === PUBLICATION_TYPES.CHANGE_OF_NAME){
+			return`
+				${getTitle(detail?.gender || '')}
+				${detail?.newFirstName}
+				${detail?.newMiddleName}
+				${detail?.newLastName}
+			`
+		}
+		if(type?.type === PUBLICATION_TYPES.LOSS_OF_DOCUMENT){
+			return`
+				${getTitle(detail?.gender || '')}
+				${detail?.firstName}
+				${detail?.middleName}
+				${detail?.lastName}
+			`
+		}
+	}
+
+	const passPortPhotograph = detail?.photos?.find((doc:any) => doc?.type === "passport")?.url
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
@@ -167,29 +188,32 @@ const PublicationDetail = () => {
 						</span>
 					</div>
 					<div className="mt-7 flex space-x-[59px] mini:space-x-[31px]">
-						<div className="flex-shrink-0 h-[109px] w-[105px] mini:h-[175px] mini:w-[169px] bg-F4F4F4 flex flex-col items-center justify-center space-y-[14.91px]">
-							<Camera />
-							<p className="max-w-[82px] text-12 text-center text-black">
+						<div className="relative flex-shrink-0 h-[109px] w-[105px] mini:h-[175px] mini:w-[169px] bg-F4F4F4 flex flex-col items-center justify-center space-y-[14.91px]">
+							{
+								passPortPhotograph? 
+								<img className='h-full w-full top-0 left-0 absolute object-contain'
+								alt="Passport Photograph"
+								src={`https://api.theepitomenews.com/images/${passPortPhotograph}`}
+								/>:
+								<Camera />}
+							{!passPortPhotograph && <p className="max-w-[82px] text-12 text-center text-black">
 								Passport Photograph
-							</p>
+							</p>}
 						</div>
-						<div className="mini:hidden mt-[37px]">
+						{/* <div className="mini:hidden mt-[37px]">
 							<button
 								type="button"
 								onClick={() => showModal(MODALS.EDIT_PUBLICATION)}
 								className="text-575555 font-semibold text-12 py-[10px] px-[35px] rounded-3 bg-EEEEEE flex items-center justify-center">
 								Edit Publication
 							</button>
-						</div>
+						</div> */}
 						<div className="hidden mini:block">
 							<h3 className="font-medium text-xl leading-[23.48px] text-black mb-2">
 								<span className="font-bold">
 									{getPublicationType()?.title} :
 								</span>{' '}
-								{getTitle(detail?.gender || '')}{' '}
-								{detail?.newFirstName || detail?.firstName}{" "}
-								{detail?.newMiddleName}{' '}
-								{detail?.newLastName || detail?.lastName}
+								{getSubHeader()}
 							</h3>
 							{publicationIsApproved ? (
 								<div className="flex items-center justify-between">
@@ -250,22 +274,19 @@ const PublicationDetail = () => {
 					</div>
 					<div className="mini:hidden mt-6">
 						<h3 className="font-medium text-[12px] leading-[14.09px] text-black">
-							<span className="font-bold">{getPublicationType()?.title} :</span> {getTitle(detail?.gender || '')} {detail?.newFirstName}{" "}
-							{detail?.newMiddleName} {detail?.newLastName}
+							<span className="font-bold">{getPublicationType()?.title} :</span> 
+							{getSubHeader()}
 						</h3>
 						<p className="text-black leading-[18px] text-[10px]">
-							“I, formerly known and addressed as {detail?.oldFirstName}{' '}
-							{detail?.oldMiddleName} {detail?.oldLastName}, henceforth wish to
-							be known and addressed as {detail?.newFirstName}
-							{detail?.newMiddleName} {detail?.newLastName}. All former
-							documents remain valid. {detail?.concernParties} and the general
-							public to take note”
+						{getText()}
 						</p>
 					</div>
-					<div className="mt-8 flex flex-col space-y-8 mini:space-y-0 mini:flex-row mini:space-x-[250px] mb-8">
+					{/* <div className="mt-8 flex flex-col space-y-8 mini:space-y-0 mini:flex-row mini:space-x-[250px] mb-8">
+						<div className='flex items-center justify-center w-full'>
 						<PublicationSample className="flex-shrink-0 w-full mini:w-auto" />
+						</div>
 						{!publicationIsApproved && <DeclineReason />}
-					</div>
+					</div> */}
 				</div>
 			)}
 		</Wrapper>

@@ -45,3 +45,12 @@ export const getPublicationLink = (
 
 export const getTitle = (gender: string) =>
 	gender === 'female' ? 'Mrs.' : 'Mr.';
+
+
+export const getBlob = async(name:"file"|"image",url:string) => {
+	const r = await fetch(url)
+	const blob = await r.blob()
+	return blob
+	// const file = [new File([blob], name,{ type: "image/png" })]
+	// return file
+}

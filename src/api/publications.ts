@@ -36,19 +36,22 @@ export type LODPublicationsCreationResponse =
 
 export type LODPublicationListResponse = AxiosResponse<LossOfDocumentsData>;
 
+
 const publicationsAPI = {
 	getPublications: (
-		publicationType: PUBLICATION_TYPES
+		publicationType: PUBLICATION_TYPES,
+		params?:any
 	): Promise<PublicationsListAPICallResponse> =>
-		rootAxios.get(`/publication/publications/${publicationType}`),
-	getLostDocumentPublications: (): Promise<LODPublicationListResponse> =>
+		rootAxios.get(`/publication/publications/${publicationType}`,{params}),
+	getLostDocumentPublications: (params?:any): Promise<LODPublicationListResponse> =>
 		rootAxios.get(
-			`/publication/publications/${PUBLICATION_TYPES.LOSS_OF_DOCUMENT}`
+			`/publication/publications/${PUBLICATION_TYPES.LOSS_OF_DOCUMENT}`,
+			{params}
 		),
-	getObituaryPublications: () =>
-		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.OBITUARY}`),
-	getAffidavitPublications: () =>
-		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.AFFIDAVIT}`),
+	getObituaryPublications: (params?:any) =>
+		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.OBITUARY}`,{params}),
+	getAffidavitPublications: (params?:any) =>
+		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.AFFIDAVIT}`,{params}),
 	getPublicationDetail: (
 		reference: string,
 		publicationType: PUBLICATION_TYPES
@@ -74,6 +77,10 @@ const publicationsAPI = {
 		data: LossOfDocumentPublicationPayload
 	): Promise<LODPublicationsCreationResponse> =>
 		rootAxios.post('/publication/addLossDocument', data),
+	uploadDocument:(data:any) => rootAxios.post('/publication/upload',data,
+	{headers:{
+		"Content-Type":"multipart/form-data"
+	}}),
 };
 
 export default publicationsAPI;

@@ -70,8 +70,8 @@ export const emptyLossOfDocumentValues: LossOfDocumentPublicationFields = {
 	phone: '',
 	houseAddress: '',
 	countrySelect: countries[0],
-	stateSelect: { value: null, label: null },
-	externalSelect: { value: null, label: null },
+	stateSelect: { value: "", label: "" },
+	externalSelect: { value: "", label: "" },
 	itemLost: '',
 	supportIdName: '',
 	dateLost: new Date()?.toISOString(),
@@ -81,6 +81,8 @@ export const emptyLossOfDocumentValues: LossOfDocumentPublicationFields = {
 	physicalDesc: '',
 	reward: '',
 	concernParties: '',
+	file:"",
+	image:""
 };
 
 export const emptyChangeOfNameValues: ChangeOfNamePublicationFields = {
@@ -95,9 +97,9 @@ export const emptyChangeOfNameValues: ChangeOfNamePublicationFields = {
 	houseAddress: '',
 	gender: 'male',
 	concernParties: '',
-	reasonSelect: { value: null, label: null },
+	reasonSelect: { value: "", label: "" },
 	isExternal: false,
-	externalSelect: { value: null, label: null },
+	externalSelect: { value: "", label: "" },
 	file:"",
 	image:""
 };

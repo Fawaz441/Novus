@@ -8,7 +8,7 @@ import { toggleHiddenElement } from 'utils/ui-functions';
 
 const mobileNavLinks = [
 	{ name: 'News Feed', route: routes.home },
-	{ name: 'Classified Ads', route: routes.lost_document_publications },
+	{ name: 'Classified Ads', route: routes.change_of_name_publications },
 	{
 		name: 'Check Publication',
 		route: `${routes.pub_forms.mobile_check_or_create}?check=true`,

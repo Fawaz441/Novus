@@ -6,18 +6,30 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'store';
 import { publicationSlice } from 'store/publications';
-import { isEmpty } from 'lodash';
 import toast from 'react-hot-toast';
 
 const { actions } = publicationSlice;
 
 const LostDocumentList: React.FC = () => {
 	const dispatch: AppDispatch = useDispatch();
-	const { LODPublications, loadingLODPublications, LODPublicationsError } =
-		useSelector((state: RootState) => state.publications);
+	const {
+		LODPublications,
+		loadingLODPublications,
+		LODPublicationsError,
+		LODPublicationsMeta,
+	} = useSelector((state: RootState) => state.publications);
 
-	const getPublications = () => {
-		dispatch(actions.getLostDocumentPublications());
+	const getPublications = (params?:any) => {
+		dispatch(
+			actions.getLostDocumentPublications({
+				params: {
+					sort: JSON.stringify({
+						createdAt: 'DESC',
+						...params
+					}),
+				},
+			})
+		);
 	};
 
 	useEffect(() => {
@@ -51,7 +63,26 @@ const LostDocumentList: React.FC = () => {
 					))}
 				</div>
 				<div className="flex items-center justify-center h-[81px] flex-shrink-0">
-					<Pagination />
+					<Pagination
+						onPrevClick={() =>
+							getPublications({
+								page: JSON.stringify((LODPublicationsMeta?.currentPage || 0) - 1)
+							})
+						}
+						onNextClick={() =>
+							getPublications({
+								page: JSON.stringify((LODPublicationsMeta?.currentPage || 0) + 1)
+							})
+						}
+						prevDisabled={
+							LODPublicationsMeta?.currentPage === 1 ||
+							!LODPublicationsMeta?.currentPage
+						}
+						nextDisabled={
+							!LODPublicationsMeta?.currentPage ||
+							LODPublicationsMeta.totalPages === LODPublicationsMeta.currentPage
+						}
+					/>
 				</div>
 			</div>
 		</Wrapper>
