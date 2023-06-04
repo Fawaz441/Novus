@@ -62,7 +62,8 @@ html,body{
 
 /* mobile sidenav */
 #mobile-sidenav.active,
-#mobile-agent-sidenav.active
+#mobile-agent-sidenav.active,
+#mobile-admin-sidenav.active
 {
   left:0 !important;
 }

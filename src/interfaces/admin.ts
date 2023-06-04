@@ -1,0 +1,1 @@
+export type AdminPublicationsFilterDuration = "today" | "yesterday" | "one-week"

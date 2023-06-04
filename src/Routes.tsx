@@ -30,6 +30,7 @@ import {
 	CheckPublications,
 	CreatePublication,
 } from 'pages/agents/publications';
+import { Dashboard as AdminDashboard } from 'pages/admin/main';
 import { useWindowSize } from 'hooks';
 
 const AppRoutes: React.FC = () => {
@@ -115,6 +116,7 @@ const AppRoutes: React.FC = () => {
 			element: <EnlistAgent />,
 		},
 		{ path: '*', element: <NotFound /> },
+		{path:routes.admin.dashboard,element:<AdminDashboard/>}
 	]);
 	return loading ? <div /> : <RouterProvider router={router} />;
 };

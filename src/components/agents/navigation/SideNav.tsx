@@ -123,7 +123,7 @@ const SideNav = () => {
 					onScroll={onScroll}>
 					<div className="pt-7 pl-7 flex items-center space-x-[14px]">
 						<div className="bg-7108F6 w-10 h-[37.14px] rounded flex items-center justify-center">
-							<span className="text-white text-base font-bold">N</span>
+							<span className="text-white text-base font-bold">E</span>
 						</div>
 						<div className="flex flex-col space-y-[6px]">
 							<p className="text-sm text-black leading-[14px]">
@@ -223,7 +223,7 @@ const SideNav = () => {
 						<div className="h-[14px] w-[14px] rounded-full border-[0.2px] border-575555 flex items-center justify-center">
 							<span className="text-10 text-black">c</span>
 						</div>
-						<span className="text-10 text-575555">Novus, 2023</span>
+						<span className="text-10 text-575555">The Epitome News, 2023</span>
 					</div>
 				</div>
 			</div>

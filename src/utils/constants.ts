@@ -44,6 +44,9 @@ export const routes = {
 		check_publications: '/agents/publications/search',
 		new_publication: '/agents/publications/new',
 	},
+	admin:{
+		dashboard:"/management/dashboard"
+	}
 };
 
 export enum STORAGE_KEYS {
@@ -52,6 +55,7 @@ export enum STORAGE_KEYS {
 	SHOW_NOVUS_PUBLICATION_LINKS = 'novus.show_pub_links',
 	SHOW_NOVUS_AGENT_LINKS = 'novus.show_agent_links',
 	NOVUS_AGENT_SCROLLBAR_POS = 'novus.agent_scrollbar_pos',
+	NOVUS_ADMIN_SCROLLBAR_POS = "novus.admin_scrollbar_pos"
 }
 
 export enum APP_TERMS {
@@ -387,6 +391,7 @@ export const nigerianBanks = [
 	},
 ];
 
+export const MOBILE_ADMIN_SIDENAV = '#mobile-admin-sidenav';
 export const MOBILE_AGENT_SIDENAV = '#mobile-agent-sidenav';
 export const MOBILE_SIDENAV = '#mobile-sidenav';
 export const MOBILE_WIDTH = 550;
