@@ -21,4 +21,8 @@ rootAxios.interceptors.response.use(
 	}
 );
 
+export const setToken = (token: string) =>
+	(rootAxios.defaults.headers.Authorization = `Bearer ${token}`);
+export const removeToken = delete rootAxios.defaults.headers.Authorization;
+
 export default rootAxios;

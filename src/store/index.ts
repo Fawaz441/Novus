@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import PublicationsReducer from './publications';
+import adminReducer from './admin';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './saga';
 
@@ -8,6 +9,7 @@ const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
 	reducer: {
 		publications: PublicationsReducer,
+		admin: adminReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(sagaMiddleware),

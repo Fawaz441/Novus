@@ -1,4 +1,4 @@
-import { PUBLICATION_TYPES } from "utils/constants";
+import { PUBLICATION_TYPES } from 'utils/constants';
 
 export type PublicationStatus = 'declined' | 'approved' | 'pending';
 
@@ -28,8 +28,8 @@ export interface ChangeOfNamePublicationFields {
 	isExternal: boolean;
 	externalSelect?: { value: string | null; label: string | null };
 	reasonSelect: { value: string | null; label: string | null };
-	file?:any;
-	image?:any;
+	file?: any;
+	image?: any;
 }
 
 export interface ChangeOfNamePublicationValues
@@ -69,8 +69,8 @@ export interface LossOfDocumentPublicationFields {
 	stateSelect?: { value: string | null; label: string | null };
 	dateLost: string;
 	concernParties: string;
-	file?:any;
-	image?:any;
+	file?: any;
+	image?: any;
 }
 
 export interface LossOfDocumentPublicationValues
@@ -88,6 +88,7 @@ export interface LossOfDocumentPublicationValues
 	updatedAt: string;
 	createdAt: string;
 	reference?: string;
+	status?: string;
 }
 
 //
@@ -131,11 +132,11 @@ export interface LossOfDocumentPublicationPayload {
 	externalPageInfo?: string;
 }
 
-export interface DocumentPayload{
-	publishType:PUBLICATION_TYPES,
-	type:"passport"|"document"|"signatory",
-	publishId:string,
-	image:any
+export interface DocumentPayload {
+	publishType: PUBLICATION_TYPES;
+	type: 'passport' | 'document' | 'signatory';
+	publishId: string;
+	image: any;
 }
 
 export interface PublisherPrice {

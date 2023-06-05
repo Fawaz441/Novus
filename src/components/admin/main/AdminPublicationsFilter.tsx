@@ -8,21 +8,38 @@ import { Calendar, Input, Select } from 'components/inputs';
 interface AdminPublicationsFilterProps {
 	onFilterChange: (filter: AdminPublicationsFilterDuration) => void;
 	currentFilter: AdminPublicationsFilterDuration;
+	date: Date | null;
+	setDate: (_date: Date | null) => void;
+	status: 'Pending' | 'Published' | null;
+	setStatus: (_status: 'Pending' | 'Published' | null) => void;
 }
 
 const AdminPublicationsFilter: React.FC<AdminPublicationsFilterProps> = ({
 	currentFilter,
 	onFilterChange,
+	date,
+	setDate,
+	status,
+	setStatus,
 }) => {
-	const [date, setDate] = React.useState(new Date());
 	const [showCalendar, setShowCalendar] = React.useState(false);
+	const options = [
+		{ label: 'Pending', value: 'Pending' },
+		{ label: 'Published', value: 'Published' },
+	];
+
+	const getSelectValue = () => {
+		const query = options.find((value) => value.value === status);
+		return query ? query : null;
+	};
 	return (
 		<div className="flex items-center justify-between">
 			<Calendar
-				value={date}
+				value={date || new Date()}
 				visible={showCalendar}
 				onClose={() => setShowCalendar(false)}
 				onChange={(_date) => setDate(_date)}
+				maxDate={new Date()}
 			/>
 			<div className="flex space-x-[15px] items-center">
 				<p className="font-inter text-[18px] text-black">
@@ -63,20 +80,32 @@ const AdminPublicationsFilter: React.FC<AdminPublicationsFilterProps> = ({
 			</div>
 			<div className="flex space-x-[25px] items-center">
 				<Select
-                    placeholder="Select Publication Status"
+					placeholder="Select Publication Status"
+					options={options}
+					isClearable
 					ClassNames={{
 						control: (state) =>
 							`!h-[41px] !border-[0.2px] !min-w-[200px] outline-none !border-575555/[.2] !rounded-3 !text-12 !text-black ${
 								state.isFocused ? 'outline-none border-none shadow-none' : ''
 							}`,
 					}}
+					value={getSelectValue()}
+					onChange={(e: any) => setStatus(e?.value)}
 				/>
 				<Input
 					hasFilterIcon={false}
 					value={date ? moment(date).format('DD-MM-YYYY') : ''}
 					placeholder="Enter a date"
 					wrapperClassName="!max-w-[200px] !h-[41px] !border-[#9B9B9B] bg-white"
-					icon={<Check className="fill-black h-[18px]" />}
+					icon={
+						<button
+							onClick={(e) => {
+								e.stopPropagation();
+								setDate(null);
+							}}>
+							<Check className="fill-black h-[18px]" />
+						</button>
+					}
 					onClick={() => setShowCalendar(true)}
 				/>
 			</div>

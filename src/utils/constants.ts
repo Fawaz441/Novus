@@ -44,9 +44,10 @@ export const routes = {
 		check_publications: '/agents/publications/search',
 		new_publication: '/agents/publications/new',
 	},
-	admin:{
-		dashboard:"/management/dashboard"
-	}
+	admin: {
+		login: '/management',
+		dashboard: '/management/dashboard',
+	},
 };
 
 export enum STORAGE_KEYS {
@@ -55,7 +56,10 @@ export enum STORAGE_KEYS {
 	SHOW_NOVUS_PUBLICATION_LINKS = 'novus.show_pub_links',
 	SHOW_NOVUS_AGENT_LINKS = 'novus.show_agent_links',
 	NOVUS_AGENT_SCROLLBAR_POS = 'novus.agent_scrollbar_pos',
-	NOVUS_ADMIN_SCROLLBAR_POS = "novus.admin_scrollbar_pos"
+	NOVUS_ADMIN_SCROLLBAR_POS = 'novus.admin_scrollbar_pos',
+	ADMIN_KEY = 'novus.k',
+	IS_ADMIN = 'novus.is_',
+	ADMIN_DETAILS = 'novus.ad_d'
 }
 
 export enum APP_TERMS {
@@ -74,8 +78,8 @@ export const emptyLossOfDocumentValues: LossOfDocumentPublicationFields = {
 	phone: '',
 	houseAddress: '',
 	countrySelect: countries[0],
-	stateSelect: { value: "", label: "" },
-	externalSelect: { value: "", label: "" },
+	stateSelect: { value: '', label: '' },
+	externalSelect: { value: '', label: '' },
 	itemLost: '',
 	supportIdName: '',
 	dateLost: new Date()?.toISOString(),
@@ -85,8 +89,8 @@ export const emptyLossOfDocumentValues: LossOfDocumentPublicationFields = {
 	physicalDesc: '',
 	reward: '',
 	concernParties: '',
-	file:"",
-	image:""
+	file: '',
+	image: '',
 };
 
 export const emptyChangeOfNameValues: ChangeOfNamePublicationFields = {
@@ -101,11 +105,11 @@ export const emptyChangeOfNameValues: ChangeOfNamePublicationFields = {
 	houseAddress: '',
 	gender: 'male',
 	concernParties: '',
-	reasonSelect: { value: "", label: "" },
+	reasonSelect: { value: '', label: '' },
 	isExternal: false,
-	externalSelect: { value: "", label: "" },
-	file:"",
-	image:""
+	externalSelect: { value: '', label: '' },
+	file: '',
+	image: '',
 };
 
 export const nigerianStates = [

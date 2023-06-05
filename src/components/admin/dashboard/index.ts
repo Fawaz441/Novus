@@ -1,3 +1,4 @@
-import AdminSummaryCard from "./AdminSummaryCard";
+import AdminSummaryCard from './AdminSummaryCard';
+import DeclinePublicationModal from './DeclinePublicationModal';
 
-export {AdminSummaryCard}
+export { AdminSummaryCard, DeclinePublicationModal };

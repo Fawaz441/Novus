@@ -38,7 +38,7 @@ const initialState: PublicationsState = {
 };
 
 export const publicationSlice = createSlice({
-	name: 'counter',
+	name: 'publications',
 	initialState,
 	reducers: {
 		// publisher prices

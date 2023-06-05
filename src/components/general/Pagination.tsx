@@ -16,7 +16,7 @@ const Pagination: React.FC<PaginationProps> = ({
 	return (
 		<div className="flex h-[35px]">
 			<button
-				onClick={() => onNextClick && onNextClick()}
+				onClick={() => onPrevClick && onPrevClick()}
 				type="button"
 				title="Previous"
 				disabled={prevDisabled}
@@ -24,7 +24,7 @@ const Pagination: React.FC<PaginationProps> = ({
 				Prev
 			</button>
 			<button
-				onClick={() =>onPrevClick && onPrevClick()}
+				onClick={() =>onNextClick && onNextClick()}
 				type="button"
 				title="Next"
 				disabled={nextDisabled}

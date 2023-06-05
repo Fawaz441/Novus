@@ -30,8 +30,17 @@ import {
 	CheckPublications,
 	CreatePublication,
 } from 'pages/agents/publications';
-import { Dashboard as AdminDashboard } from 'pages/admin/main';
+import {
+	Dashboard as AdminDashboard,
+	Login as AdminLogin,
+} from 'pages/admin/main';
 import { useWindowSize } from 'hooks';
+import { setToken } from 'api/rootAxios';
+import { adminSlice } from 'store/admin';
+import { AdminUserDetails } from 'interfaces/admin';
+import { AdminRoute } from 'components/navigation';
+
+const { actions } = adminSlice;
 
 const AppRoutes: React.FC = () => {
 	const { width } = useWindowSize();
@@ -40,6 +49,18 @@ const AppRoutes: React.FC = () => {
 	useEffect(() => {
 		const newPublication = retrieveFromLS(STORAGE_KEYS.NEW_CON_PUBLICATION);
 		const newLODPublication = retrieveFromLS(STORAGE_KEYS.NEW_LOD_PUBLICATION);
+		const adminToken = retrieveFromLS(STORAGE_KEYS.ADMIN_KEY);
+		const isAdmin = retrieveFromLS(STORAGE_KEYS.IS_ADMIN);
+		const adminInfo: AdminUserDetails | null = retrieveFromLS(
+			STORAGE_KEYS.ADMIN_DETAILS
+		);
+
+		if (adminToken && isAdmin && adminInfo) {
+			setToken(adminToken);
+			dispatch(
+				actions.authenticateDirectly({ user: adminInfo, token: adminToken })
+			);
+		}
 		if (newPublication) {
 			dispatch(addNewConPublication(newPublication));
 		}
@@ -116,7 +137,15 @@ const AppRoutes: React.FC = () => {
 			element: <EnlistAgent />,
 		},
 		{ path: '*', element: <NotFound /> },
-		{path:routes.admin.dashboard,element:<AdminDashboard/>}
+		{
+			path: routes.admin.dashboard,
+			element: (
+				<AdminRoute>
+					<AdminDashboard />
+				</AdminRoute>
+			),
+		},
+		{ path: routes.admin.login, element: <AdminLogin /> },
 	]);
 	return loading ? <div /> : <RouterProvider router={router} />;
 };

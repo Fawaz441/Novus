@@ -19,13 +19,13 @@ const LostDocumentList: React.FC = () => {
 		LODPublicationsMeta,
 	} = useSelector((state: RootState) => state.publications);
 
-	const getPublications = (params?:any) => {
+	const getPublications = (params?: any) => {
 		dispatch(
 			actions.getLostDocumentPublications({
 				params: {
 					sort: JSON.stringify({
 						createdAt: 'DESC',
-						...params
+						...params,
 					}),
 				},
 			})
@@ -66,12 +66,12 @@ const LostDocumentList: React.FC = () => {
 					<Pagination
 						onPrevClick={() =>
 							getPublications({
-								page: JSON.stringify((LODPublicationsMeta?.currentPage || 0) - 1)
+								page: (LODPublicationsMeta?.currentPage || 0) - 1,
 							})
 						}
 						onNextClick={() =>
 							getPublications({
-								page: JSON.stringify((LODPublicationsMeta?.currentPage || 0) + 1)
+								page: (LODPublicationsMeta?.currentPage || 0) + 1,
 							})
 						}
 						prevDisabled={
