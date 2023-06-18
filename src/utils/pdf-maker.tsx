@@ -56,7 +56,7 @@ const downloadPDF = <
 				doc.addImage(img, 'JPEG', MARGIN, MARGIN, width, height);
 
 				// save the content to screenshot.pdf
-				doc.save(`${publicationType}-${publication.reference}.pdf`);
+				doc.save(`The-epitome-news-${publicationType}-${publication.reference}.pdf`);
 				onDone();
 			})
 			.catch((e) => {
