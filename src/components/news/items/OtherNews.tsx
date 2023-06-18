@@ -45,7 +45,7 @@ const OtherNews: React.FC<OtherNewsProps> = ({
 				See all
 			</button> */}
 			</div>
-			<OtherNewsTags />
+			{/* <OtherNewsTags /> */}
 			<div
 				ref={scrollRef}
 				className="flex flex-col space-y-[34px] overflow-auto pb-[150px] scrollbar-hide mini:h-[calc(100vh_-_210px)]">
@@ -62,7 +62,7 @@ const OtherNews: React.FC<OtherNewsProps> = ({
 					/>
 				))}
 				<Loader loading={loadingMore} mini />
-				{!hasMore && <span className='text-sm text-black font-bold'>End Reached.</span>}
+				{!hasMore && data.length > 0 && <span className='text-sm text-black font-bold'>End Reached.</span>}
 			</div>
 		</div>
 	);

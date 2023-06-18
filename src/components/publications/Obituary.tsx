@@ -58,6 +58,7 @@ const Obituary: React.FC<PublicationProps> = ({ id, data }) => {
 					</div>
 					<div className="relative">
 						<PublicationActions
+                            publication={data}
 							publicationType={PUBLICATION_TYPES.OBITUARY}
 							tag={data?.reference || ''}
 						/>

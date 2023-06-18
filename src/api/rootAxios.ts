@@ -4,6 +4,8 @@ import { adminSlice } from 'store/admin';
 import { STORAGE_KEYS } from 'utils/constants';
 import { removeFromLS } from 'utils/functions';
 
+export const API_URL = "https://api.theepitomenews.com"
+
 const rootAxios = DefaultAxios.create({
 	baseURL: 'https://api.theepitomenews.com',
 });

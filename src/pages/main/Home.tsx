@@ -3,14 +3,14 @@ import { Wrapper } from 'components/navigation';
 import { FilterAndSearch } from 'components/news/interactions';
 import { Headline, OtherNews } from 'components/news/items';
 import newsAPI, { NewsItem } from 'api/news';
-import { Loader } from 'components/general';
+import { ErrorToast, Loader } from 'components/general';
 import { PublicationsListMeta } from 'interfaces/publications';
 import { getNewsImage } from 'utils/functions';
 import moment from 'moment';
 import { capitalize } from 'lodash';
-import {
-	useBottomScrollListener,
-} from 'react-bottom-scroll-listener';
+import { useBottomScrollListener } from 'react-bottom-scroll-listener';
+import classNames from 'classnames';
+import { toast } from 'react-hot-toast';
 
 const newsCategories = [
 	{ name: 'Top Stories', id: 'top story' },
@@ -21,6 +21,17 @@ const newsCategories = [
 	{ name: 'Energy', id: 'energy' },
 	{ name: 'Tourism', id: 'tourism' },
 	// {name:"Immigration",id:"immigration"},
+];
+
+const mobileNewsCategories = [
+	{ name: 'Top Stories', id: 'top story' },
+	{ name: 'Sports', id: 'sport' },
+	{ name: 'Immigration', id: 'immigration' },
+	{ name: 'Entertainment', id: 'entertainment' },
+	{ name: 'Finance', id: 'finance' },
+	{ name: 'Politics', id: 'politics' },
+	{ name: 'Energy', id: 'energy' },
+	{ name: 'Tourism', id: 'tourism' },
 ];
 
 const params = {
@@ -48,7 +59,7 @@ const Home: React.FC = () => {
 				setLoading(true);
 			}
 			if (category !== activeNewsType) {
-				setLoading(true)
+				setLoading(true);
 				setActiveNewsType(category);
 			}
 			const { data } = await newsAPI.getNews(category, params);
@@ -59,6 +70,7 @@ const Home: React.FC = () => {
 		} catch (e) {
 			setLoading(false);
 			setNewsData([]);
+			toast.custom((t) => <ErrorToast t={t} retry={() => getNews(category)} />);
 		}
 	};
 
@@ -74,6 +86,7 @@ const Home: React.FC = () => {
 			setLoadingMore(false);
 		} catch (e) {
 			setLoadingMore(false);
+			toast.custom((t) => <ErrorToast t={t} retry={getMoreNews} />);
 		}
 	};
 
@@ -89,6 +102,7 @@ const Home: React.FC = () => {
 			setLoadingMoreImmigrationNews(false);
 		} catch (e) {
 			setLoadingMoreImmigrationNews(false);
+			toast.custom((t) => <ErrorToast t={t} retry={getMoreImmigrationNews} />);
 		}
 	};
 
@@ -100,6 +114,7 @@ const Home: React.FC = () => {
 			setLoadingImmigrationNews(false);
 		} catch (e) {
 			setLoadingImmigrationNews(false);
+			toast.custom((t) => <ErrorToast t={t} retry={getImmigrationNews} />);
 		}
 	};
 
@@ -127,8 +142,29 @@ const Home: React.FC = () => {
 			categories={newsCategories}
 			activeCategoryId={activeNewsType}
 			onCategoryChange={(_category: string) => getNews(_category)}>
-			<FilterAndSearch />
-			<div className="mt-[112px] relative">
+			<div className="hidden mid:block">
+				<FilterAndSearch />
+			</div>
+			<div className="mid:hidden">
+				<div className="flex py-3 overflow-x-auto whitespace-nowrap left-0 mini:left-[239px] px-[26px] mini:px-0 top-[60px] mini:top-[90px] fixed h-[50px] bg-white w-full mini:pr-12 1235px:items-center z-[12]">
+					<div className="flex flex-row">
+						{mobileNewsCategories.map((option, index) => (
+							<button
+								key={index}
+								className={classNames(
+									'h-[33px] py-[10px] px-4 rounded-3 flex transition-all duration-300 items-center justify-center bg-transparent text-575555 text-[10px] font-semibold',
+									{
+										'!bg-[#F1E7FF] !text-7108F6': activeNewsType === option.id,
+									}
+								)}
+								onClick={() => getNews(option.id)}>
+								{option.name}
+							</button>
+						))}
+					</div>
+				</div>
+			</div>
+			<div className="mt-[72px] mid:mt-[112px] relative">
 				<div className="flex-grow-0 mini:mr-[422px] relative">
 					<Loader
 						// transparent
@@ -154,7 +190,9 @@ const Home: React.FC = () => {
 							/>
 						))}
 						<Loader loading={loadingMore} mini />
-						{!hasMore && <span className='text-sm text-black font-bold'>End Reached.</span>}
+						{!hasMore && newsData.length >0 && (
+							<span className="text-sm text-black font-bold">End Reached.</span>
+						)}
 						{/* <div className="mt-[62px] mid:flex flex-col space-y-[14px] hidden">
 							<h4 className="font-bold text-black text-base">Videos</h4>
 							<div className="flex space-x-[39px]">
@@ -172,13 +210,15 @@ const Home: React.FC = () => {
 						</div> */}
 					</div>
 				</div>
-				<OtherNews
-					hasMore={hasMoreImmigrationNews}
-					onEndReached={getMoreImmigrationNews}
-					loadingMore={loadingMoreImmigrationNews}
-					loading={loadingImmigrationNews}
-					data={immigrationNews}
-				/>
+				<div className="mid:block hidden">
+					<OtherNews
+						hasMore={hasMoreImmigrationNews}
+						onEndReached={getMoreImmigrationNews}
+						loadingMore={loadingMoreImmigrationNews}
+						loading={loadingImmigrationNews}
+						data={immigrationNews}
+					/>
+				</div>
 			</div>
 		</Wrapper>
 	);

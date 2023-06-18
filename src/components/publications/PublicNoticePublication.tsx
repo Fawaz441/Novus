@@ -60,6 +60,7 @@ const PublicNoticePublication: React.FC<PublicationProps> = ({ id, data }) => {
 						<PublicationActions
 							publicationType={PUBLICATION_TYPES.PUBLIC_NOTICE}
 							tag={data?.reference || ''}
+                            publication={data}
 						/>
 						<button
 							onClick={(e) => {

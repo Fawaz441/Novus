@@ -4,6 +4,7 @@ import { ReactComponent as Share } from 'assets/icons/news/share.svg';
 import { ReactComponent as Links } from 'assets/icons/news/link.svg';
 import { formatStatistic } from 'utils/functions';
 import NewsTag from './NewsTag';
+import nis from 'assets/icons/publications/nis.png';
 
 interface HeadlineProps {
 	header: string;
@@ -14,7 +15,7 @@ interface HeadlineProps {
 	links: number;
 	reads: number;
 	image: string;
-	link?:string;
+	link?: string;
 }
 
 const Headline: React.FC<HeadlineProps> = ({
@@ -26,14 +27,14 @@ const Headline: React.FC<HeadlineProps> = ({
 	shares,
 	links,
 	reads,
-	link
+	link,
 }) => {
 	return (
 		<div className="flex flex-col w-full space-y-4 mid:space-y-[22px]">
 			<div className="h-[280px] rounded-[10px] relative">
 				<div className="w-full h-[280px] rounded-[10px] bg-gray-200">
 					<img
-						src={image}
+						src={tag === 'immigration' ? nis : image}
 						alt={header}
 						className="w-full h-[280px] rounded-[10px] object-cover"
 					/>
@@ -53,13 +54,15 @@ const Headline: React.FC<HeadlineProps> = ({
 					</div>
 				</div>
 				<div className="flex flex-col space-y-[26px] w-full flex-1 mt-[17px] mid:mt-0">
-					{link && <a
-						href={link}
-						rel="noreferrer"
-						target="_blank"
-						className="w-full mid:w-[283px] mid:ml-auto rounded text-sm h-[37px] border-[0.5px] text-white mid:text-black bg-7108F6 mid:bg-white border-7108F6 flex items-center justify-center">
-						Read More
-					</a>}
+					{link && (
+						<a
+							href={link}
+							rel="noreferrer"
+							target="_blank"
+							className="w-full mid:w-[283px] mid:ml-auto rounded text-sm h-[37px] border-[0.5px] text-white mid:text-black bg-7108F6 mid:bg-white border-7108F6 flex items-center justify-center">
+							Read More
+						</a>
+					)}
 					{/* <div className="hidden items-center space-x-[45px] mid:flex">
 						<div className="flex items-center space-x-[10px]">
 							<div className="h-[30px] w-[30px] rounded-full bg-F4F4F4 flex items-center justify-center">

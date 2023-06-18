@@ -136,6 +136,7 @@ export interface LossOfDocumentPublicationValues
 	createdAt: string;
 	reference?: string;
 	status?: string;
+	photos?: PublicationPhoto[];
 }
 
 export interface ObituaryValues extends
@@ -160,6 +161,7 @@ Omit<PublicNoticeFields, 'externalSelect'>{
 	updatedAt:string;
 	createdAt:string;
 	deletedAt:string|null;
+	photos?: PublicationPhoto[];
 }
 
 //payloads

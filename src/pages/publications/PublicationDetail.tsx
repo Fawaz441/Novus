@@ -143,6 +143,8 @@ const PublicationDetail = () => {
 		return ''
 	};
 
+	const type = getPublicationType()?.type
+
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
 			{loading ? (
@@ -154,9 +156,9 @@ const PublicationDetail = () => {
 					<EditPublicationModal />
 					<div className="hidden mini:flex items-center space-x-[41px]">
 						<div className="flex items-center space-x-[14px]">
-							<Change />
+							{(type === PUBLICATION_TYPES.CHANGE_OF_NAME) && <Change />}
 							<span className="font-semibold text-black text-sm">
-								Change Of Name
+							{getPublicationType()?.title}
 							</span>
 						</div>
 						<div className="flex items-center space-x-5">

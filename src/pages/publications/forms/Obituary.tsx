@@ -440,7 +440,6 @@ const Obituary = () => {
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Publication Size"
-										autoFocus
 										containerClassName="flex-1"
 										placeholder="10 by 3"
 										ref_={ref}

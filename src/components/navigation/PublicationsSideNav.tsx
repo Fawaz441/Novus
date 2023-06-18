@@ -4,7 +4,7 @@ import { ReactComponent as Add } from 'assets/icons/publications/add.svg';
 import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
 import { useModal } from 'hooks';
 import React from 'react';
-import { APP_TERMS, MODALS, routes } from 'utils/constants';
+import { APP_TERMS, MODALS, PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { pathIncludesName } from 'utils/ui-functions';
 import SideNav from './SideNav';
@@ -20,7 +20,7 @@ const PublicationsSideNav: React.FC = () => {
 				<div className="flex flex-col space-y-8">
 					<PublicationButton
 						text={'Change Of Name'}
-						isActive={pathIncludesName(location, APP_TERMS.CHANGE_OF_NAME)}
+						isActive={pathIncludesName(location, APP_TERMS.CHANGE_OF_NAME)||pathIncludesName(location, `publications/${PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME}-`)}
 						onClick={() =>
 							navigate(
 								isCreation
@@ -31,7 +31,7 @@ const PublicationsSideNav: React.FC = () => {
 					/>
 					<PublicationButton
 						text={'Loss Of Document'}
-						isActive={pathIncludesName(location, APP_TERMS.LOSS_OF_DOCUMENT)}
+						isActive={pathIncludesName(location, APP_TERMS.LOSS_OF_DOCUMENT)||pathIncludesName(location, `publications/${PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT}-`)}
 						onClick={() =>
 							navigate(
 								isCreation
@@ -42,7 +42,7 @@ const PublicationsSideNav: React.FC = () => {
 					/>
 					<PublicationButton
 						text={'Public Notice'}
-						isActive={pathIncludesName(location, APP_TERMS.PUBLIC_NOTICE)}
+						isActive={pathIncludesName(location, APP_TERMS.PUBLIC_NOTICE)||pathIncludesName(location, `publications/${PUBLICATION_TYPES_ACRONYMS.PUBLIC_NOTICE}-`)}
 						onClick={() =>
 							navigate(
 								isCreation
@@ -53,7 +53,7 @@ const PublicationsSideNav: React.FC = () => {
 					/>
 					<PublicationButton
 						text={'Obituary'}
-						isActive={pathIncludesName(location, APP_TERMS.OBITUARY)}
+						isActive={pathIncludesName(location, APP_TERMS.OBITUARY)||pathIncludesName(location, `publications/${PUBLICATION_TYPES_ACRONYMS.OBITUARY}-`)}
 						onClick={() =>
 							navigate(
 								isCreation

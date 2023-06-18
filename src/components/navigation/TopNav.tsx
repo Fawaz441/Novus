@@ -52,7 +52,7 @@ const TopNav: React.FC<TopNavProps> = ({
 					<button onClick={() => toggleHiddenElement(MOBILE_SIDENAV)}>
 						<Hamburger />
 					</button>
-					<button>
+					<button onClick={()=>navigate(routes.pub_forms.mobile_check_or_create)}>
 						<Search />
 					</button>
 				</div>

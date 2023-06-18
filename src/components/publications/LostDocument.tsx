@@ -58,6 +58,7 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 					</div>
 					<div className="relative">
 						<PublicationActions
+							publication={data}
 							tag={data?.reference || ''}
 							publicationType={PUBLICATION_TYPES.LOSS_OF_DOCUMENT}
 						/>
