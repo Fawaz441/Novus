@@ -10,6 +10,24 @@ export enum MODALS {
 	AGENT_DETAILS = 'agent_details',
 }
 
+export enum PUBLICATION_TYPES {
+	CHANGE_OF_NAME = 'change-of-name',
+	LOSS_OF_DOCUMENT = 'loss-of-document',
+	AGE_DECLARATION = 'age-declaration',
+	OBITUARY = 'obituary',
+	AFFIDAVIT = 'affidavit',
+	PUBLIC_NOTICE = 'public-notice',
+}
+
+export enum PUBLICATION_TYPES_ACRONYMS {
+	CHANGE_OF_NAME = 'CON',
+	LOSS_OF_DOCUMENT = 'LOD',
+	OBITUARY = 'OB',
+	AFFIDAVIT = 'AFF',
+	PUBLIC_NOTICE = 'PN',
+	AGE_DECLARATION = 'AGDEC',
+}
+
 export const routes = {
 	home: '/',
 	change_of_name_publications: '/publications/change-of-name',
@@ -18,7 +36,23 @@ export const routes = {
 	obituary_publications: '/publications/obituary',
 	affidavit_publications: '/publications/affidavit',
 	publication_detail: '/publications/:publicationRef/detail',
-	getPubDetailRoute: (ref: string) => `/publications/${ref}/detail`,
+	getPubDetailRoute: (publicationType: PUBLICATION_TYPES, ref: string) => {
+		const acronym =
+			publicationType === PUBLICATION_TYPES.CHANGE_OF_NAME
+				? PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME
+				: publicationType === PUBLICATION_TYPES.LOSS_OF_DOCUMENT
+				? PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT
+				: publicationType === PUBLICATION_TYPES.OBITUARY
+				? PUBLICATION_TYPES_ACRONYMS.OBITUARY
+				: publicationType === PUBLICATION_TYPES.AFFIDAVIT
+				? PUBLICATION_TYPES_ACRONYMS.AFFIDAVIT
+				: publicationType === PUBLICATION_TYPES.AGE_DECLARATION
+				? PUBLICATION_TYPES_ACRONYMS.AGE_DECLARATION
+				: publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE
+				? PUBLICATION_TYPES_ACRONYMS.PUBLIC_NOTICE
+				: '';
+		return `/publications/${acronym}-${ref}/detail`;
+	},
 	pub_forms: {
 		obituary: '/publications/obituary/create',
 		affidavit: '/publications/affidavit/create',
@@ -32,7 +66,7 @@ export const routes = {
 		public_notice_payment: '/publications/public-notice/create/payment',
 		loss_of_document: '/publications/loss-of-document/create',
 		loss_of_document_preview: '/publications/loss-of-document/create/preview',
-		obituary_preview:"/publications/obituary/create/preview",
+		obituary_preview: '/publications/obituary/create/preview',
 		mobile_check_or_create: '/publications/tabs',
 	},
 	agents: {
@@ -68,15 +102,15 @@ export enum STORAGE_KEYS {
 	NOVUS_ADMIN_SCROLLBAR_POS = 'novus.admin_scrollbar_pos',
 	ADMIN_KEY = 'novus.k',
 	IS_ADMIN = 'novus.is_',
-	ADMIN_DETAILS = 'novus.ad_d'
+	ADMIN_DETAILS = 'novus.ad_d',
 }
 
 export enum APP_TERMS {
 	LOSS_OF_DOCUMENT = 'loss-of-document',
 	CHANGE_OF_NAME = 'change-of-name',
-	PUBLIC_NOTICE='public-notice',
-	OBITUARY='obituary',
-	AFFIDAVIT='affidavit'
+	PUBLIC_NOTICE = 'public-notice',
+	OBITUARY = 'obituary',
+	AFFIDAVIT = 'affidavit',
 }
 
 export const countries = [{ label: 'Nigeria', value: 'Nigeria' }];
@@ -411,23 +445,5 @@ export const MOBILE_ADMIN_SIDENAV = '#mobile-admin-sidenav';
 export const MOBILE_AGENT_SIDENAV = '#mobile-agent-sidenav';
 export const MOBILE_SIDENAV = '#mobile-sidenav';
 export const MOBILE_WIDTH = 550;
-
-export enum PUBLICATION_TYPES {
-	CHANGE_OF_NAME = 'change-of-name',
-	LOSS_OF_DOCUMENT = 'loss-of-document',
-	AGE_DECLARATION = 'age-declaration',
-	OBITUARY = 'obituary',
-	AFFIDAVIT = 'affidavit',
-	PUBLIC_NOTICE = 'public-notice'
-}
-
-export enum PUBLICATION_TYPES_ACRONYMS {
-	CHANGE_OF_NAME = 'CON',
-	LOSS_OF_DOCUMENT = 'LOD',
-	OBITUARY = 'OB',
-	AFFIDAVIT = 'AFF',
-	PUBLIC_NOTICE = 'PN',
-	AGE_DECLARATION='AGDEC'
-}
 
 export const BASE_URL = 'https://www.theepitomenews.com';

@@ -36,7 +36,7 @@ const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
 	const isObituary = publicationType === PUBLICATION_TYPES.OBITUARY;
 	const isChangeOfName = publicationType === PUBLICATION_TYPES.CHANGE_OF_NAME;
 	// const isAffidavit = publicationType === PUBLICATION_TYPES.AFFIDAVIT;
-	// const isPublicNotice = publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE;
+	const isPublicNotice = publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE;
 	return (
 		<div>
 			<div className="mid:hidden flex space-x-[139px] items-center my-[22px]">
@@ -57,14 +57,18 @@ const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
 						<Change />
 					) : isObituary ? (
 						<h3 className="text-sm font-semibold text-black">Obituary</h3>
+					) : isPublicNotice ? (
+						<h3 className="text-sm font-semibold text-black">Public Notice</h3>
 					) : null}
-					{(isLossOfDocument||isChangeOfName) && <span
-						className={clsx(
-							'text-sm leading-[16.44px] text-black font-semibold',
-							{ '!text-7108F6 font-semibold': isAgent }
-						)}>
-						{isLossOfDocument ? 'Loss Of Document' : 'Change Of Name'}
-					</span>}
+					{(isLossOfDocument || isChangeOfName) && (
+						<span
+							className={clsx(
+								'text-sm leading-[16.44px] text-black font-semibold',
+								{ '!text-7108F6 font-semibold': isAgent }
+							)}>
+							{isLossOfDocument ? 'Loss Of Document' : 'Change Of Name'}
+						</span>
+					)}
 				</div>
 				<div className="w-full max-w-[600px] flex items-center justify-between">
 					{stepList.map((item) => (

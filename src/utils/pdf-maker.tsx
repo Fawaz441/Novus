@@ -1,4 +1,4 @@
-import { BASE_URL, PUBLICATION_TYPES } from './constants';
+import { PUBLICATION_TYPES } from './constants';
 import { ReactComponent as EpitomeNewsLarge } from 'assets/icons/epitome-news-large.svg';
 import {
 	LossOfDocumentPublicationValues,
@@ -7,7 +7,6 @@ import {
 	PublicNoticeValues,
 } from 'interfaces/publications';
 import moment from 'moment';
-import ReactDOMServer from 'react-dom/server';
 import { capitalize } from 'lodash';
 import { getFullPublicationLink, getPublicationText } from './functions';
 import { API_URL } from 'api/rootAxios';
@@ -41,7 +40,7 @@ const downloadPDF = <
 			scrollX: 0, // scroll to X origin
 			scrollY: 0, // scroll to Y origin
 			scale: 5, // 5 is quality scale
-      useCORS:true
+			useCORS: true,
 		})
 			.then(function (canvas) {
 				// convert the canvas conent to a Data URI/URL
@@ -127,8 +126,8 @@ const createPDF = <
 		<div className="flex items-center justify-center fixed left-[-3000px] top-0 w-screen z-[100000] h-screen bg-black/[.2]">
 			<div
 				id={`publication-${publicationType}-reference-${publication.reference}`}
-				className="bg-white px-[64px] pt-10 pb-[5px]">
-				<div className="w-[667px] mx-auto">
+				className="bg-white min-h-screen px-[64px] relative pt-10 pb-[5px]">
+				<div className="w-[667px] pb-[67.66px] mx-auto flex flex-col">
 					<div className="flex flex-col space-y-[9px] mx-auto w-[577px]">
 						<div className="flex items-center justify-center">
 							<EpitomeNewsLarge />
@@ -149,8 +148,8 @@ const createPDF = <
 									src={`${API_URL}/images/${photo}`}
 									alt={publication.reference}
 									onLoad={() => {
-                    setTimeout(() => {
-                      console.log("has loaded image, now generating pdf")
+										setTimeout(() => {
+											console.log('has loaded image, now generating pdf');
 											downloadPDF(publicationType, publication, onDone);
 										}, 1000);
 									}}
@@ -177,7 +176,9 @@ const createPDF = <
 							{getPublicationText(publicationType, publication)}
 						</p>
 					</div>
-					<div className="mt-[67.66px] mb-[11px] flex flex-col items-center justify-center space-y-[9px]">
+				</div>
+				<div className="absolute bottom-[11px] left-0 w-full">
+					<div className="flex flex-col items-center justify-center space-y-[9px]">
 						<p className="text-center text-575555 font-medium">
 							To verify this publication, please visit{' '}
 							<a href={detailLink}>{detailLink}</a>
@@ -191,27 +192,7 @@ const createPDF = <
 		</div>
 	);
 
-	// ReactPDF.render(<MyDocument />, `${__dirname}/example.pdf`);
 };
 
-// Check the publicationType and handle accordingly
-// if (publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE) {
-// 	return <div></div>;
-// 	// publication should be of type PublicNoticeValues
-// 	const publicNoticePublication: PublicNoticeValues = publication;
-// 	// Generate PDF for PublicNoticeValues
-// 	// ...
-// } else if (publicationType === PUBLICATION_TYPES.LOSS_OF_DOCUMENT) {
-// 	// publication should be of type LossOfDocumentPublicationValues
-// 	const lossOfDocumentPublication: LossOfDocumentPublicationValues =
-// 		publication;
-// 	// Generate PDF for LossOfDocumentPublicationValues
-// 	// ...
-// } else {
-// 	// Handle other publication types if needed
-// }
-
-// Common logic for creating and downloading the PDF
-// ...
 
 export default createPDF;

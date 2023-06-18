@@ -1,5 +1,5 @@
 import { Modal } from 'components/general';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ReactComponent as Filter } from 'assets/icons/filter.svg';
 import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
 import { MODALS, routes } from 'utils/constants';
@@ -22,7 +22,8 @@ const CheckPublicationModal = () => {
 	const navigate = useNavigate();
 	const goToPublication = () => {
 		closeModal();
-		navigate(routes.getPubDetailRoute(referenceNo));
+		navigate(routes.home)
+		// navigate(routes.getPubDetailRoute(referenceNo));
 	};
 	return (
 		<Modal name={MODALS.CHECK_PUBLICATIONS}>

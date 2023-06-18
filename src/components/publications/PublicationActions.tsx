@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Download } from 'assets/icons/publications/download.svg';
 import { ReactComponent as AltDownload } from 'assets/icons/agents/download.svg';
@@ -9,52 +9,30 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { getFullPublicationLink } from 'utils/functions';
 import { hideAllPublicationActions } from 'utils/ui-functions';
-import createPDF from 'utils/pdf-maker';
-import {
-	ChangeOfNamePublicationValues,
-	LossOfDocumentPublicationValues,
-	PublicNoticeValues,
-	ObituaryValues,
-} from 'interfaces/publications';
-import { Loader } from 'components/general';
 
 interface PublicationActionsProps {
 	tag: number | string;
 	publicationType: PUBLICATION_TYPES;
 	isAgent?: boolean;
-	publication?:
-		| LossOfDocumentPublicationValues
-		| PublicNoticeValues
-		| ObituaryValues
-		| ChangeOfNamePublicationValues;
+	isDownloading?: boolean;
+	onDownload?: () => void;
 }
 
 const PublicationActions: React.FC<PublicationActionsProps> = ({
 	tag,
 	isAgent,
 	publicationType,
-	publication,
+	isDownloading,
+	onDownload,
 }) => {
-	const [isDownloading, setIsDownloading] = useState(false);
 	const navigate = useNavigate();
 
 	const getLink = () => {
 		return getFullPublicationLink(publicationType, `${tag}` || '');
 	};
 
-	const download = () => {
-		setIsDownloading(true);
-	};
-
 	return (
 		<>
-			{publication &&
-				isDownloading &&
-				createPDF(publicationType, publication, () => {
-					setIsDownloading(false);
-					hideAllPublicationActions();
-				})}
-			<Loader transparent loading={isDownloading} />
 			<div
 				id={`publication-${tag}-actions`}
 				role="presentation"
@@ -77,7 +55,7 @@ const PublicationActions: React.FC<PublicationActionsProps> = ({
 						</CopyToClipboard>
 						<button
 							className="flex items-center justify-between"
-							onClick={download}
+							onClick={onDownload}
 							disabled={isDownloading}>
 							<span className="font-medium text-10 leading-[16.74px]">
 								Download Publication
@@ -112,7 +90,7 @@ const PublicationActions: React.FC<PublicationActionsProps> = ({
 						</CopyToClipboard>
 						<button
 							className="flex items-center justify-between"
-							onClick={download}>
+							onClick={onDownload}>
 							<span className="font-medium text-10 leading-[16.74px]">
 								Download Publication
 							</span>

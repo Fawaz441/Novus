@@ -8,7 +8,7 @@ const links = [
 	{ name: 'Loss Of Document', route: routes.pub_forms.loss_of_document },
 	{ name: 'Public Notice', route: routes.pub_forms.public_notice },
 	{ name: 'Obituary', route: routes.pub_forms.obituary },
-	{ name: 'Affidavit', route: routes.pub_forms.affidavit },
+	// { name: 'Affidavit', route: routes.pub_forms.affidavit },
 ];
 
 const listLinks = [
@@ -16,7 +16,7 @@ const listLinks = [
 	{ name: 'Loss Of Document', route: routes.lost_document_publications },
 	{ name: 'Public Notice', route: routes.public_notice_publications },
 	{ name: 'Obituary', route: routes.obituary_publications },
-	{ name: 'Affidavit', route: routes.affidavit_publications },
+	// { name: 'Affidavit', route: routes.affidavit_publications },
 ];
 
 const MobileFormsNavigation = ({

@@ -17,7 +17,7 @@ const mobileNavLinks = [
 		name: 'Create Publication',
 		route: `${routes.pub_forms.mobile_check_or_create}?create=true`,
 	},
-	{ name: 'Affidavit', route: routes.pub_forms.change_of_name },
+	// { name: 'Affidavit', route: routes.pub_forms.change_of_name },
 	{ name: 'Agents', route: routes.agents.login },
 ];
 

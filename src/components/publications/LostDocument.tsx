@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Download } from 'assets/icons/download.svg';
 import lostDocument from 'assets/images/publications/lost-document.png';
 import lostDocumentMobile from 'assets/images/publications/loss-document-mobile.png';
 import PublicationActions from './PublicationActions';
-import { toggleHiddenElement } from 'utils/ui-functions';
-import { useNavigate } from 'react-router-dom';
 import {
-	PUBLICATION_TYPES,
-	PUBLICATION_TYPES_ACRONYMS,
-	routes,
-} from 'utils/constants';
+	hideAllPublicationActions,
+	toggleHiddenElement,
+} from 'utils/ui-functions';
+import { useNavigate } from 'react-router-dom';
+import { PUBLICATION_TYPES, routes } from 'utils/constants';
 import { LossOfDocumentPublicationValues } from 'interfaces/publications';
 import moment from 'moment';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { getPublicationLink } from 'utils/functions';
+import createPDF from 'utils/pdf-maker';
+import { Loader } from 'components/general';
 
 interface LostDocumentProps {
 	id: number;
@@ -24,10 +25,18 @@ interface LostDocumentProps {
 
 const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 	const navigate = useNavigate();
+	const [isDownloading, setIsDownloading] = useState(false);
+
 	return (
 		<div
 			className="flex flex-col mini:flex-row mini:max-w-[535px] self-start mini:space-x-5"
 			id={`publication-${id}`}>
+			{isDownloading &&
+				createPDF(PUBLICATION_TYPES.LOSS_OF_DOCUMENT, data, () => {
+					setIsDownloading(false);
+					hideAllPublicationActions();
+				})}
+			<Loader transparent loading={isDownloading} />
 			<img
 				src={lostDocumentMobile}
 				alt="Lost document"
@@ -58,7 +67,8 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 					</div>
 					<div className="relative">
 						<PublicationActions
-							publication={data}
+							isDownloading={isDownloading}
+							onDownload={() => setIsDownloading(true)}
 							tag={data?.reference || ''}
 							publicationType={PUBLICATION_TYPES.LOSS_OF_DOCUMENT}
 						/>
@@ -92,7 +102,7 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 					<div className="flex items-center space-x-[34px] mini:hidden">
 						<CopyToClipboard
 							text={getPublicationLink(
-								PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT,
+								PUBLICATION_TYPES.LOSS_OF_DOCUMENT,
 								data?.reference || ''
 							)}
 							onCopy={() => toast.success('Link copied to clipboard')}>
@@ -103,20 +113,21 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 								</span>
 							</div>
 						</CopyToClipboard>
-						<div className="flex items-center space-x-[7.15px]">
+						<button
+							onClick={() => setIsDownloading(true)}
+							className="flex items-center space-x-[7.15px]">
 							<Download className="stroke-9B9B9B" />
 							<span className="text-[10px] leading-[11.74px] text-black">
 								Download
 							</span>
-						</div>
+						</button>
 					</div>
 					<button
 						onClick={() =>
 							navigate(
 								routes.getPubDetailRoute(
-									`${PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT}-${
-										data?.reference || ''
-									}`
+									PUBLICATION_TYPES.LOSS_OF_DOCUMENT,
+									data?.reference || ''
 								)
 							)
 						}

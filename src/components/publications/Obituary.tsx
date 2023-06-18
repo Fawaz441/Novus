@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Download } from 'assets/icons/download.svg';
 import announcement from 'assets/images/publications/announcement.png';
 import announcementMobile from 'assets/images/publications/annoucement-profile.png';
 import PublicationActions from './PublicationActions';
-import { toggleHiddenElement } from 'utils/ui-functions';
+import {
+	hideAllPublicationActions,
+	toggleHiddenElement,
+} from 'utils/ui-functions';
 import { ObituaryValues } from 'interfaces/publications';
 import { useNavigate } from 'react-router-dom';
-import {
-	PUBLICATION_TYPES,
-	PUBLICATION_TYPES_ACRONYMS,
-	routes,
-} from 'utils/constants';
+import { PUBLICATION_TYPES, routes } from 'utils/constants';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { getPublicationLink, getPublicationText } from 'utils/functions';
+import createPDF from 'utils/pdf-maker';
+import { Loader } from 'components/general';
 
 interface PublicationProps {
 	id: number;
@@ -24,10 +25,17 @@ interface PublicationProps {
 
 const Obituary: React.FC<PublicationProps> = ({ id, data }) => {
 	const navigate = useNavigate();
+	const [isDownloading, setIsDownloading] = useState(false);
 	return (
 		<div
 			className="flex flex-col mini:flex-row mini:max-w-[535px] self-start mini:space-x-5"
 			id={`publication-${id}`}>
+			{isDownloading &&
+				createPDF(PUBLICATION_TYPES.OBITUARY, data, () => {
+					setIsDownloading(false);
+					hideAllPublicationActions();
+				})}
+			<Loader transparent loading={isDownloading} />
 			<img
 				src={announcementMobile}
 				alt="Announcement"
@@ -58,7 +66,6 @@ const Obituary: React.FC<PublicationProps> = ({ id, data }) => {
 					</div>
 					<div className="relative">
 						<PublicationActions
-                            publication={data}
 							publicationType={PUBLICATION_TYPES.OBITUARY}
 							tag={data?.reference || ''}
 						/>
@@ -90,7 +97,7 @@ const Obituary: React.FC<PublicationProps> = ({ id, data }) => {
 					<div className="flex items-center space-x-[34px] mini:hidden">
 						<CopyToClipboard
 							text={getPublicationLink(
-								PUBLICATION_TYPES_ACRONYMS.OBITUARY,
+								PUBLICATION_TYPES.OBITUARY,
 								data?.reference || ''
 							)}
 							onCopy={() => toast.success('Link copied to clipboard')}>
@@ -101,19 +108,22 @@ const Obituary: React.FC<PublicationProps> = ({ id, data }) => {
 								</span>
 							</div>
 						</CopyToClipboard>
-						<div className="flex items-center space-x-[7.15px]">
+						<button
+							onClick={() => setIsDownloading(true)}
+							className="flex items-center space-x-[7.15px]">
 							<Download className="stroke-9B9B9B" />
 							<span className="text-[10px] leading-[11.74px] text-black">
 								Download
 							</span>
-						</div>
+						</button>
 					</div>
 					<button
 						type="button"
 						onClick={() =>
 							navigate(
 								routes.getPubDetailRoute(
-									`${PUBLICATION_TYPES_ACRONYMS.OBITUARY}-${data.reference}`
+									PUBLICATION_TYPES.OBITUARY,
+									data.reference
 								)
 							)
 						}

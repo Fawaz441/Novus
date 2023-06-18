@@ -7,7 +7,6 @@ import {
 import {
 	BASE_URL,
 	PUBLICATION_TYPES,
-	PUBLICATION_TYPES_ACRONYMS,
 	STORAGE_KEYS,
 	routes,
 } from './constants';
@@ -45,10 +44,10 @@ export const isApproved = (status: string | undefined) =>
 	status && status === 'approve';
 
 export const getPublicationLink = (
-	acronym: PUBLICATION_TYPES_ACRONYMS,
+	publicationType: PUBLICATION_TYPES,
 	reference: string
 ) => {
-	return BASE_URL + routes.getPubDetailRoute(`${acronym}-${reference}`);
+	return BASE_URL + routes.getPubDetailRoute(publicationType, reference);
 };
 
 export const getTitle = (gender: string) =>
@@ -155,40 +154,28 @@ export const getFullPublicationLink = (
 	tag: string
 ) => {
 	if (publicationType === PUBLICATION_TYPES.CHANGE_OF_NAME) {
-		return getPublicationLink(
-			PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
-			`${tag}` || ''
-		);
+		return getPublicationLink(PUBLICATION_TYPES.CHANGE_OF_NAME, `${tag}` || '');
 	}
 	if (publicationType === PUBLICATION_TYPES.LOSS_OF_DOCUMENT) {
 		return getPublicationLink(
-			PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT,
+			PUBLICATION_TYPES.LOSS_OF_DOCUMENT,
 			`${tag}` || ''
 		);
 	}
 	if (publicationType === PUBLICATION_TYPES.OBITUARY) {
-		return getPublicationLink(
-			PUBLICATION_TYPES_ACRONYMS.OBITUARY,
-			`${tag}` || ''
-		);
+		return getPublicationLink(PUBLICATION_TYPES.OBITUARY, `${tag}` || '');
 	}
 	if (publicationType === PUBLICATION_TYPES.AFFIDAVIT) {
-		return getPublicationLink(
-			PUBLICATION_TYPES_ACRONYMS.AFFIDAVIT,
-			`${tag}` || ''
-		);
+		return getPublicationLink(PUBLICATION_TYPES.AFFIDAVIT, `${tag}` || '');
 	}
 	if (publicationType === PUBLICATION_TYPES.AGE_DECLARATION) {
 		return getPublicationLink(
-			PUBLICATION_TYPES_ACRONYMS.AGE_DECLARATION,
+			PUBLICATION_TYPES.AGE_DECLARATION,
 			`${tag}` || ''
 		);
 	}
 	if (publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE) {
-		return getPublicationLink(
-			PUBLICATION_TYPES_ACRONYMS.PUBLIC_NOTICE,
-			`${tag}` || ''
-		);
+		return getPublicationLink(PUBLICATION_TYPES.PUBLIC_NOTICE, `${tag}` || '');
 	}
 	return '';
 };
@@ -205,7 +192,7 @@ export const getNewsImage = (content: string) => {
 export const getNewsDescription = (content: string) => {
 	try {
 		const media = JSON.parse(content);
-		return media.content.replace("<p>","").replace("</p>","");
+		return media.content.replace('<p>', '').replace('</p>', '');
 	} catch (e) {
 		return null;
 	}
