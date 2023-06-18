@@ -1,5 +1,6 @@
 import { PUBLICATION_TYPES } from './constants';
 import { ReactComponent as EpitomeNewsLarge } from 'assets/icons/epitome-news-large.svg';
+import { ReactComponent as SideLine } from 'assets/images/publications/sideline.svg';
 import {
 	LossOfDocumentPublicationValues,
 	ChangeOfNamePublicationValues,
@@ -126,7 +127,10 @@ const createPDF = <
 		<div className="flex items-center justify-center fixed left-[-3000px] top-0 w-screen z-[100000] h-screen bg-black/[.2]">
 			<div
 				id={`publication-${publicationType}-reference-${publication.reference}`}
-				className="bg-white min-h-screen px-[64px] relative pt-10 pb-[5px]">
+				className="bg-white min-h-screen pl-[85px] pr-[64px] relative pt-10 pb-[5px]">
+				<div className="absolute top-0 h-full flex items-center justify-center left-[21px]">
+					<SideLine className='h-full' />
+				</div>
 				<div className="w-[667px] pb-[67.66px] mx-auto flex flex-col">
 					<div className="flex flex-col space-y-[9px] mx-auto w-[577px]">
 						<div className="flex items-center justify-center">
@@ -191,8 +195,6 @@ const createPDF = <
 			</div>
 		</div>
 	);
-
 };
-
 
 export default createPDF;
