@@ -68,6 +68,8 @@ const Obituary: React.FC<PublicationProps> = ({ id, data }) => {
 						<PublicationActions
 							publicationType={PUBLICATION_TYPES.OBITUARY}
 							tag={data?.reference || ''}
+							isDownloading={isDownloading}
+							onDownload={() => setIsDownloading(true)}
 						/>
 						<button
 							onClick={(e) => {
