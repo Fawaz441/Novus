@@ -1,6 +1,8 @@
 import {
 	ChangeOfNamePublicationValues,
 	LossOfDocumentPublicationValues,
+	ObituaryValues,
+	PublicNoticeValues,
 } from 'interfaces/publications';
 import {
 	BASE_URL,
@@ -9,6 +11,7 @@ import {
 	STORAGE_KEYS,
 	routes,
 } from './constants';
+import moment from 'moment';
 
 export const formatStatistic = (stat: number) => {
 	if (stat >= 1000000) {
@@ -60,20 +63,32 @@ export const getBlob = async (name: 'file' | 'image', url: string) => {
 };
 
 export const isChangeOfNamePublication = (
-	detail: ChangeOfNamePublicationValues | LossOfDocumentPublicationValues
+	detail: any
 ): detail is ChangeOfNamePublicationValues => {
 	return detail && 'oldFirstName' in detail;
 };
 
 export const isLossOfDocumentPublication = (
-	detail: ChangeOfNamePublicationValues | LossOfDocumentPublicationValues
+	detail: any
 ): detail is LossOfDocumentPublicationValues => {
 	return detail && 'firstName' in detail;
 };
 
+export const isObituaryPublication = (
+	detail: any
+): detail is ObituaryValues => {
+	return detail && 'causeOfDeath' in detail;
+};
+
+export const isPublicNoticePublication = (
+	detail: any
+): detail is PublicNoticeValues => {
+	return detail && 'description' in detail;
+};
+
 export const getPublicationText = (
 	publicationType: PUBLICATION_TYPES,
-	detail: ChangeOfNamePublicationValues | LossOfDocumentPublicationValues
+	detail: any
 ) => {
 	if (
 		publicationType === PUBLICATION_TYPES.CHANGE_OF_NAME &&
@@ -93,12 +108,105 @@ export const getPublicationText = (
 		isLossOfDocumentPublication(detail)
 	) {
 		return `
-		This is to notify the general public, that I, ${getTitle(
-			detail?.gender || ''
-		)} ${detail?.firstName}
-		${detail?.middleName} ${detail?.lastName} of ${detail?.houseAddress} lost a
-		${detail?.itemLost} with Property ID ${detail?.idNumber}
+		This is to notify the general public, that I, ${getTitle(detail.gender)}
+		${detail?.firstName} ${detail?.lastName} of
+		${detail?.houseAddress} lost a
+		${detail?.itemLost} ${detail?.supportIdName}
+		document with Property ${detail?.idNumber}., issued by
+		${detail?.issuer}. The stated document above was
+		misplaced on the
+		${moment(detail?.dateLost)?.format('Do of MMMM, YYYY')}
 		`;
 	}
-	return ""
+	if (
+		publicationType === PUBLICATION_TYPES.OBITUARY &&
+		isObituaryPublication(detail)
+	) {
+		return `
+		With total resignation to God's will we announce the call
+		to glory of ${getTitle(detail.genderOfDeceased)} ${
+			detail?.fullNameOfDeceased
+		} whose death occurred on the 
+		${moment(detail?.dateOfDeath)?.format('Do of MMM, YYYY')}. 
+		${
+			detail?.descriptionOfDeath
+				? `Until ${
+						detail?.genderOfDeceased === 'male' ? 'his' : 'her'
+				  } death, ${detail?.descriptionOfDeath}
+		`
+				: ''
+		}
+	`;
+	}
+
+	if (
+		publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE &&
+		isPublicNoticePublication(detail)
+	) {
+		return `
+		I ${detail?.firstName} ${detail?.middleName} ${detail?.lastName} would like
+		 to announce to the general public that ${detail?.description}
+		`;
+	}
+};
+
+export const getFullPublicationLink = (
+	publicationType: PUBLICATION_TYPES,
+	tag: string
+) => {
+	if (publicationType === PUBLICATION_TYPES.CHANGE_OF_NAME) {
+		return getPublicationLink(
+			PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
+			`${tag}` || ''
+		);
+	}
+	if (publicationType === PUBLICATION_TYPES.LOSS_OF_DOCUMENT) {
+		return getPublicationLink(
+			PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT,
+			`${tag}` || ''
+		);
+	}
+	if (publicationType === PUBLICATION_TYPES.OBITUARY) {
+		return getPublicationLink(
+			PUBLICATION_TYPES_ACRONYMS.OBITUARY,
+			`${tag}` || ''
+		);
+	}
+	if (publicationType === PUBLICATION_TYPES.AFFIDAVIT) {
+		return getPublicationLink(
+			PUBLICATION_TYPES_ACRONYMS.AFFIDAVIT,
+			`${tag}` || ''
+		);
+	}
+	if (publicationType === PUBLICATION_TYPES.AGE_DECLARATION) {
+		return getPublicationLink(
+			PUBLICATION_TYPES_ACRONYMS.AGE_DECLARATION,
+			`${tag}` || ''
+		);
+	}
+	if (publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE) {
+		return getPublicationLink(
+			PUBLICATION_TYPES_ACRONYMS.PUBLIC_NOTICE,
+			`${tag}` || ''
+		);
+	}
+	return '';
+};
+
+export const getNewsImage = (content: string) => {
+	try {
+		const media = JSON.parse(content);
+		return media.imageLink;
+	} catch (e) {
+		return null;
+	}
+};
+
+export const getNewsDescription = (content: string) => {
+	try {
+		const media = JSON.parse(content);
+		return media.content.replace("<p>","").replace("</p>","");
+	} catch (e) {
+		return null;
+	}
 };

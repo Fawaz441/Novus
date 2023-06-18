@@ -40,29 +40,59 @@ const PublicationsSideNav: React.FC = () => {
 							)
 						}
 					/>
-					<PublicationButton text={'Public Notice'} />
-					<PublicationButton text={'Obituary'} />
-					<PublicationButton text={'Affidavit'} />
+					<PublicationButton
+						text={'Public Notice'}
+						isActive={pathIncludesName(location, APP_TERMS.PUBLIC_NOTICE)}
+						onClick={() =>
+							navigate(
+								isCreation
+									? routes.pub_forms.public_notice
+									: routes.public_notice_publications
+							)
+						}
+					/>
+					<PublicationButton
+						text={'Obituary'}
+						isActive={pathIncludesName(location, APP_TERMS.OBITUARY)}
+						onClick={() =>
+							navigate(
+								isCreation
+									? routes.pub_forms.obituary
+									: routes.obituary_publications
+							)
+						}
+					/>
+					{/* <PublicationButton
+						text={'Affidavit'}
+						isActive={pathIncludesName(location, APP_TERMS.AFFIDAVIT)}
+						onClick={() =>
+							navigate(
+								isCreation
+									? routes.pub_forms.affidavit
+									: routes.lost_document_publications
+							)
+						}
+					/> */}
 				</div>
 				<div className="flex flex-col space-y-10">
-					<PublicationButton
+					{/* <PublicationButton
 						text={'Download Publication'}
 						className="!bg-EADAFF font-semibold text-12 !text-black"
 						icon={<Download />}
 						onClick={() => showModal(MODALS.DOWNLOAD_PUBLICATION)}
-					/>
+					/> */}
 					<PublicationButton
 						text={'Create Publication'}
 						className="!bg-EADAFF font-semibold text-12 !text-black"
 						icon={<Add />}
 						onClick={() => navigate(routes.pub_forms.change_of_name)}
 					/>
-					<PublicationButton
+					{/* <PublicationButton
 						text={'Check Publication'}
 						className="!bg-EADAFF font-semibold text-12 !text-black"
 						icon={<Check className="stroke-black" />}
 						onClick={() => showModal(MODALS.CHECK_PUBLICATIONS)}
-					/>
+					/> */}
 				</div>
 			</div>
 			<div className="mini:hidden">

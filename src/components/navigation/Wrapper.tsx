@@ -15,12 +15,18 @@ interface WrapperProps {
 	children: React.ReactNode;
 	isPublications?: boolean;
 	showPublicationsButton?: boolean;
+	categories?: any[];
+	onCategoryChange?: (_category: string) => void;
+	activeCategoryId?:string;
 }
 
 const Wrapper: React.FC<WrapperProps> = ({
 	children,
 	isPublications,
 	showPublicationsButton = true,
+	categories,
+	onCategoryChange,
+	activeCategoryId
 }) => {
 	React.useEffect(() => {
 		document
@@ -48,7 +54,13 @@ const Wrapper: React.FC<WrapperProps> = ({
 		<div className="min-h-screen">
 			<CheckPublicationModal />
 			<DownloadPublicationModal />
-			{isPublications ? <PublicationsSideNav /> : <SideNav />}
+			{isPublications ? (
+				<PublicationsSideNav />
+			) : (
+				<SideNav categories={categories} onCategoryChange={onCategoryChange}
+				activeCategoryId={activeCategoryId}
+				/>
+			)}
 			<TopNav
 				showPublicationsButton={showPublicationsButton}
 				isPublications={isPublications}

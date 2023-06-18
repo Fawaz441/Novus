@@ -10,6 +10,8 @@ import clsx from 'classnames';
 import { toggleHiddenElement } from 'utils/ui-functions';
 import { useModal } from 'hooks';
 import { MOBILE_SIDENAV, MODALS, routes } from 'utils/constants';
+import moment from 'moment';
+import { doNothing } from 'utils/functions';
 interface TopNavProps {
 	showPublicationsButton?: boolean;
 	isPublications?: boolean;
@@ -70,8 +72,11 @@ const TopNav: React.FC<TopNavProps> = ({
 					</ul>
 					<div className="flex items-center">
 						<div
+							onClick={
+								showPublicationsButton ? () => navigate(routes.home) : doNothing
+							}
 							className={clsx(
-								'w-[149px] h-[37px] flex items-center justify-center bg-7108F62 rounded-6',
+								'w-[149px] !cursor-pointer h-[37px] flex items-center justify-center bg-7108F62 rounded-6',
 								{ '!bg-transparent': showPublicationsButton }
 							)}>
 							<span className="text-7108F6 font-bold text-12">News Feed</span>
@@ -106,7 +111,7 @@ const TopNav: React.FC<TopNavProps> = ({
 					<div className="flex items-center space-x-[11px]">
 						<NigerianFlag />
 						<span className="font-bold text-12 text-black">
-							Thursday, 3rd March, 2023
+							{moment(new Date()).format('dddd, Do MMM, YYYY')}
 						</span>
 					</div>
 				</div>

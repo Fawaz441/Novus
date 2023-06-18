@@ -5,21 +5,27 @@ import {
 	PublicationList,
 	PublicationDetail,
 	ChangeOfNameForm,
-	ChangeOfNamePreview,
 	LossOfDocument,
-	LossOfDocumentPreview,
 	LostDocumentList,
 	CheckOrCreatePublication,
-	LossOfDocumentPayment,
-	ChangeOfNamePayment,
+	Affidavit,
+	Obituary,
+	ObituaryList,
+	PublicNotice,
+	PublicNoticeList,
 } from 'pages/publications';
-import { routes, STORAGE_KEYS } from 'utils/constants';
+import { PUBLICATION_TYPES, routes, STORAGE_KEYS } from 'utils/constants';
 import { NotFound } from 'pages/misc';
 import { retrieveFromLS } from 'utils/functions';
 import { AppDispatch } from 'store';
 
 import { useDispatch } from 'react-redux';
-import { addNewConPublication, addNewLodPublication } from 'store/publications';
+import {
+	addNewConPublication,
+	addNewLodPublication,
+	addNewObituaryPublication,
+	addNewPublicNoticePublication,
+} from 'store/publications';
 import { Login, Registration } from 'pages/agents/auth';
 import { Dashboard, EnlistAgent, Settings } from 'pages/agents/main';
 
@@ -39,6 +45,8 @@ import { setToken } from 'api/rootAxios';
 import { adminSlice } from 'store/admin';
 import { AdminUserDetails } from 'interfaces/admin';
 import { AdminRoute } from 'components/navigation';
+import Preview from 'components/publications/Preview';
+import { PublicationPayment } from 'components/publications';
 
 const { actions } = adminSlice;
 
@@ -49,6 +57,10 @@ const AppRoutes: React.FC = () => {
 	useEffect(() => {
 		const newPublication = retrieveFromLS(STORAGE_KEYS.NEW_CON_PUBLICATION);
 		const newLODPublication = retrieveFromLS(STORAGE_KEYS.NEW_LOD_PUBLICATION);
+		const newObituaryPublication = retrieveFromLS(
+			STORAGE_KEYS.NEW_OBITUARY_PUBLICATION
+		);
+		const newPublicNoticePublication = retrieveFromLS(STORAGE_KEYS.NEW_PUBLIC_NOTICE_PUBLICATION)
 		const adminToken = retrieveFromLS(STORAGE_KEYS.ADMIN_KEY);
 		const isAdmin = retrieveFromLS(STORAGE_KEYS.IS_ADMIN);
 		const adminInfo: AdminUserDetails | null = retrieveFromLS(
@@ -67,6 +79,12 @@ const AppRoutes: React.FC = () => {
 		if (newLODPublication) {
 			dispatch(addNewLodPublication(newLODPublication));
 		}
+		if (newObituaryPublication) {
+			dispatch(addNewObituaryPublication(newObituaryPublication));
+		}
+		if(newPublicNoticePublication){
+			dispatch(addNewPublicNoticePublication(newPublicNoticePublication))
+		}
 		setLoading(false);
 	}, [dispatch]);
 
@@ -84,6 +102,8 @@ const AppRoutes: React.FC = () => {
 		{ path: routes.home, element: <Home /> },
 		{ path: routes.change_of_name_publications, element: <PublicationList /> },
 		{ path: routes.lost_document_publications, element: <LostDocumentList /> },
+		{ path: routes.obituary_publications, element: <ObituaryList /> },
+		{ path: routes.public_notice_publications, element: <PublicNoticeList /> },
 		{ path: routes.publication_detail, element: <PublicationDetail /> },
 		{
 			path: routes.pub_forms.change_of_name,
@@ -91,23 +111,67 @@ const AppRoutes: React.FC = () => {
 		},
 		{
 			path: routes.pub_forms.change_of_name_preview,
-			element: <ChangeOfNamePreview />,
+			element: <Preview publicationType={PUBLICATION_TYPES.CHANGE_OF_NAME} />,
 		},
 		{
 			path: routes.pub_forms.loss_of_document_preview,
-			element: <LossOfDocumentPreview />,
+			element: <Preview publicationType={PUBLICATION_TYPES.LOSS_OF_DOCUMENT} />,
+		},
+		{
+			path: routes.pub_forms.obituary_preview,
+			element: <Preview publicationType={PUBLICATION_TYPES.OBITUARY} />,
+		},
+		{
+			path: routes.pub_forms.public_notice_preview,
+			element: <Preview publicationType={PUBLICATION_TYPES.PUBLIC_NOTICE} />,
 		},
 		{
 			path: routes.pub_forms.payment,
-			element: <ChangeOfNamePayment />,
+			element: (
+				<PublicationPayment
+					publicationType={PUBLICATION_TYPES.CHANGE_OF_NAME}
+				/>
+			),
 		},
 		{
 			path: routes.pub_forms.loss_of_document_payment,
-			element: <LossOfDocumentPayment />,
+			element: (
+				<PublicationPayment
+					publicationType={PUBLICATION_TYPES.LOSS_OF_DOCUMENT}
+				/>
+			),
+		},
+		{
+			path: routes.pub_forms.obituary_payment,
+			element: (
+				<PublicationPayment
+					publicationType={PUBLICATION_TYPES.OBITUARY}
+				/>
+			),
+		},
+		{
+			path: routes.pub_forms.public_notice_payment,
+			element: (
+				<PublicationPayment
+					publicationType={PUBLICATION_TYPES.PUBLIC_NOTICE}
+				/>
+			),
 		},
 		{
 			path: routes.pub_forms.loss_of_document,
 			element: <LossOfDocument />,
+		},
+		{
+			path: routes.pub_forms.obituary,
+			element: <Obituary />,
+		},
+		{
+			path: routes.pub_forms.affidavit,
+			element: <Affidavit />,
+		},
+		{
+			path: routes.pub_forms.public_notice,
+			element: <PublicNotice />,
 		},
 		...mobileRoutes,
 		{

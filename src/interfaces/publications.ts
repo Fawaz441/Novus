@@ -12,6 +12,53 @@ export interface PublicationsListMeta {
 	currentPage: number;
 }
 
+export interface PublicationPhoto{
+	id:number;
+	updatedAt:string;
+	createdAt:string;
+	deletedAt:string|null;
+	publishType:string;
+	type:'passport' | 'document' | 'signatory';
+	publishId:number;
+	url:string;
+}
+
+export interface ObituaryFields {
+	firstName:string;
+	middleName:string;
+	lastName:string;
+	gender:Gender;
+	email:string;
+	phone:string;
+	fullNameOfDeceased: string;
+	dateOfDeath:string;
+	genderOfDeceased: Gender;
+	causeOfDeath:string;
+	descriptionOfDeath:string;
+	funeralArrangement:string;
+	isExternal:boolean;
+	externalSelect?: { value: string | null; label: string | null };
+	file?: any;
+	image?:any;
+	externalPageInfo?:string
+}
+
+export interface PublicNoticeFields {
+	description:string;
+	email:string;
+	gender:Gender;
+	firstName:string;
+	middleName:string;
+	lastName:string;
+	phone:string;
+	isExternal:boolean;
+	externalSelect?: { value: string | null; label: string | null };
+	externalPageInfo?:string
+	file?:any
+}
+
+
+
 export interface ChangeOfNamePublicationFields {
 	oldFirstName: string;
 	newFirstName: string;
@@ -38,7 +85,7 @@ export interface ChangeOfNamePublicationValues
 	reason: string;
 	externalName: string;
 	referral: string;
-	photos: [];
+	photos: PublicationPhoto[];
 	id: number;
 	updatedAt: string;
 	createdAt: string;
@@ -91,7 +138,42 @@ export interface LossOfDocumentPublicationValues
 	status?: string;
 }
 
-//
+export interface ObituaryValues extends
+Omit<ObituaryFields, 'externalSelect'>{
+	externalName?:string;
+	photos:PublicationPhoto[];
+	id:number;
+	updatedAt:string;
+	createdAt:string;
+	deletedAt:string|null;
+	causeOfDeath:string;
+	reference:string;
+	genderOfDeceased:Gender;
+}
+
+export interface PublicNoticeValues extends 
+Omit<PublicNoticeFields, 'externalSelect'>{
+	externalName?:string;
+	paymentUrl:string;
+	reference:string;
+	id:number;
+	updatedAt:string;
+	createdAt:string;
+	deletedAt:string|null;
+}
+
+//payloads
+
+export interface ObituaryPublicationPayload extends
+Omit<ObituaryFields, 'externalSelect,file,image'>{
+	externalName?:string;
+}
+
+export interface PublicNoticePayload extends
+Omit<PublicNoticeFields, 'file'>{
+	externalName?:string;
+}
+
 export interface ChangeOfNamePublicationPayload {
 	oldFirstName: string;
 	oldMiddleName: string;
@@ -132,6 +214,7 @@ export interface LossOfDocumentPublicationPayload {
 	externalPageInfo?: string;
 }
 
+
 export interface DocumentPayload {
 	publishType: PUBLICATION_TYPES;
 	type: 'passport' | 'document' | 'signatory';
@@ -144,6 +227,7 @@ export interface PublisherPrice {
 	externalName: string;
 	isPlatform: boolean;
 }
+
 
 export interface PublicationsState {
 	// lod
@@ -158,6 +242,18 @@ export interface PublicationsState {
 	newCONPublication: ChangeOfNamePublicationFields | null;
 	CONPublications: ChangeOfNamePublicationValues[];
 	CONPublicationsMeta: PublicationsListMeta | null;
+	// obituary
+	loadingObituaryPublications:boolean;
+	obituaryPublicationsError:boolean;
+	newObituaryPublication:ObituaryFields|null;
+	obituaryPublications:ObituaryValues[];
+	obituaryPublicationsMeta:PublicationsListMeta|null;
+	// public notice
+	loadingPublicNoticePublications:boolean;
+	publicNoticePublicationsError:boolean;
+	newPublicNoticePublication:PublicNoticeFields|null;
+	publicNoticePublications:PublicNoticeValues[];
+	publicNoticePublicationsMeta:PublicationsListMeta|null;
 	// publisher prices
 	loadingPublisherPrices: boolean;
 	publisherPrices: PublisherPrice[];
@@ -170,4 +266,13 @@ export interface PublicationsState {
 	publishingLOD: boolean;
 	publishLODError: boolean;
 	publishLODSuccess: boolean;
+	// publishing obituary
+	publishingObituary: boolean;
+	publishObituaryError: boolean;
+	publishObituarySuccess: boolean;
+	// publishing public notice
+	publishingPublicNotice:boolean;
+	publishPublicNoticeError:boolean;
+	publishPublicNoticeSuccess:boolean;
 }
+

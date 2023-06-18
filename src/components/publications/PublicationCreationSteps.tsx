@@ -3,6 +3,7 @@ import clsx from 'classnames';
 import { ReactComponent as LossOfDocument } from 'assets/icons/loss-of-document.svg';
 import { ReactComponent as Change } from 'assets/icons/publications/change.svg';
 import { useNavigate } from 'react-router-dom';
+import { PUBLICATION_TYPES } from 'utils/constants';
 
 type Step = 'fill_forms' | 'preview' | 'payment';
 
@@ -20,16 +21,22 @@ const stepList: StepListItem[] = [
 
 interface PublicationCreationStepsProps {
 	activeStep: Step;
-	isLossOfDocument?: boolean;
+	publicationType: PUBLICATION_TYPES;
 	isAgent?: boolean;
 }
 
 const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
 	activeStep,
-	isLossOfDocument,
 	isAgent,
+	publicationType,
 }) => {
 	const navigate = useNavigate();
+	const isLossOfDocument =
+		publicationType === PUBLICATION_TYPES.LOSS_OF_DOCUMENT;
+	const isObituary = publicationType === PUBLICATION_TYPES.OBITUARY;
+	const isChangeOfName = publicationType === PUBLICATION_TYPES.CHANGE_OF_NAME;
+	// const isAffidavit = publicationType === PUBLICATION_TYPES.AFFIDAVIT;
+	// const isPublicNotice = publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE;
 	return (
 		<div>
 			<div className="mid:hidden flex space-x-[139px] items-center my-[22px]">
@@ -44,14 +51,20 @@ const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
 			</div>
 			<div className="hidden mid:flex items-center space-x-[193px]">
 				<div className="flex items-center space-x-[14px]">
-					{isAgent ? null : isLossOfDocument ? <LossOfDocument /> : <Change />}
-					<span
+					{isAgent ? null : isLossOfDocument ? (
+						<LossOfDocument />
+					) : isChangeOfName ? (
+						<Change />
+					) : isObituary ? (
+						<h3 className="text-sm font-semibold text-black">Obituary</h3>
+					) : null}
+					{(isLossOfDocument||isChangeOfName) && <span
 						className={clsx(
 							'text-sm leading-[16.44px] text-black font-semibold',
 							{ '!text-7108F6 font-semibold': isAgent }
 						)}>
 						{isLossOfDocument ? 'Loss Of Document' : 'Change Of Name'}
-					</span>
+					</span>}
 				</div>
 				<div className="w-full max-w-[600px] flex items-center justify-between">
 					{stepList.map((item) => (

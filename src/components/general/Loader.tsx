@@ -5,9 +5,10 @@ interface LoaderProps {
 	loading: boolean;
 	mini?: boolean;
 	transparent?: boolean;
+	className?: string;
 }
 
-const Loader = ({ loading, mini, transparent }: LoaderProps) => {
+const Loader = ({ loading, mini, transparent, className }: LoaderProps) => {
 	if (!loading) {
 		return null;
 	}
@@ -16,7 +17,8 @@ const Loader = ({ loading, mini, transparent }: LoaderProps) => {
 			className={clsx(
 				'fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-white/[.9] z-[10002]',
 				{ '!bg-transparent !static !h-auto !z-[1]': mini },
-				{ '!bg-white/[.3]': transparent }
+				{ '!bg-white/[.3]': transparent },
+				className
 			)}>
 			<div className="flex flex-col items-center justify-center space-y-2">
 				{mini && (

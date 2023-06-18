@@ -17,8 +17,8 @@ import {
 	routes,
 } from 'utils/constants';
 import publicationsAPI from 'api/publications';
-import { isEmpty } from 'lodash';
-import { getPublicationLink, getTitle, isApproved } from 'utils/functions';
+import { capitalize, isEmpty } from 'lodash';
+import { getFullPublicationLink, getPublicationText, getTitle, isApproved } from 'utils/functions';
 import moment from 'moment';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
@@ -60,6 +60,9 @@ const PublicationDetail = () => {
 		if (publicationType === PUBLICATION_TYPES_ACRONYMS.OBITUARY) {
 			return { type: PUBLICATION_TYPES.OBITUARY, reference, title: 'OBITUARY' };
 		}
+		if (publicationType === PUBLICATION_TYPES_ACRONYMS.PUBLIC_NOTICE) {
+			return { type: PUBLICATION_TYPES.PUBLIC_NOTICE, reference, title: 'PUBLIC NOTICE' };
+		}
 	};
 
 
@@ -98,25 +101,10 @@ const PublicationDetail = () => {
 
 	const getText = () => {
 		const type = getPublicationType();
-		if (type?.type === PUBLICATION_TYPES.CHANGE_OF_NAME) {
-			return `
-			“I, formerly known and addressed as ${detail?.oldFirstName}
-			${detail?.oldMiddleName} ${detail?.oldLastName}, henceforth wish
-			to be known and addressed as ${detail?.newFirstName}
-			${detail?.newMiddleName} ${detail?.newLastName}. All former
-			documents remain valid. ${detail?.concernParties} and the general
-			public to take note”
-			`;
+		if(type?.type){
+			return getPublicationText(type.type,detail)
 		}
-		if (type?.type === PUBLICATION_TYPES.LOSS_OF_DOCUMENT) {
-			return `
-			This is to notify the general public, that I, ${getTitle(
-				detail?.gender || ''
-			)} ${detail?.firstName}
-			${detail?.middleName} ${detail?.lastName} of ${detail?.houseAddress} lost a
-			${detail?.itemLost} with Property ID ${detail?.idNumber}
-			`;
-		}
+		return ''
 	};
 
 	const getSubHeader = () => {
@@ -137,9 +125,23 @@ const PublicationDetail = () => {
 				${detail?.lastName}
 			`
 		}
+		if(type?.type===PUBLICATION_TYPES.OBITUARY){
+			return `${getTitle(detail?.gender || '')} ${detail?.fullNameOfDeceased}`
+		}
+		if(type?.type===PUBLICATION_TYPES.AFFIDAVIT||type?.type===PUBLICATION_TYPES.PUBLIC_NOTICE){
+			return `${getTitle(detail?.firstName || '')} ${detail?.middleName} ${detail?.lastName}`
+		}
 	}
 
 	const passPortPhotograph = detail?.photos?.find((doc:any) => doc?.type === "passport")?.url
+
+	const getLink = () => {
+		const publicationType = getPublicationType()?.type
+		if(publicationType){
+			return getFullPublicationLink(publicationType, `${detail?.reference}` || '')||''
+		}
+		return ''
+	};
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
@@ -213,7 +215,7 @@ const PublicationDetail = () => {
 								<span className="font-bold">
 									{getPublicationType()?.title} :
 								</span>{' '}
-								{getSubHeader()}
+								{capitalize(getSubHeader()||"")}
 							</h3>
 							{publicationIsApproved ? (
 								<div className="flex items-center justify-between">
@@ -246,10 +248,9 @@ const PublicationDetail = () => {
 										)}
 									</div>
 									<CopyToClipboard
-										text={getPublicationLink(
-											PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
-											detail?.reference || ''
-										)}
+										text={
+											getLink()
+										}
 										onCopy={() => toast.success('Link copied to clipboard')}>
 										<button className="flex items-center space-x-2">
 											<div className="h-[30px] w-[30px] rounded-full bg-F4F4F4 border border-575555 flex items-center justify-center">

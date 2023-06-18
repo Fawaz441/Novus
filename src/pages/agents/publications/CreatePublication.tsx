@@ -3,20 +3,39 @@ import { PublicationCreationSteps } from 'components/publications';
 import React, { useState } from 'react';
 import clsx from 'classnames';
 import { ChangeOfNameForm } from 'components/agents/publications';
+import { PUBLICATION_TYPES } from 'utils/constants';
 
 const forms = [
-	{ name: 'change_of_name', text: 'Change Of Name' },
-	{ name: 'loss_of_documents', text: 'Loss of Documents' },
-	{ name: 'obituary', text: 'Obituary' },
-	{ name: 'affidavit', text: 'Affidavit' },
+	{
+		name: 'change_of_name',
+		text: 'Change Of Name',
+		type: PUBLICATION_TYPES.CHANGE_OF_NAME,
+	},
+	{
+		name: 'loss_of_documents',
+		text: 'Loss of Documents',
+		type: PUBLICATION_TYPES.LOSS_OF_DOCUMENT,
+	},
+	{ name: 'obituary', text: 'Obituary', type: PUBLICATION_TYPES.OBITUARY },
+	{
+		name: 'public-notice',
+		text: 'Obituary',
+		type: PUBLICATION_TYPES.PUBLIC_NOTICE,
+	},
+	{ name: 'affidavit', text: 'Affidavit', type: PUBLICATION_TYPES.AFFIDAVIT },
 ];
 
 const CreatePublication = () => {
 	const [activeForm, setActiveForm] = useState(forms[0]);
+
 	return (
 		<Wrapper>
 			<div className="mt-7 flex flex-col space-y-[47px]">
-				<PublicationCreationSteps isAgent activeStep="fill_forms" />
+				<PublicationCreationSteps
+					isAgent
+					activeStep="fill_forms"
+					publicationType={activeForm.type}
+				/>
 			</div>
 			<div className="flex space-x-[122px] mt-[47px]">
 				<div className="flex flex-col space-y-[30px] ml-[-33px]">
@@ -33,8 +52,7 @@ const CreatePublication = () => {
 								if (activeForm.name !== form.name) {
 									setActiveForm(form);
 								}
-							}}
-						>
+							}}>
 							{form.text}
 						</button>
 					))}

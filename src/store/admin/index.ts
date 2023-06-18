@@ -25,6 +25,11 @@ export const adminSlice = createSlice({
 	name: 'admin',
 	initialState,
 	reducers: {
+		logOut: (state) => {
+			state.token = null;
+			state.userDetails = null;
+			state.isAuthenticated = false;
+		},
 		authenticateDirectly: (
 			state,
 			action: PayloadAction<AuthenticationDetails>

@@ -5,6 +5,10 @@ import {
 	ChangeOfNamePublicationValues,
 	LossOfDocumentPublicationPayload,
 	LossOfDocumentPublicationValues,
+	ObituaryPublicationPayload,
+	ObituaryValues,
+	PublicNoticePayload,
+	PublicNoticeValues,
 	PublicationsListMeta,
 	PublisherPrice,
 } from 'interfaces/publications';
@@ -18,6 +22,16 @@ interface PublicationsListData {
 interface LossOfDocumentsData {
 	items: LossOfDocumentPublicationValues[];
 	meta: PublicationsListMeta;
+}
+
+interface ObituaryData {
+	items:ObituaryValues[];
+	meta: PublicationsListMeta;
+}
+
+interface PublicNoticeData{
+	items:PublicNoticeValues[];
+	meta:PublicationsListMeta
 }
 
 type PublisherPricesData = PublisherPrice[];
@@ -34,24 +48,39 @@ export type CONPublicationsCreationResponse =
 export type LODPublicationsCreationResponse =
 	AxiosResponse<LossOfDocumentPublicationValues>;
 
-export type LODPublicationListResponse = AxiosResponse<LossOfDocumentsData>;
+export type ObituaryPublicationsCreationResponse =
+	AxiosResponse<ObituaryValues>;
+	export type PublicNoticeCreationResponse = AxiosResponse<PublicNoticeValues>;
 
+export type LODPublicationListResponse = AxiosResponse<LossOfDocumentsData>;
+export type ObituaryListResponse = AxiosResponse<ObituaryData>
+export type PublicNoticeListResponse = AxiosResponse<PublicNoticeData>
 
 const publicationsAPI = {
 	getPublications: (
 		publicationType: PUBLICATION_TYPES,
-		params?:any
+		params?: any
 	): Promise<PublicationsListAPICallResponse> =>
-		rootAxios.get(`/publication/publications/${publicationType}`,{params}),
-	getLostDocumentPublications: (params?:any): Promise<LODPublicationListResponse> =>
+		rootAxios.get(`/publication/publications/${publicationType}`, { params }),
+	getLostDocumentPublications: (
+		params?: any
+	): Promise<LODPublicationListResponse> =>
 		rootAxios.get(
 			`/publication/publications/${PUBLICATION_TYPES.LOSS_OF_DOCUMENT}`,
-			{params}
+			{ params }
 		),
-	getObituaryPublications: (params?:any) =>
-		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.OBITUARY}`,{params}),
-	getAffidavitPublications: (params?:any) =>
-		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.AFFIDAVIT}`,{params}),
+	getObituaryPublications: (params?: any):Promise<ObituaryListResponse> =>
+		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.OBITUARY}`, {
+			params,
+		}),
+	getPublicNoticePublications: (params?: any):Promise<PublicNoticeListResponse> =>
+		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.PUBLIC_NOTICE}`, {
+			params,
+		}),
+	getAffidavitPublications: (params?: any) =>
+		rootAxios.get(`/publication/publications/${PUBLICATION_TYPES.AFFIDAVIT}`, {
+			params,
+		}),
 	getPublicationDetail: (
 		reference: string,
 		publicationType: PUBLICATION_TYPES
@@ -77,10 +106,20 @@ const publicationsAPI = {
 		data: LossOfDocumentPublicationPayload
 	): Promise<LODPublicationsCreationResponse> =>
 		rootAxios.post('/publication/addLossDocument', data),
-	uploadDocument:(data:any) => rootAxios.post('/publication/upload',data,
-	{headers:{
-		"Content-Type":"multipart/form-data"
-	}}),
+	createObituaryPublication: (
+		data: ObituaryPublicationPayload
+	): Promise<ObituaryPublicationsCreationResponse> =>
+		rootAxios.post('/publication/addObituary', data),
+	createPublicNoticePublication: (
+		data: PublicNoticePayload
+	): Promise<PublicNoticeCreationResponse> =>
+		rootAxios.post('/publication/addPublicNotice', data),
+	uploadDocument: (data: any) =>
+		rootAxios.post('/publication/upload', data, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		}),
 };
 
 export default publicationsAPI;

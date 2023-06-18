@@ -4,22 +4,32 @@ import { ReactComponent as Download } from 'assets/icons/publications/download.s
 import { ReactComponent as AltDownload } from 'assets/icons/agents/download.svg';
 import { ReactComponent as Location } from 'assets/icons/agents/location.svg';
 import { useNavigate } from 'react-router-dom';
-import { PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
+import {
+	PUBLICATION_TYPES,
+	routes,
+} from 'utils/constants';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
-import { getPublicationLink } from 'utils/functions';
+import { getFullPublicationLink } from 'utils/functions';
 import { hideAllPublicationActions } from 'utils/ui-functions';
 
 interface PublicationActionsProps {
 	tag: number | string;
+	publicationType: PUBLICATION_TYPES;
 	isAgent?: boolean;
 }
 
 const PublicationActions: React.FC<PublicationActionsProps> = ({
 	tag,
 	isAgent,
+	publicationType,
 }) => {
 	const navigate = useNavigate();
+
+	const getLink = () => {
+		return getFullPublicationLink(publicationType, `${tag}` || '')
+	};
+
 	return (
 		<div
 			id={`publication-${tag}-actions`}
@@ -29,10 +39,7 @@ const PublicationActions: React.FC<PublicationActionsProps> = ({
 			{isAgent ? (
 				<>
 					<CopyToClipboard
-						text={getPublicationLink(
-							PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
-							`${tag}` || ''
-						)}
+						text={getLink()}
 						onCopy={() => {
 							toast.success('Link copied to clipboard');
 							hideAllPublicationActions();
@@ -64,10 +71,7 @@ const PublicationActions: React.FC<PublicationActionsProps> = ({
 			) : (
 				<>
 					<CopyToClipboard
-						text={getPublicationLink(
-							PUBLICATION_TYPES_ACRONYMS.CHANGE_OF_NAME,
-							`${tag}` || ''
-						)}
+						text={getLink()}
 						onCopy={() => {
 							toast.success('Link copied to clipboard');
 							hideAllPublicationActions();

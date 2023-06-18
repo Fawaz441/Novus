@@ -57,13 +57,13 @@ const PublicationList: React.FC = () => {
 				/>
 			</div>
 			<div className="mt-[90px] mid:mt-[120px] relative flex flex-col">
-				<div className="flex flex-col overflow-x-hidden space-y-[26px] mid:grid mid:gap-x-10 w-full pub-list mid:gap-y-[30px] h-full mini:h-[calc(100vh_-_291px)] overflow-y-auto scrollbar-hide">
+				<div className="flex flex-col overflow-x-hidden mid:grid space-y-[26px] mid:space-y-0 mid:gap-x-10 w-full pub-list mid:gap-y-[30px] h-full mini:h-[calc(100vh_-_291px)] overflow-y-auto scrollbar-hide">
 					{CONPublications.map((publication) => (
 						<Publication data={publication} id={publication.id} />
 					))}
 				</div>
 				<div className="flex items-center justify-center h-[81px] flex-shrink-0">
-					<Pagination
+					{!!CONPublicationsMeta?.totalItems && <Pagination
 						onPrevClick={() =>
 							getPublications({
 								page: JSON.stringify((CONPublicationsMeta?.currentPage || 0) - 1),
@@ -82,7 +82,7 @@ const PublicationList: React.FC = () => {
 							!CONPublicationsMeta?.currentPage ||
 							CONPublicationsMeta.totalPages === CONPublicationsMeta.currentPage
 						}
-					/>
+					/>}
 				</div>
 			</div>
 		</Wrapper>

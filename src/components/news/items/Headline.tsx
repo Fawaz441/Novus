@@ -14,6 +14,7 @@ interface HeadlineProps {
 	links: number;
 	reads: number;
 	image: string;
+	link?:string;
 }
 
 const Headline: React.FC<HeadlineProps> = ({
@@ -25,15 +26,18 @@ const Headline: React.FC<HeadlineProps> = ({
 	shares,
 	links,
 	reads,
+	link
 }) => {
 	return (
 		<div className="flex flex-col w-full space-y-4 mid:space-y-[22px]">
 			<div className="h-[280px] rounded-[10px] relative">
-				<img
-					src={image}
-					alt={header}
-					className="w-full h-[280px] rounded-[10px]"
-				/>
+				<div className="w-full h-[280px] rounded-[10px] bg-gray-200">
+					<img
+						src={image}
+						alt={header}
+						className="w-full h-[280px] rounded-[10px] object-cover"
+					/>
+				</div>
 				<div className="absolute left-[21px] bottom-[19px]">
 					<NewsTag name={tag} />
 				</div>
@@ -49,12 +53,14 @@ const Headline: React.FC<HeadlineProps> = ({
 					</div>
 				</div>
 				<div className="flex flex-col space-y-[26px] w-full flex-1 mt-[17px] mid:mt-0">
-					<button
-						type="button"
-						className="w-full mid:w-[283px] mid:ml-auto rounded text-sm h-[37px] border-[0.5px] text-white mid:text-black bg-7108F6 mid:bg-white border-7108F6">
+					{link && <a
+						href={link}
+						rel="noreferrer"
+						target="_blank"
+						className="w-full mid:w-[283px] mid:ml-auto rounded text-sm h-[37px] border-[0.5px] text-white mid:text-black bg-7108F6 mid:bg-white border-7108F6 flex items-center justify-center">
 						Read More
-					</button>
-					<div className="hidden items-center space-x-[45px] mid:flex">
+					</a>}
+					{/* <div className="hidden items-center space-x-[45px] mid:flex">
 						<div className="flex items-center space-x-[10px]">
 							<div className="h-[30px] w-[30px] rounded-full bg-F4F4F4 flex items-center justify-center">
 								<Reads />
@@ -79,7 +85,7 @@ const Headline: React.FC<HeadlineProps> = ({
 								{formatStatistic(links)}
 							</span>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>

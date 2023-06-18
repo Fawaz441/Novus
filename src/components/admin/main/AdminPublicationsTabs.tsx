@@ -10,8 +10,9 @@ interface AdminPublicationsTabsProps {
 const tabs = [
 	{ name: 'Change of name', tab: PUBLICATION_TYPES.CHANGE_OF_NAME },
 	{ name: 'Loss of document', tab: PUBLICATION_TYPES.LOSS_OF_DOCUMENT },
+	{ name: 'Public Notice', tab: PUBLICATION_TYPES.PUBLIC_NOTICE },
 	{ name: 'Obituary', tab: PUBLICATION_TYPES.OBITUARY },
-	{ name: 'Affidavit', tab: PUBLICATION_TYPES.AFFIDAVIT },
+	// { name: 'Affidavit', tab: PUBLICATION_TYPES.AFFIDAVIT },
 ];
 
 const AdminPublicationsTabs: React.FC<AdminPublicationsTabsProps> = ({

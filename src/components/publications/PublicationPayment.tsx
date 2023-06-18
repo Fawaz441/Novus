@@ -5,7 +5,7 @@ import {
 	MobileFormsNavigation,
 	PublicationCreationSteps,
 } from 'components/publications';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'store';
@@ -14,7 +14,14 @@ import toast from 'react-hot-toast';
 import { capitalize } from 'lodash';
 
 const { actions } = publicationSlice;
-const { CHANGE_OF_NAME, LOSS_OF_DOCUMENT } = PUBLICATION_TYPES;
+const {
+	CHANGE_OF_NAME,
+	LOSS_OF_DOCUMENT,
+	OBITUARY,
+	AGE_DECLARATION,
+	AFFIDAVIT,
+	PUBLIC_NOTICE,
+} = PUBLICATION_TYPES;
 
 interface PublicationPaymentProps {
 	publicationType: PUBLICATION_TYPES;
@@ -28,48 +35,104 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 	const {
 		newCONPublication,
 		newLODPublication,
+		newObituaryPublication,
+		newPublicNoticePublication,
+		// loading
 		publishingLOD,
 		publishingCON,
+		publishingObituary,
+		publishingPublicNotice,
+		// error
 		publishCONError,
 		publishLODError,
+		publishObituaryError,
+		publishPublicNoticeError,
+		// success
 		publishCONSuccess,
 		publishLODSuccess,
+		publishObituarySuccess,
+		publishPublicNoticeSuccess,
+		// prices
 		publisherPrices,
 		loadingPublisherPrices,
 	} = useSelector((state: RootState) => state.publications);
 
-	const publicationOfInterest = React.useMemo(() => {
-		return publicationType === CHANGE_OF_NAME
-			? newCONPublication
-			: publicationType === LOSS_OF_DOCUMENT
-			? newLODPublication
-			: null;
-	}, [publicationType, newCONPublication, newLODPublication]);
+	const mappings = useMemo(
+		() => ({
+			[LOSS_OF_DOCUMENT]: newLODPublication,
+			[CHANGE_OF_NAME]: newCONPublication,
+			[OBITUARY]: newObituaryPublication,
+			[AGE_DECLARATION]: newCONPublication,
+			[AFFIDAVIT]: newCONPublication,
+			[PUBLIC_NOTICE]: newPublicNoticePublication,
+		}),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[]
+	);
 
+	// publication of interest
+	const publicationOfInterest = useMemo(() => {
+		return mappings[publicationType];
+	}, [mappings, publicationType]);
+
+	// success
 	const successOfInterest = React.useMemo(() => {
 		return publicationType === CHANGE_OF_NAME
 			? publishCONSuccess
 			: publicationType === LOSS_OF_DOCUMENT
 			? publishLODSuccess
+			: publicationType === OBITUARY
+			? publishObituarySuccess
+			: publicationType === PUBLIC_NOTICE
+			? publishPublicNoticeSuccess
 			: null;
-	}, [publicationType, publishLODSuccess, publishCONSuccess]);
+	}, [
+		publicationType,
+		publishLODSuccess,
+		publishCONSuccess,
+		publishObituarySuccess,
+		publishPublicNoticeSuccess,
+	]);
 
+	// error
 	const errorOfInterest = React.useMemo(() => {
 		return publicationType === CHANGE_OF_NAME
 			? publishCONError
 			: publicationType === LOSS_OF_DOCUMENT
 			? publishLODError
+			: publicationType === OBITUARY
+			? publishObituaryError
+			: publicationType === PUBLIC_NOTICE
+			? publishPublicNoticeError
 			: null;
-	}, [publicationType, publishLODError, publishCONError]);
+	}, [
+		publicationType,
+		publishPublicNoticeError,
+		publishLODError,
+		publishCONError,
+		publishObituaryError,
+	]);
 
+	// loading
 	const loading = React.useMemo(() => {
 		return publicationType === CHANGE_OF_NAME
 			? publishingCON
 			: publicationType === LOSS_OF_DOCUMENT
 			? publishingLOD
+			: publicationType === OBITUARY
+			? publishingObituary
+			: publicationType === PUBLIC_NOTICE
+			? publishingPublicNotice
 			: null;
-	}, [publicationType, publishingCON, publishingLOD]);
+	}, [
+		publicationType,
+		publishingPublicNotice,
+		publishingCON,
+		publishingLOD,
+		publishingObituary,
+	]);
 
+	// publish function
 	const publish = () => {
 		if (publicationOfInterest) {
 			if (publicationType === CHANGE_OF_NAME) {
@@ -77,6 +140,12 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 			}
 			if (publicationType === LOSS_OF_DOCUMENT) {
 				dispatch(actions.publishLOD(publicationOfInterest));
+			}
+			if (publicationType === OBITUARY) {
+				dispatch(actions.publishObituary(publicationOfInterest));
+			}
+			if(publicationType === PUBLIC_NOTICE){
+				dispatch(actions.publishPublicNotice(newPublicNoticePublication))
 			}
 		}
 	};
@@ -94,21 +163,46 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 						type: 'image/png',
 					});
 				} catch (e) {
+					toast.error('Please re-upload your documents');
 					navigate(routes.pub_forms.change_of_name);
 				}
 			}
-			// if (publicationType === LOSS_OF_DOCUMENT && newLODPublication) {
-			// 	try {
-			// 		new File([newLODPublication.image], 'image.png', {
-			// 			type: 'image/png',
-			// 		});
-			// 		new File([newLODPublication.file], 'image.png', {
-			// 			type: 'image/png',
-			// 		});
-			// 	} catch (e) {
-			// 		navigate(routes.pub_forms.change_of_name);
-			// 	}
-			// }
+			if (publicationType === LOSS_OF_DOCUMENT && newLODPublication) {
+				try {
+					new File([newLODPublication.image], 'image.png', {
+						type: 'image/png',
+					});
+					new File([newLODPublication.file], 'image.png', {
+						type: 'image/png',
+					});
+				} catch (e) {
+					toast.error('Please re-upload your documents');
+					navigate(routes.pub_forms.loss_of_document);
+				}
+			}
+			if (publicationType === OBITUARY && newObituaryPublication) {
+				try {
+					new File([newObituaryPublication.image], 'image.png', {
+						type: 'image/png',
+					});
+					new File([newObituaryPublication.file], 'image.png', {
+						type: 'image/png',
+					});
+				} catch (e) {
+					toast.error('Please re-upload your documents');
+					navigate(routes.pub_forms.obituary);
+				}
+			}
+			if (publicationType === PUBLIC_NOTICE && newPublicNoticePublication?.file) {
+				try {
+					new File([newPublicNoticePublication.file], 'image.png', {
+						type: 'image/png',
+					});
+				} catch (e) {
+					toast.error('Please re-upload your document');
+					navigate(routes.pub_forms.public_notice);
+				}
+			}
 		}
 		if (publisherPrices?.length === 0) {
 			dispatch(
@@ -120,6 +214,7 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [publicationOfInterest, publisherPrices, publicationType]);
 
+	// clear.
 	useEffect(() => {
 		return () => {
 			dispatch(actions.clearPublisherPrices());
@@ -127,6 +222,7 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	// when there's an error
 	useEffect(() => {
 		if (errorOfInterest) {
 			toast.custom((t) => <ErrorToast t={t} retry={publish} />);
@@ -134,15 +230,17 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [errorOfInterest]);
 
+	// when there's a success.
 	useEffect(() => {
 		if (successOfInterest) {
 			toast.success('Publication submitted successfully');
 			dispatch(actions.resetPublishSuccess());
-			navigate(routes.home);
+			// navigate(routes.home);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [successOfInterest]);
 
+	// prices
 	const epitomeNewsPrice = React.useMemo(() => {
 		return Number(
 			publisherPrices.find((price) => !!price.isPlatform)?.price || 0
@@ -169,7 +267,10 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 			<Loader loading={loading || loadingPublisherPrices} transparent />
 			<div>
 				<div className="hidden mid:block">
-					<PublicationCreationSteps activeStep="payment" />
+					<PublicationCreationSteps
+						activeStep="payment"
+						publicationType={publicationType}
+					/>
 				</div>
 				<div className="mt-2 mb-6 mid:hidden">
 					<MobileFormsNavigation />
@@ -220,10 +321,11 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 										will cost {externalNewsPaperPrice}
 									</p>
 									<p className="text-10 leading-[17px] font-medium text-575555 mid:text-base mid:leading-[22.86px] mt-[10px]">
-										Publishing on {capitalize(publicationOfInterest?.externalSelect?.value)}{' '}
+										Publishing on{' '}
+										{capitalize(publicationOfInterest?.externalSelect?.value)}{' '}
 										will take 3 - 4 working days after approval on The Epitome
-										News. Once publication has been approved on The Epitome News
-										lookout for the print publication on the{' '}
+										News. Once publication has been approved on The Epitome
+										News, lookout for the print publication on the{' '}
 										{capitalize(publicationOfInterest?.externalSelect?.value)}{' '}
 										newspaper after the waiting period.
 									</p>

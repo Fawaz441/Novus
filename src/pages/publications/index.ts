@@ -1,23 +1,25 @@
-import ChangeOfNamePreview from './previews/ChangeOfNamePreview';
 import CheckOrCreatePublication from './CheckOrCreatePublication';
-import ChangeOfNameForm from './forms/ChangeOfName';
-import LossOfDocument from './forms/LossOfDocument';
-import LossOfDocumentPreview from './previews/LossOfDocumentPreview';
 import LostDocumentList from './LostDocumentList';
-import ChangeOfNamePayment from './payment/ChangeOfNamePayment';
-import LossOfDocumentPayment from './payment/LossOfDocumentPayment';
+import ObituaryList from './ObituaryList';
+import PublicNoticeList from './PublicNoticeList';
 import PublicationDetail from './PublicationDetail';
 import PublicationList from './PublicationList';
+import Affidavit from './forms/Affidavit';
+import ChangeOfNameForm from './forms/ChangeOfName';
+import LossOfDocument from './forms/LossOfDocument';
+import Obituary from './forms/Obituary';
+import PublicNotice from './forms/PublicNotice';
 
 export {
-	LostDocumentList,
-	LossOfDocument,
-	ChangeOfNamePayment,
-	LossOfDocumentPayment,
-	ChangeOfNamePreview,
-	PublicationList,
-	PublicationDetail,
+	PublicNoticeList,
+	Affidavit,
 	ChangeOfNameForm,
-	LossOfDocumentPreview,
 	CheckOrCreatePublication,
+	LossOfDocument,
+	LostDocumentList,
+	Obituary,
+	ObituaryList,
+	PublicNotice,
+	PublicationDetail,
+	PublicationList,
 };

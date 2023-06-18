@@ -48,7 +48,7 @@ const LossOfDocument = () => {
 	const [showCalendar, setShowCalendar] = useState(false);
 	const navigate = useNavigate();
 	const dispatch: AppDispatch = useDispatch();
-	const [hasMounted, setHasMounted] = useState(false)
+	const [hasMounted, setHasMounted] = useState(false);
 	const { newLODPublication, publisherPrices, loadingPublisherPrices } =
 		useSelector((state: RootState) => state.publications);
 	const {
@@ -60,7 +60,7 @@ const LossOfDocument = () => {
 		watch,
 		setError,
 		getValues,
-		register
+		register,
 	} = useForm<LossOfDocumentPublicationFields>({
 		defaultValues: emptyLossOfDocumentValues,
 	});
@@ -115,8 +115,8 @@ const LossOfDocument = () => {
 		if (newLODPublication) {
 			reset(newLODPublication);
 		}
-		setHasMounted(true)
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		setHasMounted(true);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -127,7 +127,11 @@ const LossOfDocument = () => {
 				})
 			);
 		}
-		if (!publishWithThirdParty && hasMounted && getValues('externalSelect')?.value) {
+		if (
+			!publishWithThirdParty &&
+			hasMounted &&
+			getValues('externalSelect')?.value
+		) {
 			setValue('externalSelect', emptyLossOfDocumentValues.externalSelect);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -138,13 +142,13 @@ const LossOfDocument = () => {
 	const { ref: fileRef } = register('file');
 	const { ref: imageRef } = register('image');
 
-	const setDocument = async(fileType: 'file' | 'image',e: any) => {
+	const setDocument = async (fileType: 'file' | 'image', e: any) => {
 		const selectedFile = e.target.files[0];
 		const reader = new FileReader();
 		reader.onload = function (event) {
 			const fileData = event?.target?.result;
-			setValue(fileType,fileData)
-			console.log("successful")
+			setValue(fileType, fileData);
+			console.log('successful');
 		};
 		reader.readAsDataURL(selectedFile);
 	};
@@ -159,7 +163,10 @@ const LossOfDocument = () => {
 				onClose={() => setShowCalendar(false)}
 				maxDate={new Date()}
 			/>
-			<PublicationCreationSteps isLossOfDocument activeStep="fill_forms" />
+			<PublicationCreationSteps
+				publicationType={PUBLICATION_TYPES.LOSS_OF_DOCUMENT}
+				activeStep="fill_forms"
+			/>
 			<div className="mt-7 pb-[200px]">
 				<form className="w-full flex flex-col mini:flex-row mini:space-x-[39px]">
 					<div className="flex-1 mini:max-w-[1000px] flex flex-col space-y-5">
@@ -527,7 +534,7 @@ const LossOfDocument = () => {
 								<Required />
 							</div>
 							<FileInput
-								onLoadError={()=>setimageError(true)}
+								onLoadError={() => setimageError(true)}
 								removeError={() => {
 									if (imageError) {
 										setimageError(false);
@@ -537,7 +544,7 @@ const LossOfDocument = () => {
 								onChange={(e: any) => setDocument('image', e)}
 								ref_={imageRef}
 								fileValue={getValues('image')}
-								accepts='image/jpeg,image/png'
+								accepts="image/jpeg,image/png"
 							/>
 						</div>
 						<div className="flex flex-col space-y-[7px] mt-[43px]">
@@ -548,7 +555,7 @@ const LossOfDocument = () => {
 								<Required />
 							</div>
 							<FileInput
-								onLoadError={()=>setFileError(true)}
+								onLoadError={() => setFileError(true)}
 								removeError={() => {
 									if (fileError) {
 										setFileError(false);

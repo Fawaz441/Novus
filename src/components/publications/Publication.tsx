@@ -8,7 +8,7 @@ import PublicationActions from './PublicationActions';
 import { toggleHiddenElement } from 'utils/ui-functions';
 import { ChangeOfNamePublicationValues } from 'interfaces/publications';
 import { useNavigate } from 'react-router-dom';
-import { PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
+import { PUBLICATION_TYPES, PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { getPublicationLink } from 'utils/functions';
@@ -53,7 +53,9 @@ const Publication: React.FC<PublicationProps> = ({ id, data }) => {
 						</span>
 					</div>
 					<div className="relative">
-						<PublicationActions tag={data?.reference || ''} />
+						<PublicationActions tag={data?.reference || ''} 
+						publicationType={PUBLICATION_TYPES.CHANGE_OF_NAME}
+						/>
 						<button
 							onClick={(e) => {
 								e.stopPropagation();

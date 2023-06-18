@@ -1,7 +1,7 @@
 import { Pagination, Loader, ErrorToast } from 'components/general';
 import { Wrapper } from 'components/navigation';
 import { FilterAndSearch } from 'components/news/interactions';
-import { LosttDocument, MobileFormsNavigation } from 'components/publications';
+import { MobileFormsNavigation, PublicNoticePublication } from 'components/publications';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'store';
@@ -10,18 +10,18 @@ import toast from 'react-hot-toast';
 
 const { actions } = publicationSlice;
 
-const LostDocumentList: React.FC = () => {
+const PublicNoticeList: React.FC = () => {
 	const dispatch: AppDispatch = useDispatch();
 	const {
-		LODPublications,
-		loadingLODPublications,
-		LODPublicationsError,
-		LODPublicationsMeta,
+        publicNoticePublications,
+        publicNoticePublicationsError,
+        loadingPublicNoticePublications,
+        publicNoticePublicationsMeta,
 	} = useSelector((state: RootState) => state.publications);
 
 	const getPublications = (params?: any) => {
 		dispatch(
-			actions.getLostDocumentPublications({
+			actions.getPublicNoticePublications({
 				params: {
 					sort: JSON.stringify({
 						createdAt: 'DESC',
@@ -38,15 +38,15 @@ const LostDocumentList: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
-		if (LODPublicationsError) {
+		if (publicNoticePublicationsError) {
 			toast.custom((t) => <ErrorToast t={t} retry={getPublications} />);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [LODPublicationsError]);
+	}, [publicNoticePublicationsError]);
 
 	return (
 		<Wrapper isPublications>
-			<Loader loading={loadingLODPublications} />
+			<Loader loading={loadingPublicNoticePublications} />
 			<div className="mini:hidden">
 				<MobileFormsNavigation isForm={false} />
 			</div>
@@ -57,30 +57,30 @@ const LostDocumentList: React.FC = () => {
 				/>
 			</div>
 			<div className="mt-[90px] mid:mt-[120px] relative flex flex-col">
-				<div className="flex flex-col overflow-x-hidden space-y-[26px] mid:space-y-0 mid:grid mid:gap-x-10 w-full pub-list mid:gap-y-[30px] h-full mini:h-[calc(100vh_-_291px)] overflow-y-auto scrollbar-hide">
-					{LODPublications.map((publication) => (
-						<LosttDocument data={publication} id={publication.id} />
+				<div className="flex flex-col overflow-x-hidden mid:grid mid:gap-x-10 space-y-[26px] mid:space-y-0 w-full pub-list mid:gap-y-[30px] h-full mini:h-[calc(100vh_-_291px)] overflow-y-auto scrollbar-hide">
+					{publicNoticePublications.map((publication) => (
+						<PublicNoticePublication data={publication} id={publication.id} />
 					))}
 				</div>
 				<div className="flex items-center justify-center h-[81px] flex-shrink-0">
-					{!!LODPublicationsMeta?.totalItems && <Pagination
+					{!!publicNoticePublicationsMeta?.totalItems && <Pagination
 						onPrevClick={() =>
 							getPublications({
-								page: (LODPublicationsMeta?.currentPage || 0) - 1,
+								page: (publicNoticePublicationsMeta?.currentPage || 0) - 1,
 							})
 						}
 						onNextClick={() =>
 							getPublications({
-								page: (LODPublicationsMeta?.currentPage || 0) + 1,
+								page: (publicNoticePublicationsMeta?.currentPage || 0) + 1,
 							})
 						}
 						prevDisabled={
-							LODPublicationsMeta?.currentPage === 1 ||
-							!LODPublicationsMeta?.currentPage
+							publicNoticePublicationsMeta?.currentPage === 1 ||
+							!publicNoticePublicationsMeta?.currentPage
 						}
 						nextDisabled={
-							!LODPublicationsMeta?.currentPage ||
-							LODPublicationsMeta.totalPages === LODPublicationsMeta.currentPage
+							!publicNoticePublicationsMeta?.currentPage ||
+							publicNoticePublicationsMeta.totalPages === publicNoticePublicationsMeta.currentPage
 						}
 					/>}
 				</div>
@@ -89,4 +89,4 @@ const LostDocumentList: React.FC = () => {
 	);
 };
 
-export default LostDocumentList;
+export default PublicNoticeList;

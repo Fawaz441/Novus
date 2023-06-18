@@ -14,6 +14,7 @@ export const routes = {
 	home: '/',
 	change_of_name_publications: '/publications/change-of-name',
 	lost_document_publications: '/publications/loss-of-document',
+	public_notice_publications: '/publications/public-notice',
 	obituary_publications: '/publications/obituary',
 	affidavit_publications: '/publications/affidavit',
 	publication_detail: '/publications/:publicationRef/detail',
@@ -21,12 +22,17 @@ export const routes = {
 	pub_forms: {
 		obituary: '/publications/obituary/create',
 		affidavit: '/publications/affidavit/create',
+		public_notice: '/publications/public-notice/create',
+		public_notice_preview: '/publications/public-notice/create/preview',
 		change_of_name: '/publications/change-of-name/create',
 		change_of_name_preview: '/publications/change-of-name/create/preview',
 		payment: '/publications/change-of-name/create/payment',
 		loss_of_document_payment: '/publications/loss-of-document/create/payment',
+		obituary_payment: '/publications/obituary/create/payment',
+		public_notice_payment: '/publications/public-notice/create/payment',
 		loss_of_document: '/publications/loss-of-document/create',
 		loss_of_document_preview: '/publications/loss-of-document/create/preview',
+		obituary_preview:"/publications/obituary/create/preview",
 		mobile_check_or_create: '/publications/tabs',
 	},
 	agents: {
@@ -51,8 +57,11 @@ export const routes = {
 };
 
 export enum STORAGE_KEYS {
-	NEW_CON_PUBLICATION = 'newCONPublication',
-	NEW_LOD_PUBLICATION = 'newLODPublication',
+	NEW_CON_PUBLICATION = 'novus.NCP',
+	NEW_LOD_PUBLICATION = 'novus.NLP',
+	NEW_OBITUARY_PUBLICATION = 'novus.NOP',
+	NEW_PUBLIC_NOTICE_PUBLICATION = 'novus.PNP',
+	NEW_AFFIDAVIT_PUBLICATION = 'novus.AP',
 	SHOW_NOVUS_PUBLICATION_LINKS = 'novus.show_pub_links',
 	SHOW_NOVUS_AGENT_LINKS = 'novus.show_agent_links',
 	NOVUS_AGENT_SCROLLBAR_POS = 'novus.agent_scrollbar_pos',
@@ -65,6 +74,9 @@ export enum STORAGE_KEYS {
 export enum APP_TERMS {
 	LOSS_OF_DOCUMENT = 'loss-of-document',
 	CHANGE_OF_NAME = 'change-of-name',
+	PUBLIC_NOTICE='public-notice',
+	OBITUARY='obituary',
+	AFFIDAVIT='affidavit'
 }
 
 export const countries = [{ label: 'Nigeria', value: 'Nigeria' }];
@@ -406,6 +418,7 @@ export enum PUBLICATION_TYPES {
 	AGE_DECLARATION = 'age-declaration',
 	OBITUARY = 'obituary',
 	AFFIDAVIT = 'affidavit',
+	PUBLIC_NOTICE = 'public-notice'
 }
 
 export enum PUBLICATION_TYPES_ACRONYMS {
@@ -414,6 +427,7 @@ export enum PUBLICATION_TYPES_ACRONYMS {
 	OBITUARY = 'OB',
 	AFFIDAVIT = 'AFF',
 	PUBLIC_NOTICE = 'PN',
+	AGE_DECLARATION='AGDEC'
 }
 
 export const BASE_URL = 'https://www.theepitomenews.com';

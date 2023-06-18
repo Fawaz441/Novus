@@ -21,12 +21,22 @@ const mobileNavLinks = [
 	{ name: 'Agents', route: routes.agents.login },
 ];
 
-const SideNav: React.FC = () => {
+interface SideNavProps {
+	categories?: any[];
+	onCategoryChange?: (_category: string) => void;
+	activeCategoryId?: string;
+}
+
+const SideNav: React.FC<SideNavProps> = ({
+	categories,
+	onCategoryChange,
+	activeCategoryId,
+}) => {
 	const hideMobileNav = () => toggleHiddenElement(MOBILE_SIDENAV, 'hide');
 	return (
 		<div>
 			<div className="w-[199px] hidden mini:block scrollbar-hide overflow-hidden fixed h-screen top-0 left-0 overflow-y-auto bg-white pt-[94px] pl-[23px]">
-				<div className="w-[176px] h-[90px] border-[0.5px] border-9B9B9B rounded-6 bg-white flex items-center justify-center space-x-[13px]">
+				{/* <div className="w-[176px] h-[90px] border-[0.5px] border-9B9B9B rounded-6 bg-white flex items-center justify-center space-x-[13px]">
 					<div className="border border-EEEEEE h-11 w-11 rounded-full flex items-center justify-center">
 						<Google />
 					</div>
@@ -34,36 +44,33 @@ const SideNav: React.FC = () => {
 						<span className="text-12 text-black leading-[14.09px]">Source</span>
 						<h4 className="font-bold text-sm leading-[16.44px]">Google Inc.</h4>
 					</div>
-				</div>
+				</div> */}
 				<div className="ml-[29px]">
 					<h3 className="font-bold text-[18px] text-black mt-[31px] mb-[26px]">
 						Category
 					</h3>
-					<ul className="flex flex-col space-y-5">
-						<li>
-							<span className="font-bold text-sm text-7108F6">Finance</span>
-						</li>
-						<li>
-							<span className="text-sm text-575555">Politics</span>
-						</li>
-						<li>
-							<span className="text-sm text-575555">Sports</span>
-						</li>
-						<li>
-							<span className="text-sm text-575555">Media</span>
-						</li>
-						<li>
-							<span className="text-sm text-575555">Energy</span>
-						</li>
-						<li>
-							<span className="text-sm text-575555">Tourism</span>
-						</li>
-					</ul>
-					<div className="mt-[64px] mb-4 w-[112px] h-[482px]  bg-[#F3F3F3] flex flex-col items-center justify-center">
+					{categories && (
+						<ul className="flex flex-col space-y-5">
+							{categories.map((cat, index) => (
+								<li
+									key={cat.id}
+									className="cursor-pointer"
+									onClick={() => onCategoryChange && onCategoryChange(cat.id)}>
+									<span
+										className={clsx('font-bold text-sm text-black', {
+											'!text-7108F6': cat.id === activeCategoryId,
+										})}>
+										{cat.name}
+									</span>
+								</li>
+							))}
+						</ul>
+					)}
+					{/* <div className="mt-[64px] mb-4 w-[112px] h-[482px]  bg-[#F3F3F3] flex flex-col items-center justify-center">
 						<h3 className="text-sm text-575555 font-bold">A</h3>
 						<h3 className="text-sm text-575555 font-bold">D</h3>
 						<h3 className="text-sm text-575555 font-bold">S</h3>
-					</div>
+					</div> */}
 				</div>
 			</div>
 			<div

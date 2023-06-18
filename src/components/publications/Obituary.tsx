@@ -1,41 +1,41 @@
 import React from 'react';
+import moment from 'moment';
 import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Download } from 'assets/icons/download.svg';
-import lostDocument from 'assets/images/publications/lost-document.png';
-import lostDocumentMobile from 'assets/images/publications/loss-document-mobile.png';
+import announcement from 'assets/images/publications/announcement.png';
+import announcementMobile from 'assets/images/publications/annoucement-profile.png';
 import PublicationActions from './PublicationActions';
 import { toggleHiddenElement } from 'utils/ui-functions';
+import { ObituaryValues } from 'interfaces/publications';
 import { useNavigate } from 'react-router-dom';
 import {
 	PUBLICATION_TYPES,
 	PUBLICATION_TYPES_ACRONYMS,
 	routes,
 } from 'utils/constants';
-import { LossOfDocumentPublicationValues } from 'interfaces/publications';
-import moment from 'moment';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
-import { getPublicationLink } from 'utils/functions';
+import { getPublicationLink, getPublicationText } from 'utils/functions';
 
-interface LostDocumentProps {
+interface PublicationProps {
 	id: number;
-	data: LossOfDocumentPublicationValues;
+	data: ObituaryValues;
 }
 
-const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
+const Obituary: React.FC<PublicationProps> = ({ id, data }) => {
 	const navigate = useNavigate();
 	return (
 		<div
 			className="flex flex-col mini:flex-row mini:max-w-[535px] self-start mini:space-x-5"
 			id={`publication-${id}`}>
 			<img
-				src={lostDocumentMobile}
-				alt="Lost document"
+				src={announcementMobile}
+				alt="Announcement"
 				className="mini:hidden flex-shrink-0 h-[113px] rounded-6"
 			/>
 			<img
-				src={lostDocument}
-				alt="Lost document"
+				src={announcement}
+				alt="announcement"
 				className="flex-shrink-0 pointer-events-none rounded-6 max-h-[151px] mini:w-auto hidden mini:block"
 			/>
 			<div className="w-full">
@@ -58,8 +58,8 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 					</div>
 					<div className="relative">
 						<PublicationActions
+							publicationType={PUBLICATION_TYPES.OBITUARY}
 							tag={data?.reference || ''}
-							publicationType={PUBLICATION_TYPES.LOSS_OF_DOCUMENT}
 						/>
 						<button
 							onClick={(e) => {
@@ -75,9 +75,7 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 					</div>
 				</div>
 				<p className="text-[10px] leading-[16.74px] font-medium text-575555 mini:text-12 mini:leading-[20.09px] mb-3 mini:mb-[14px]">
-					This is to notify the general public, that I, Mr {data?.firstName}{' '}
-					{data?.middleName} {data?.lastName} of {data?.houseAddress} lost a{' '}
-					{data?.itemLost} with Property ID {data?.idNumber},
+					{getPublicationText(PUBLICATION_TYPES.OBITUARY, data)}
 				</p>
 				<div className="flex items-center justify-between w-full">
 					<div className="hidden mini:flex flex-col space-y-1">
@@ -85,13 +83,13 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 							Date Published :
 						</span>
 						<span className="text-black font-semibold text-12 leading-[14.09px]">
-							{moment(data?.createdAt).format('DD MMM YYYY')}
+							{moment(data?.updatedAt).format('DD MMM YYYY')}
 						</span>
 					</div>
 					<div className="flex items-center space-x-[34px] mini:hidden">
 						<CopyToClipboard
 							text={getPublicationLink(
-								PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT,
+								PUBLICATION_TYPES_ACRONYMS.OBITUARY,
 								data?.reference || ''
 							)}
 							onCopy={() => toast.success('Link copied to clipboard')}>
@@ -110,16 +108,14 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 						</div>
 					</div>
 					<button
+						type="button"
 						onClick={() =>
 							navigate(
 								routes.getPubDetailRoute(
-									`${PUBLICATION_TYPES_ACRONYMS.LOSS_OF_DOCUMENT}-${
-										data?.reference || ''
-									}`
+									`${PUBLICATION_TYPES_ACRONYMS.OBITUARY}-${data.reference}`
 								)
 							)
 						}
-						type="button"
 						className="text-[11px] leading-[18.41px] text-7108F6 font-medium rounded-6 bg-DFC7FF py-2 px-6">
 						View Publication
 					</button>
@@ -129,4 +125,4 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 	);
 };
 
-export default LosttDocument;
+export default Obituary;

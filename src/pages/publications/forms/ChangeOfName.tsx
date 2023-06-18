@@ -174,21 +174,24 @@ const ChangeOfName = () => {
 	const { ref: fileRef } = register('file');
 	const { ref: imageRef } = register('image');
 
-	const setDocument = async(fileType: 'file' | 'image',e: any) => {
+	const setDocument = async (fileType: 'file' | 'image', e: any) => {
 		const selectedFile = e.target.files[0];
 		const reader = new FileReader();
 		reader.onload = function (event) {
 			const fileData = event?.target?.result;
-			setValue(fileType,fileData)
+			setValue(fileType, fileData);
 		};
 		reader.readAsDataURL(selectedFile);
 	};
 
 	return (
 		<Wrapper isPublications>
-			<div className="flex flex-col spave-y-[22px] mini:space-y-[33px] pb-[200px]">
+			<div className="flex flex-col space-y-[22px] mini:space-y-[33px] pb-[200px]">
 				<MobileFormsNavigation />
-				<PublicationCreationSteps activeStep="fill_forms" />
+				<PublicationCreationSteps
+					activeStep="fill_forms"
+					publicationType={PUBLICATION_TYPES.CHANGE_OF_NAME}
+				/>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					className="w-full flex flex-col space-y-[51px] mini:flex-row mini:space-y-0 mini:space-x-[51px]">
@@ -472,7 +475,7 @@ const ChangeOfName = () => {
 								<Required />
 							</div>
 							<FileInput
-								onLoadError={()=>setFileError(true)}
+								onLoadError={() => setFileError(true)}
 								removeError={() => {
 									if (fileError) {
 										setFileError(false);
@@ -491,7 +494,7 @@ const ChangeOfName = () => {
 								</span>
 							</div>
 							<FileInput
-								onLoadError={()=>setimageError(true)}
+								onLoadError={() => setimageError(true)}
 								removeError={() => {
 									if (imageError) {
 										setimageError(false);

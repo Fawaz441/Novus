@@ -58,7 +58,7 @@ const AdminPublications: React.FC<AdminPublicationsProps> = ({
 									? 'pending'
 									: 'declined'
 							}
-							text={getPublicationText(publicationType, publication)}
+							text={getPublicationText(publicationType, publication)||""}
 							id={`${publication.reference}`}
 							showStatus={false}
 						/>

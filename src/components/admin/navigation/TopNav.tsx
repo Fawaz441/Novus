@@ -3,12 +3,13 @@ import { ReactComponent as Notifications } from 'assets/icons/agents/notificatio
 import { MOBILE_ADMIN_SIDENAV } from 'utils/constants';
 import { ReactComponent as Hamburger } from 'assets/icons/agents/hamburger.svg';
 import { toggleHiddenElement } from 'utils/ui-functions';
+import moment from 'moment';
 
 const TopNav = () => {
 	return (
 		<div className="fixed top-0 border-b border-b-[#ccc]/[.1] h-[60px] lg:h-[90px] w-full bg-white z-[20] right-0 px-9 lg:pl-[244px] lg:pr-11 flex items-center justify-between">
 			<p className="font-semibold text-12 text-black hidden lg:block">
-				Thursday, 3rd March, 2023
+				{moment(new Date()).format('dddd, Do MMM, YYYY')}
 			</p>
 			<div className="hidden items-center lg:flex">
 				<div className="flex items-center space-x-[29px]">

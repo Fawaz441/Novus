@@ -56,8 +56,6 @@ const FileInput: React.FC<FileInputProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	console.log(fileValue)
-
 
 	return (
 		<div
