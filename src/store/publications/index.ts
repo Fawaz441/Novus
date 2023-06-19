@@ -286,6 +286,12 @@ export const publicationSlice = createSlice({
 			state.publishObituarySuccess = false;
 			state.publishPublicNoticeSuccess = false;
 		},
+		resetPublishError(state){
+			state.publishCONError = false;
+			state.publishLODError = false;
+			state.publishObituaryError = false;
+			state.publishPublicNoticeError = false;
+		}
 	},
 });
 

@@ -111,6 +111,7 @@ const createPDF = <
 			  } ${(publication as PublicNoticeValues)?.lastName}`
 			: '';
 	};
+	console.log(publication, publicationType, isObituary, "here in the pdf maker")
 
 	const detailLink = getFullPublicationLink(
 		publicationType,
@@ -122,6 +123,7 @@ const createPDF = <
 			downloadPDF(publicationType, publication, onDone);
 		}, 1000);
 	}
+
 
 	return (
 		<div className="flex items-center justify-center fixed left-[-3000px] top-0 w-screen z-[100000] h-screen bg-black/[.2]">
@@ -161,7 +163,7 @@ const createPDF = <
 										toast.error('There was an error');
 										onDone();
 									}}
-									className="absolute w-[152px] h-[152px] top-0 left-0"
+									className="absolute w-[152px] h-[152px] top-0 left-0 object-cover"
 								/>
 							</div>
 						</div>
@@ -183,7 +185,7 @@ const createPDF = <
 				</div>
 				<div className="absolute bottom-[11px] left-0 w-full">
 					<div className="flex flex-col items-center justify-center space-y-[9px]">
-						<p className="text-center text-575555 font-medium">
+						<p className="text-center max-w-[548px] mx-auto text-575555 font-medium">
 							To verify this publication, please visit{' '}
 							<a href={detailLink}>{detailLink}</a>
 						</p>

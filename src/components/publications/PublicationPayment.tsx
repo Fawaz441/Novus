@@ -226,6 +226,7 @@ const PublicationPayment: React.FC<PublicationPaymentProps> = ({
 	useEffect(() => {
 		if (errorOfInterest) {
 			toast.custom((t) => <ErrorToast t={t} retry={publish} />);
+			dispatch(actions.resetPublishError())
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [errorOfInterest]);

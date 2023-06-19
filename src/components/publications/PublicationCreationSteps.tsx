@@ -38,7 +38,7 @@ const PublicationCreationSteps: React.FC<PublicationCreationStepsProps> = ({
 	// const isAffidavit = publicationType === PUBLICATION_TYPES.AFFIDAVIT;
 	const isPublicNotice = publicationType === PUBLICATION_TYPES.PUBLIC_NOTICE;
 	return (
-		<div>
+		<div className='mt-[5px]'>
 			<div className="mid:hidden flex space-x-[139px] items-center my-[22px]">
 				<button
 					onClick={() => navigate(-1)}

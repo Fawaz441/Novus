@@ -174,14 +174,14 @@ const Obituary = () => {
 				onClose={() => setShowCalendar(false)}
 				maxDate={new Date()}
 			/>
-			<div className="flex flex-col space-y-10">
-				<MobileFormsNavigation />
-				<PublicationCreationSteps
-					publicationType={PUBLICATION_TYPES.OBITUARY}
-					activeStep="fill_forms"
-				/>
+			<MobileFormsNavigation />
+			<PublicationCreationSteps
+				publicationType={PUBLICATION_TYPES.OBITUARY}
+				activeStep="fill_forms"
+			/>
+			<div className="mt-7 pb-[200px]">
 				<form
-					className="flex flex-col space-y-[22px] mini:space-x-[39px] mini:flex-row mini:space-y-0 pb-[200px]"
+					className="flex flex-col space-y-5 mini:space-x-[39px] mini:flex-row mini:space-y-0 pb-[200px]"
 					onSubmit={handleSubmit(onSubmit)}>
 					<div className="flex-1 mini:max-w-[1000px]">
 						{/* first name and middle name */}
@@ -192,7 +192,7 @@ const Obituary = () => {
 								name="firstName"
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
-										label="Firstname "
+										label="Firstname"
 										autoFocus
 										containerClassName="w-full"
 										placeholder="Hannah"
@@ -224,24 +224,25 @@ const Obituary = () => {
 						</div>
 						{/* last name and gender */}
 						<div className="flex flex-col space-y-[21px] mid:space-x-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
-							<Controller
-								control={control}
-								rules={validators.isRequiredString}
-								name="lastName"
-								render={({ field: { value, onChange, ref } }) => (
-									<Input
-										label="Lastname"
-										autoFocus
-										containerClassName="flex-1"
-										placeholder="Zechariah"
-										hasRequiredIcon
-										ref_={ref}
-										value={value}
-										onChange={onChange}
-										hasError={!!errors.lastName}
-									/>
-								)}
-							/>
+							<div className="flex-1 w-full flex-shrink-0">
+								<Controller
+									control={control}
+									rules={validators.isRequiredString}
+									name="lastName"
+									render={({ field: { value, onChange, ref } }) => (
+										<Input
+											label="Lastname"
+											containerClassName="w-full"
+											placeholder="Zechariah"
+											hasRequiredIcon
+											ref_={ref}
+											value={value}
+											onChange={onChange}
+											hasError={!!errors.lastName}
+										/>
+									)}
+								/>
+							</div>
 							<div className="flex-1 w-full flex-shrink-0">
 								<div className="flex flex-col space-y-[6px]">
 									<div className="flex">
@@ -282,7 +283,6 @@ const Obituary = () => {
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Email"
-										autoFocus
 										containerClassName="w-full"
 										placeholder="Provide a valid email address"
 										hasRequiredIcon
@@ -320,7 +320,6 @@ const Obituary = () => {
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Fullname Of Deceased"
-										autoFocus
 										containerClassName="w-full"
 										placeholder="John Doe"
 										hasRequiredIcon
@@ -389,8 +388,7 @@ const Obituary = () => {
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Cause Of Death"
-										autoFocus
-										containerClassName="flex-1"
+										containerClassName="w-full flex-1"
 										placeholder=""
 										hasRequiredIcon
 										ref_={ref}
@@ -440,7 +438,7 @@ const Obituary = () => {
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Publication Size"
-										containerClassName="flex-1"
+										containerClassName="flex-1 w-full"
 										placeholder="10 by 3"
 										ref_={ref}
 										value={value || ''}

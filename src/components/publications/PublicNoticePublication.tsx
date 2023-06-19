@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Download } from 'assets/icons/download.svg';
@@ -6,7 +6,6 @@ import announcement from 'assets/images/publications/announcement.png';
 import announcementMobile from 'assets/images/publications/annoucement-profile.png';
 import PublicationActions from './PublicationActions';
 import {
-	hideAllPublicationActions,
 	toggleHiddenElement,
 } from 'utils/ui-functions';
 import { PublicNoticeValues } from 'interfaces/publications';
@@ -15,8 +14,8 @@ import { PUBLICATION_TYPES, routes } from 'utils/constants';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { getPublicationLink, getPublicationText } from 'utils/functions';
-import createPDF from 'utils/pdf-maker';
 import { Loader } from 'components/general';
+import { useDownload } from 'hooks';
 
 interface PublicationProps {
 	id: number;
@@ -25,17 +24,16 @@ interface PublicationProps {
 
 const PublicNoticePublication: React.FC<PublicationProps> = ({ id, data }) => {
 	const navigate = useNavigate();
-	const [isDownloading, setIsDownloading] = useState(false);
+	const { isDownloading, pdfMaker, getPdf } = useDownload(
+		PUBLICATION_TYPES.PUBLIC_NOTICE,
+		data
+	);
 
 	return (
 		<div
 			className="flex flex-col mini:flex-row mini:max-w-[535px] self-start mini:space-x-5"
 			id={`publication-${id}`}>
-			{isDownloading &&
-				createPDF(PUBLICATION_TYPES.PUBLIC_NOTICE, data, () => {
-					setIsDownloading(false);
-					hideAllPublicationActions();
-				})}
+			{pdfMaker}
 			<Loader transparent loading={isDownloading} />
 			<img
 				src={announcementMobile}
@@ -70,7 +68,7 @@ const PublicNoticePublication: React.FC<PublicationProps> = ({ id, data }) => {
 							publicationType={PUBLICATION_TYPES.PUBLIC_NOTICE}
 							tag={data?.reference || ''}
 							isDownloading={isDownloading}
-							onDownload={() => setIsDownloading(true)}
+							onDownload={getPdf}
 						/>
 						<button
 							onClick={(e) => {
@@ -112,7 +110,7 @@ const PublicNoticePublication: React.FC<PublicationProps> = ({ id, data }) => {
 							</div>
 						</CopyToClipboard>
 						<button
-							onClick={() => setIsDownloading(true)}
+							onClick={getPdf}
 							className="flex items-center space-x-[7.15px]">
 							<Download className="stroke-9B9B9B" />
 							<span className="text-[10px] leading-[11.74px] text-black">

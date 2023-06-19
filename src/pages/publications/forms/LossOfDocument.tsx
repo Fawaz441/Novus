@@ -193,12 +193,14 @@ const LossOfDocument = () => {
 							<Controller
 								control={control}
 								name="middleName"
+								rules={validators.isRequiredString}
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Middlename"
 										containerClassName="w-full"
 										value={value}
 										placeholder="Hannah"
+										hasRequiredIcon
 										ref_={ref}
 										onChange={onChange}
 										hasError={!!errors.middleName}

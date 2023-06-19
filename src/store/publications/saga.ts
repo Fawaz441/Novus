@@ -261,7 +261,7 @@ function* publishPublicNotice(action: PayloadAction<PublicNoticeFields>) {
 		if (file) {
 			// upload document
 			const documentFormData = new FormData();
-			documentFormData.append('publishType', PUBLICATION_TYPES.OBITUARY);
+			documentFormData.append('publishType', PUBLICATION_TYPES.PUBLIC_NOTICE);
 			documentFormData.append('type', 'document');
 			documentFormData.append('publishId', response.id);
 			let document: Blob = yield fetch(file).then((res) => res.blob());

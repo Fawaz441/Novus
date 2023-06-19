@@ -186,15 +186,15 @@ const ChangeOfName = () => {
 
 	return (
 		<Wrapper isPublications>
-			<div className="flex flex-col space-y-[22px] mini:space-y-[33px] pb-[200px]">
-				<MobileFormsNavigation />
-				<PublicationCreationSteps
-					activeStep="fill_forms"
-					publicationType={PUBLICATION_TYPES.CHANGE_OF_NAME}
-				/>
+			<MobileFormsNavigation />
+			<PublicationCreationSteps
+				activeStep="fill_forms"
+				publicationType={PUBLICATION_TYPES.CHANGE_OF_NAME}
+			/>
+			<div className="mt-7 pb-[200px]">
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					className="w-full flex flex-col space-y-[51px] mini:flex-row mini:space-y-0 mini:space-x-[51px]">
+					className="w-full flex flex-col space-y-5 mini:flex-row mini:space-y-0 mini:space-x-[51px]">
 					<div className="flex-1 mini:max-w-[1000px]">
 						{/* first_name */}
 						<div className="flex flex-col space-y-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
@@ -220,6 +220,7 @@ const ChangeOfName = () => {
 								<Swap />
 							</div>
 							<Controller
+								rules={validators.isRequiredString}
 								control={control}
 								name="newFirstName"
 								render={({ field: { value, onChange, ref } }) => (
@@ -227,6 +228,7 @@ const ChangeOfName = () => {
 										label="Firstname (New)"
 										containerClassName="w-full"
 										value={value}
+										hasRequiredIcon
 										placeholder="Hannah"
 										ref_={ref}
 										onChange={onChange}
@@ -260,11 +262,13 @@ const ChangeOfName = () => {
 							<Controller
 								control={control}
 								name="newMiddleName"
+								rules={validators.isRequiredString}
 								render={({ field: { value, onChange, ref } }) => (
 									<Input
 										label="Middlename (New)"
 										containerClassName="w-full"
 										value={value}
+										hasRequiredIcon
 										placeholder="Paul"
 										ref_={ref}
 										onChange={onChange}
@@ -296,6 +300,7 @@ const ChangeOfName = () => {
 								<Swap />
 							</div>
 							<Controller
+								rules={validators.isRequiredString}
 								control={control}
 								name="newLastName"
 								render={({ field: { value, onChange, ref } }) => (
@@ -305,6 +310,7 @@ const ChangeOfName = () => {
 										value={value}
 										ref_={ref}
 										placeholder="Daniel"
+										hasRequiredIcon
 										onChange={onChange}
 										hasError={!!errors.newLastName}
 									/>
@@ -407,11 +413,13 @@ const ChangeOfName = () => {
 											<div className="flex-1 space-x-[15px] flex">
 												<RadioOption
 													value="male"
+													className='w-full'
 													selectedValue={value}
 													onChange={onGenderChange}
 												/>
 												<RadioOption
 													value="female"
+													className='w-full'
 													selectedValue={value}
 													onChange={onGenderChange}
 												/>
@@ -433,12 +441,14 @@ const ChangeOfName = () => {
 												<RadioOption
 													value={true}
 													valuePlaceholder="yes"
+													className='w-full'
 													selectedValue={value}
 													onChange={onThirdPartyOptionChange}
 												/>
 												<RadioOption
 													value={false}
 													valuePlaceholder="no"
+													className='w-full'
 													selectedValue={value}
 													onChange={onThirdPartyOptionChange}
 												/>

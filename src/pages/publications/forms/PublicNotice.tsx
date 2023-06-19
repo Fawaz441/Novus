@@ -22,6 +22,7 @@ import {
 	Select,
 	TextArea,
 } from 'components/inputs';
+import { toast } from 'react-hot-toast';
 const { actions } = publicationSlice;
 
 const defaultValues: PublicNoticeFields = {
@@ -32,7 +33,7 @@ const defaultValues: PublicNoticeFields = {
 	middleName: '',
 	lastName: '',
 	phone: '',
-	isExternal: true,
+	isExternal: false,
 	externalSelect: { value: '', label: '' },
 	externalPageInfo: '',
 	file: '',
@@ -57,6 +58,7 @@ const PublicNotice = () => {
 		reset,
 		getValues,
 		register,
+		setError,
 	} = useForm<PublicNoticeFields>({
 		defaultValues,
 	});
@@ -84,6 +86,15 @@ const PublicNotice = () => {
 	};
 
 	const onSubmit = (data: PublicNoticeFields) => {
+		if (publishWithThirdParty && !data.externalSelect?.value) {
+			toast.error('Please select an external newspaper');
+			setError(
+				'externalSelect',
+				{ message: 'Please select an external newspaper' },
+				{ shouldFocus: true }
+			);
+			return;
+		}
 		dispatch(actions.addNewPublicNoticePublication(data));
 		storeToLS(STORAGE_KEYS.NEW_PUBLIC_NOTICE_PUBLICATION, data);
 		navigate(routes.pub_forms.public_notice_preview);
@@ -122,15 +133,15 @@ const PublicNotice = () => {
 
 	return (
 		<Wrapper isPublications>
-			<div className="flex flex-col space-y-[22px] mini:space-y-[33px] pb-[200px]">
-				<MobileFormsNavigation />
-				<PublicationCreationSteps
-					activeStep="fill_forms"
-					publicationType={PUBLICATION_TYPES.PUBLIC_NOTICE}
-				/>
+			<MobileFormsNavigation />
+			<PublicationCreationSteps
+				activeStep="fill_forms"
+				publicationType={PUBLICATION_TYPES.PUBLIC_NOTICE}
+			/>
+			<div className="mt-7 pb-[200px]">
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					className="w-full flex flex-col space-y-[51px] mini:flex-row mini:space-y-0 mini:space-x-[51px]">
+					className="w-full flex flex-col space-y-5 mini:flex-row mini:space-y-0 mini:space-x-[51px]">
 					<div className="flex-1 mini:max-w-[1000px]">
 						{/* first_name and middle name */}
 						<div className="flex flex-col space-y-[21px] mid:space-x-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
@@ -173,23 +184,25 @@ const PublicNotice = () => {
 						</div>
 						{/* last name and gender */}
 						<div className="flex flex-col space-y-[21px] mid:space-x-[21px] mid:space-y-0 mid:flex-row items-center mb-[21px] mid:mb-[38px]">
-							<Controller
-								rules={validators.isRequiredString}
-								control={control}
-								name="lastName"
-								render={({ field: { value, onChange, ref } }) => (
-									<Input
-										label="Lastname"
-										containerClassName="flex-1"
-										hasRequiredIcon
-										ref_={ref}
-										placeholder="Paul"
-										value={value}
-										onChange={onChange}
-										hasError={!!errors.lastName}
-									/>
-								)}
-							/>
+							<div className="flex-1 w-full flex-shrink-0">
+								<Controller
+									rules={validators.isRequiredString}
+									control={control}
+									name="lastName"
+									render={({ field: { value, onChange, ref } }) => (
+										<Input
+											label="Lastname"
+											containerClassName="w-full"
+											hasRequiredIcon
+											ref_={ref}
+											placeholder="Paul"
+											value={value}
+											onChange={onChange}
+											hasError={!!errors.lastName}
+										/>
+									)}
+								/>
+							</div>
 							<div className="flex-1 w-full flex-shrink-0">
 								<div className="flex flex-col space-y-[6px]">
 									<div className="flex">
@@ -308,21 +321,23 @@ const PublicNotice = () => {
 									/>
 								</div>
 							</div>
-							<Controller
-								control={control}
-								name="externalPageInfo"
-								render={({ field: { value, onChange, ref } }) => (
-									<Input
-										label="Publication Size"
-										containerClassName="flex-1"
-										placeholder="10 by 3"
-										ref_={ref}
-										value={value || ''}
-										onChange={onChange}
-										hasError={!!errors.externalPageInfo}
-									/>
-								)}
-							/>
+							<div className="flex-1 w-full flex-shrink-0">
+								<Controller
+									control={control}
+									name="externalPageInfo"
+									render={({ field: { value, onChange, ref } }) => (
+										<Input
+											label="Publication Size"
+											containerClassName="flex-1"
+											placeholder="10 by 3"
+											ref_={ref}
+											value={value || ''}
+											onChange={onChange}
+											hasError={!!errors.externalPageInfo}
+										/>
+									)}
+								/>
+							</div>
 						</div>
 						{publishWithThirdParty && (
 							<div className="mt-[29px]">
@@ -336,6 +351,7 @@ const PublicNotice = () => {
 											options={thirdPartyNewsPapers}
 											isLoading={loadingPublisherPrices}
 											{...field}
+											ref={null}
 										/>
 									)}
 								/>

@@ -25,7 +25,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 				}
 			}}
 			className={clsx(
-				'min-w-[140px] h-[48px] flex items-center justify-between px-[17px] rounded-6 bg-white border-[0.2px] border-black',
+				'h-[48px] flex items-center justify-between px-[17px] rounded-6 bg-white border-[0.2px] border-black',
 				className
 			)}
 		>

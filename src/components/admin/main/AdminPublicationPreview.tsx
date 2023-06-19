@@ -9,6 +9,7 @@ import {
 import DeletePublicationModal from '../dashboard/DeletePublicationModal';
 import { getPublicationText } from 'utils/functions';
 import { ApproveOrRejectValues } from 'interfaces/admin';
+import { isEmpty } from 'lodash';
 
 interface AdminPublicationPreviewProps {
 	publicationType: PUBLICATION_TYPES;
@@ -41,6 +42,8 @@ const AdminPublicationPreview: React.FC<AdminPublicationPreviewProps> = ({
 				publicationType,
 			});
 	};
+
+	console.log(publication);
 
 	return (
 		<div className="bg-F9F9F9 rounded-3 py-[17px] px-[35px] border-[#D9D9D9] border-[0.5px]">
@@ -87,11 +90,19 @@ const AdminPublicationPreview: React.FC<AdminPublicationPreviewProps> = ({
 						</button>
 					</div>
 				</div>
-				<div className="h-[112px] px-[30px] rounded-3 flex items-center justify-between bg-F9F9F9 border-[0.5px] border-black">
-					<p className="text-575555 font-medium text-12">
-						Marriage Certificate( Click To View )
-					</p>
-					<Printer />
+				<div className="px-[30px] flex flex-col space-y-[10px] rounded-3 bg-F9F9F9 border-[0.5px] border-black">
+					{!isEmpty(publication?.documents) && <div className="h-[10px]" />}
+					{publication?.documents?.map((item) => (
+						<div
+							key={item.id}
+							className="[112px] flex items-center justify-between">
+							<p className="text-575555 font-medium text-12">
+								{item.url}( Click To View )
+							</p>
+							<Printer />
+						</div>
+					))}
+					{!isEmpty(publication?.documents) && <div className="h-[10px]" />}
 				</div>
 			</div>
 			<div className="mt-[17px] flex space-x-[31px]">

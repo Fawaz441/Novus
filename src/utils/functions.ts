@@ -87,7 +87,7 @@ export const isPublicNoticePublication = (
 
 export const getPublicationText = (
 	publicationType: PUBLICATION_TYPES,
-	detail: any
+	detail: any,
 ) => {
 	if (
 		publicationType === PUBLICATION_TYPES.CHANGE_OF_NAME &&
@@ -95,9 +95,9 @@ export const getPublicationText = (
 	) {
 		return `
 		“I, formerly known and addressed as ${detail?.oldFirstName}
-		${detail?.oldMiddleName} ${detail?.oldLastName}, henceforth wish
+		${detail?.oldMiddleName} ${detail?.oldLastName} (first-name, middle-name, last-name), henceforth wish
 		to be known and addressed as ${detail?.newFirstName}
-		${detail?.newMiddleName} ${detail?.newLastName}. All former
+		${detail?.newMiddleName} ${detail?.newLastName} (first-name, middle-name, last-name). All former
 		documents remain valid. ${detail?.concernParties} and the general
 		public to take note”
 		`;
@@ -108,7 +108,7 @@ export const getPublicationText = (
 	) {
 		return `
 		This is to notify the general public, that I, ${getTitle(detail.gender)}
-		${detail?.firstName} ${detail?.lastName} of
+		${detail?.firstName} ${detail?.middleName} ${detail?.lastName} (first-name, middle-name, last-name) of
 		${detail?.houseAddress} lost a
 		${detail?.itemLost} ${detail?.supportIdName}
 		document with Property ${detail?.idNumber}., issued by
@@ -125,7 +125,7 @@ export const getPublicationText = (
 		With total resignation to God's will we announce the call
 		to glory of ${getTitle(detail.genderOfDeceased)} ${
 			detail?.fullNameOfDeceased
-		} whose death occurred on the 
+		} (first-name, middle-name, last-name) whose death occurred on the 
 		${moment(detail?.dateOfDeath)?.format('Do of MMM, YYYY')}. 
 		${
 			detail?.descriptionOfDeath
@@ -143,7 +143,7 @@ export const getPublicationText = (
 		isPublicNoticePublication(detail)
 	) {
 		return `
-		I ${detail?.firstName} ${detail?.middleName} ${detail?.lastName} would like
+		I ${detail?.firstName} ${detail?.middleName} ${detail?.lastName} (first-name, middle-name, last-name) would like
 		 to announce to the general public that ${detail?.description}
 		`;
 	}

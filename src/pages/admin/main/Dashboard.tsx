@@ -127,6 +127,7 @@ const Dashboard = () => {
 		}
 	}, [activePublication]);
 
+
 	const navigate = (direction: 'left' | 'right') => {
 		const currIndex = (data as ChangeOfNamePublicationValues[]).findIndex(
 			(item) => item.reference === selectedPublication

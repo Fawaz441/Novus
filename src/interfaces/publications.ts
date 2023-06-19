@@ -94,6 +94,7 @@ export interface ChangeOfNamePublicationValues
 	status: string;
 	rejectedReason: string | null;
 	publicationDetail: string | null;
+	documents?:PublicationPhoto[]
 }
 
 export interface LossOfDocumentPublicationFields {
@@ -137,6 +138,7 @@ export interface LossOfDocumentPublicationValues
 	reference?: string;
 	status?: string;
 	photos?: PublicationPhoto[];
+	documents?:PublicationPhoto[]
 }
 
 export interface ObituaryValues extends
@@ -150,6 +152,7 @@ Omit<ObituaryFields, 'externalSelect'>{
 	causeOfDeath:string;
 	reference:string;
 	genderOfDeceased:Gender;
+	documents?:PublicationPhoto[]
 }
 
 export interface PublicNoticeValues extends 
@@ -162,6 +165,7 @@ Omit<PublicNoticeFields, 'externalSelect'>{
 	createdAt:string;
 	deletedAt:string|null;
 	photos?: PublicationPhoto[];
+	documents?:PublicationPhoto[]
 }
 
 //payloads

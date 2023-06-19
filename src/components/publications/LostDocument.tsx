@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Download } from 'assets/icons/download.svg';
 import lostDocument from 'assets/images/publications/lost-document.png';
 import lostDocumentMobile from 'assets/images/publications/loss-document-mobile.png';
 import PublicationActions from './PublicationActions';
 import {
-	hideAllPublicationActions,
 	toggleHiddenElement,
 } from 'utils/ui-functions';
 import { useNavigate } from 'react-router-dom';
@@ -15,8 +14,8 @@ import moment from 'moment';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { getPublicationLink } from 'utils/functions';
-import createPDF from 'utils/pdf-maker';
 import { Loader } from 'components/general';
+import { useDownload } from 'hooks';
 
 interface LostDocumentProps {
 	id: number;
@@ -25,17 +24,16 @@ interface LostDocumentProps {
 
 const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 	const navigate = useNavigate();
-	const [isDownloading, setIsDownloading] = useState(false);
+	const { isDownloading, pdfMaker, getPdf } = useDownload(
+		PUBLICATION_TYPES.LOSS_OF_DOCUMENT,
+		data
+	);
 
 	return (
 		<div
 			className="flex flex-col mini:flex-row mini:max-w-[535px] self-start mini:space-x-5"
 			id={`publication-${id}`}>
-			{isDownloading &&
-				createPDF(PUBLICATION_TYPES.LOSS_OF_DOCUMENT, data, () => {
-					setIsDownloading(false);
-					hideAllPublicationActions();
-				})}
+			{pdfMaker}
 			<Loader transparent loading={isDownloading} />
 			<img
 				src={lostDocumentMobile}
@@ -68,7 +66,7 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 					<div className="relative">
 						<PublicationActions
 							isDownloading={isDownloading}
-							onDownload={() => setIsDownloading(true)}
+							onDownload={getPdf}
 							tag={data?.reference || ''}
 							publicationType={PUBLICATION_TYPES.LOSS_OF_DOCUMENT}
 						/>
@@ -114,7 +112,7 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 							</div>
 						</CopyToClipboard>
 						<button
-							onClick={() => setIsDownloading(true)}
+							onClick={getPdf}
 							className="flex items-center space-x-[7.15px]">
 							<Download className="stroke-9B9B9B" />
 							<span className="text-[10px] leading-[11.74px] text-black">
