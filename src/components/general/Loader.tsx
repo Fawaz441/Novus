@@ -6,9 +6,10 @@ interface LoaderProps {
 	mini?: boolean;
 	transparent?: boolean;
 	className?: string;
+	text?:string
 }
 
-const Loader = ({ loading, mini, transparent, className }: LoaderProps) => {
+const Loader = ({ loading, mini, transparent, className, text }: LoaderProps) => {
 	if (!loading) {
 		return null;
 	}
@@ -49,7 +50,7 @@ const Loader = ({ loading, mini, transparent, className }: LoaderProps) => {
 					</div>
 				)}
 				{!mini && (
-					<h3 className="text-xl text-center text-7108F6">Loading...</h3>
+					<h3 className="text-xl text-center text-7108F6">{text ?? "Loading..."}</h3>
 				)}
 			</div>
 		</div>

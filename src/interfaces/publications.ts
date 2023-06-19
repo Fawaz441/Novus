@@ -152,7 +152,9 @@ Omit<ObituaryFields, 'externalSelect'>{
 	causeOfDeath:string;
 	reference:string;
 	genderOfDeceased:Gender;
-	documents?:PublicationPhoto[]
+	documents?:PublicationPhoto[];
+	status?: string;
+
 }
 
 export interface PublicNoticeValues extends 
@@ -165,7 +167,8 @@ Omit<PublicNoticeFields, 'externalSelect'>{
 	createdAt:string;
 	deletedAt:string|null;
 	photos?: PublicationPhoto[];
-	documents?:PublicationPhoto[]
+	documents?:PublicationPhoto[];
+	status?: string;
 }
 
 //payloads

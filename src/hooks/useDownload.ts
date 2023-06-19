@@ -17,16 +17,24 @@ const useDownload = <
 		| ChangeOfNamePublicationValues
 >(
 	publicationType: PUBLICATION_TYPES,
-	publication: T
+	publication: T,
+	classNames?: string,
+	viewOnly?: boolean
 ) => {
 	const [isDownloading, setIsDownloading] = useState(false);
 
 	const pdfMaker = !isDownloading
 		? null
-		: createPDF(publicationType, publication, () => {
-				setIsDownloading(false);
-				hideAllPublicationActions();
-		  });
+		: createPDF(
+				publicationType,
+				publication,
+				() => {
+					setIsDownloading(false);
+					hideAllPublicationActions();
+				},
+				classNames,
+				viewOnly
+		  );
 
 	const getPdf = () => setIsDownloading(true);
 

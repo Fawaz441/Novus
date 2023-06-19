@@ -60,16 +60,21 @@ const Dashboard = () => {
 			status,
 			currentFilter,
 		};
-		let availableQueries:any = {}
-		if(items.status){
-			availableQueries.status = status==="Pending"?"pending-payment":status==="Published"?"approve":null
+		let availableQueries: any = {};
+		if (items.status) {
+			availableQueries.status =
+				status === 'Pending'
+					? 'pending-payment'
+					: status === 'Published'
+					? 'approve'
+					: null;
 		}
-		if(items.date){
-			availableQueries.createdAt = date?.toISOString()
+		if (items.date) {
+			availableQueries.createdAt = date?.toISOString();
 		}
 		const query = {
 			publicationType: items.activeTab,
-			others:{filter:JSON.stringify(availableQueries)}
+			others: { filter: JSON.stringify(availableQueries) },
 		};
 		return query;
 	}, [activeTab, date, status, currentFilter]);
@@ -79,7 +84,7 @@ const Dashboard = () => {
 			sort: JSON.stringify({
 				createdAt: 'DESC',
 			}),
-			...filters.others
+			...filters.others,
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [filters]);
@@ -97,11 +102,11 @@ const Dashboard = () => {
 			} else {
 				toast.success('Publication rejected successfully');
 			}
-			getData(filters.publicationType,{
+			getData(filters.publicationType, {
 				sort: JSON.stringify({
 					createdAt: 'DESC',
 				}),
-				...filters.others
+				...filters.others,
 			});
 		} catch (e) {
 			toast.custom((t) => (
@@ -126,7 +131,6 @@ const Dashboard = () => {
 			setSelectedPublication(null);
 		}
 	}, [activePublication]);
-
 
 	const navigate = (direction: 'left' | 'right') => {
 		const currIndex = (data as ChangeOfNamePublicationValues[]).findIndex(
@@ -198,7 +202,7 @@ const Dashboard = () => {
 						/>
 					</div>
 					<div className="w-[501px] flex-shrink-0">
-						{selectedPublication && (
+						{selectedPublication && activePublication && (
 							<AdminPublicationPreview
 								publication={activePublication}
 								publicationType={activeTab}
