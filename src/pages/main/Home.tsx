@@ -191,7 +191,7 @@ const Home: React.FC = () => {
 						))}
 						<Loader loading={loadingMore} mini />
 						{!hasMore && newsData.length >0 && (
-							<span className="text-sm text-black font-bold">End Reached.</span>
+							<span className="text-[10px] text-black font-bold">End Reached.</span>
 						)}
 						{/* <div className="mt-[62px] mid:flex flex-col space-y-[14px] hidden">
 							<h4 className="font-bold text-black text-base">Videos</h4>

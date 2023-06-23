@@ -22,6 +22,13 @@ export interface PublicationResponseItems {
 	meta: PublicationsListMeta;
 }
 
+export interface DashboardSummaryResponse {
+	totalPublications: number | number;
+	totalRevenue: null | number;
+	totalAgent: null | number;
+	totalCoordinator: null | number;
+}
+
 const adminAPI = {
 	login: (data: LoginValues): Promise<AdminLoginResponseItems> =>
 		rootAxios.post('/auth/login', data),
@@ -36,6 +43,7 @@ const adminAPI = {
 		publicationId: number,
 		data: ApproveOrRejectValues
 	) => rootAxios.post(`/admin/publication/verify/${publicationId}`, data),
+	getSummary: (): AxiosPromise<DashboardSummaryResponse> => rootAxios.get('/admin/settings/dashboard'),
 };
 
 export default adminAPI;

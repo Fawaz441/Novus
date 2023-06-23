@@ -4,9 +4,10 @@ import toast, { Toast } from 'react-hot-toast';
 interface ErrorToastProps {
 	t: Toast;
 	retry?: () => void;
+	message?: string;
 }
 
-const ErrorToast: React.FC<ErrorToastProps> = ({ t, retry }) => {
+const ErrorToast: React.FC<ErrorToastProps> = ({ t, retry, message }) => {
 	return (
 		<div
 			className={`${
@@ -16,7 +17,7 @@ const ErrorToast: React.FC<ErrorToastProps> = ({ t, retry }) => {
 				<div className="flex items-start">
 					<div className="ml-3 flex-1">
 						<p className="text-sm font-medium text-gray-900">
-							There was an error
+							{message ?? 'There was an error'}
 						</p>
 					</div>
 				</div>

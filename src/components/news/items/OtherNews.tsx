@@ -62,7 +62,7 @@ const OtherNews: React.FC<OtherNewsProps> = ({
 					/>
 				))}
 				<Loader loading={loadingMore} mini />
-				{!hasMore && data.length > 0 && <span className='text-sm text-black font-bold'>End Reached.</span>}
+				{!hasMore && data.length > 0 && <span className='text-[10px] text-black font-bold'>End Reached.</span>}
 			</div>
 		</div>
 	);

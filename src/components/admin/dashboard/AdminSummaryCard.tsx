@@ -3,7 +3,7 @@ import React from 'react';
 interface AdminSummaryCardProps {
 	text: string;
 	bold_text: string;
-	value: number;
+	value: any;
 }
 
 const AdminSummaryCard: React.FC<AdminSummaryCardProps> = ({
@@ -18,7 +18,11 @@ const AdminSummaryCard: React.FC<AdminSummaryCardProps> = ({
 					<span className="block">{text}</span>
 					<span className="font-bold">{bold_text}</span>
 				</div>
-                <h3 className='font-inter text-xl leading-[26px] text-white font-bold'>{value}</h3>
+				<h3 className="font-inter text-xl leading-[26px] text-white font-bold">
+					{(value !== undefined && value === null) || value === 0
+						? 0
+						: value || ''}
+				</h3>
 			</div>
 		</div>
 	);

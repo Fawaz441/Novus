@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ReactComponent as Logo } from 'assets/icons/logo.svg';
+import logo from 'assets/images/logo.png';
 import { ReactComponent as Hamburger } from 'assets/icons/hamburger.svg';
 import { ReactComponent as Search } from 'assets/icons/nav-search.svg';
 import { ReactComponent as NigerianFlag } from 'assets/icons/nigerian-flag.svg';
@@ -45,14 +45,19 @@ const TopNav: React.FC<TopNavProps> = ({
 			<div className="fixed w-full left-0 top-0 h-[60px] shadow-[0_-1px_4px_1px_rgba(238,238,238,1)] mini:shadow-none mini:h-[90px] flex justify-between mini:flex-start items-center pl-[18px] mini:pl-0 pr-6 mini:pr-[38px] z-[13] bg-white">
 				<div className="pl-0 mini:pl-[52px]">
 					<Link to={routes.home}>
-						<Logo />
+						<img
+							src={logo}
+							alt="The Epitome News"
+							className="h-[29px] w-[160px] pointer-events-none select-none"
+						/>
 					</Link>
 				</div>
 				<div className="mini:hidden flex items-center space-x-[21.5px]">
 					<button onClick={() => toggleHiddenElement(MOBILE_SIDENAV)}>
 						<Hamburger />
 					</button>
-					<button onClick={()=>navigate(routes.pub_forms.mobile_check_or_create)}>
+					<button
+						onClick={() => navigate(routes.pub_forms.mobile_check_or_create)}>
 						<Search />
 					</button>
 				</div>
