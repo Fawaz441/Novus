@@ -48,7 +48,7 @@ const downloadPDF = <
 				// convert the canvas conent to a Data URI/URL
 				var img = canvas.toDataURL('image/jpeg', 5); // 5 is quality scale
 				var doc = new jsPDF({
-					orientation: 'landscape',
+					orientation: width > height ? 'landscape' : 'portrait',
 					unit: 'px', // set pixel as unit
 					format: [width + MARGIN * 2, height + MARGIN * 2],
 				});
