@@ -108,3 +108,14 @@ html,body{
     transform: rotate(360deg);
   }
 }
+
+.admin-setting-nav-active > div{
+  height:24px;
+  width: 7px;
+  background-color: #7108F6;
+}
+.admin-setting-nav-inactive > div{
+  height:24px;
+  width: 7px;
+  background-color: transparent;
+}

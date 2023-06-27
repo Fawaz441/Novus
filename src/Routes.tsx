@@ -47,6 +47,14 @@ import { AdminUserDetails } from 'interfaces/admin';
 import { AdminRoute } from 'components/navigation';
 import Preview from 'components/publications/Preview';
 import { PublicationPayment } from 'components/publications';
+import {
+	AdminSettingsOutlet,
+	CreateRoles,
+	EditRoles,
+	NISSettings,
+	Security,
+	ThirdPartyNewsPaper,
+} from 'pages/admin/settings';
 
 const { actions } = adminSlice;
 
@@ -60,7 +68,9 @@ const AppRoutes: React.FC = () => {
 		const newObituaryPublication = retrieveFromLS(
 			STORAGE_KEYS.NEW_OBITUARY_PUBLICATION
 		);
-		const newPublicNoticePublication = retrieveFromLS(STORAGE_KEYS.NEW_PUBLIC_NOTICE_PUBLICATION)
+		const newPublicNoticePublication = retrieveFromLS(
+			STORAGE_KEYS.NEW_PUBLIC_NOTICE_PUBLICATION
+		);
 		const adminToken = retrieveFromLS(STORAGE_KEYS.ADMIN_KEY);
 		const isAdmin = retrieveFromLS(STORAGE_KEYS.IS_ADMIN);
 		const adminInfo: AdminUserDetails | null = retrieveFromLS(
@@ -82,8 +92,8 @@ const AppRoutes: React.FC = () => {
 		if (newObituaryPublication) {
 			dispatch(addNewObituaryPublication(newObituaryPublication));
 		}
-		if(newPublicNoticePublication){
-			dispatch(addNewPublicNoticePublication(newPublicNoticePublication))
+		if (newPublicNoticePublication) {
+			dispatch(addNewPublicNoticePublication(newPublicNoticePublication));
 		}
 		setLoading(false);
 	}, [dispatch]);
@@ -144,17 +154,13 @@ const AppRoutes: React.FC = () => {
 		{
 			path: routes.pub_forms.obituary_payment,
 			element: (
-				<PublicationPayment
-					publicationType={PUBLICATION_TYPES.OBITUARY}
-				/>
+				<PublicationPayment publicationType={PUBLICATION_TYPES.OBITUARY} />
 			),
 		},
 		{
 			path: routes.pub_forms.public_notice_payment,
 			element: (
-				<PublicationPayment
-					publicationType={PUBLICATION_TYPES.PUBLIC_NOTICE}
-				/>
+				<PublicationPayment publicationType={PUBLICATION_TYPES.PUBLIC_NOTICE} />
 			),
 		},
 		{
@@ -210,6 +216,17 @@ const AppRoutes: React.FC = () => {
 			),
 		},
 		{ path: routes.admin.login, element: <AdminLogin /> },
+		{
+			path: routes.admin.settings.index,
+			element: <AdminSettingsOutlet />,
+			children: [
+				{ path: routes.admin.settings.roles, element: <CreateRoles /> },
+				{ path: routes.admin.settings.edit_role, element: <EditRoles /> },
+				{ path: routes.admin.settings.nis_settings, element: <NISSettings /> },
+				{ path: routes.admin.settings.third_party_newspaper, element: <ThirdPartyNewsPaper /> },
+				{ path: routes.admin.settings.security, element: <Security /> },
+			],
+		},
 	]);
 	return loading ? <div /> : <RouterProvider router={router} />;
 };

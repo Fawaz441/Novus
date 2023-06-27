@@ -16,7 +16,7 @@ const mainLinks = [
 	{ path: routes.admin.dashboard, icon: <Commission />, text: 'Commission' },
 	{ path: routes.admin.dashboard, icon: <Check />, text: 'Coordinators' },
 	{ path: routes.admin.dashboard, icon: <Check />, text: 'Agents' },
-	{ path: routes.admin.dashboard, icon: <Settings />, text: 'Settings' },
+	{ path: routes.admin.settings.index, icon: <Settings />, text: 'Settings' },
 ];
 
 

@@ -11,7 +11,7 @@ interface InputProps {
 	wrapperClassName?: string;
 	containerClassName?: string;
 	hasRequiredIcon?: boolean;
-	value: string;
+	value: string|number;
 	placeholder?: string;
 	onChange?: ChangeEventHandler<HTMLInputElement>;
 	label?: string;

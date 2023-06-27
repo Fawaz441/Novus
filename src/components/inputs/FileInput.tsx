@@ -10,6 +10,7 @@ interface FileInputProps {
 	ref_?: RefCallback<any>;
 	fileValue?: any;
 	accepts?: string;
+	label?:string;
 }
 
 const FileInput: React.FC<FileInputProps> = ({
@@ -18,6 +19,7 @@ const FileInput: React.FC<FileInputProps> = ({
 	hasError,
 	accepts,
 	onChange,
+	label,
 	ref_,
 	fileValue,
 }) => {
@@ -66,7 +68,7 @@ const FileInput: React.FC<FileInputProps> = ({
 				}
 			)}>
 			<span className="text-center text-7108F6 text-12 leading-[14.09px] font-semibold">
-				Click to upload Document
+				{label ?? "Click to upload Document"}
 			</span>
 			<div className="flex items-center justify-center">
 				<DocumentIcon className="h-[66px] w-[66px]" />

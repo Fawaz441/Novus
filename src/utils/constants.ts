@@ -87,6 +87,14 @@ export const routes = {
 	admin: {
 		login: '/management',
 		dashboard: '/management/dashboard',
+		settings: {
+			index: '/management/settings',
+			roles: '',
+			edit_role: 'edit-role',
+			nis_settings:'nis-settings',
+			third_party_newspaper:'third-party-newspaper',
+			security:'security'
+		},
 	},
 };
 
