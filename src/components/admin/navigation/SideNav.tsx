@@ -13,9 +13,9 @@ import { toggleHiddenElement } from 'utils/ui-functions';
 
 const mainLinks = [
 	{ path: routes.admin.dashboard, icon: <Dashboard />, text: 'Dashboard' },
-	{ path: routes.admin.dashboard, icon: <Commission />, text: 'Commission' },
-	{ path: routes.admin.dashboard, icon: <Check />, text: 'Coordinators' },
-	{ path: routes.admin.dashboard, icon: <Check />, text: 'Agents' },
+	{ path: routes.admin.commission.index, icon: <Commission />, text: 'Commission' },
+	{ path: routes.admin.coordinators.index, icon: <Check />, text: 'Coordinators' },
+	{ path: routes.admin.agents.index, icon: <Check />, text: 'Agents' },
 	{ path: routes.admin.settings.index, icon: <Settings />, text: 'Settings' },
 ];
 

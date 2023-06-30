@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Wrapper } from 'components/admin/navigation';
-import { AdminSummaryCard } from 'components/admin/dashboard';
 import {
 	AdminPublicationsFilter,
 	AdminPublicationsTabs,
@@ -12,16 +11,16 @@ import { AdminPublicationsFilterDuration } from 'interfaces/admin';
 import { PUBLICATION_TYPES } from 'utils/constants';
 import { toast } from 'react-hot-toast';
 import { ErrorToast, Loader } from 'components/general';
-import adminAPI, { DashboardSummaryResponse } from 'api/admin';
+import adminAPI from 'api/admin';
 import {
 	ChangeOfNamePublicationValues,
 	LossOfDocumentPublicationValues,
 	PublicationsListMeta,
 } from 'interfaces/publications';
 import { ApproveOrRejectValues } from 'interfaces/admin';
+import AdminSummaryCards from 'components/admin/dashboard/AdminSummaryCard';
 
 const Dashboard = () => {
-	const [summary, setSummary] = useState<DashboardSummaryResponse|null>(null)
 	const [currentFilter, setCurrentFilter] =
 		useState<AdminPublicationsFilterDuration>('today');
 	const [activeTab, setActiveTab] = useState<PUBLICATION_TYPES>(
@@ -37,17 +36,6 @@ const Dashboard = () => {
 	>([]);
 	const [meta, setMeta] = useState<PublicationsListMeta | null>(null);
 	const [status, setStatus] = useState<'Pending' | 'Published' | null>(null);
-
-	const getSummary = async() => {
-		try{
-			const info = await adminAPI.getSummary()
-			setSummary(info.data)
-			// setSummary(info.data.data)
-		}
-		catch(e){
-			toast.custom((t) => <ErrorToast message='There was an error fetching the summary' retry={() => getSummary()} t={t} />);
-		}
-	}
 
 	const getData = async (filter: PUBLICATION_TYPES, params?: any) => {
 		setLoading(true);
@@ -162,20 +150,11 @@ const Dashboard = () => {
 		}
 	};
 
-	useEffect(()=>{
-		getSummary()
-	},[])
-
 	return (
 		<Wrapper>
 			<Loader loading={loading} transparent />
 			<div className="mt-[26px] lg:mt-[50px] pb-[30px]">
-				<div className="w-full lg:w-auto flex lg:flex-row lg:space-x-[10.8px] flex-col lg:space-y-0 space-y-[14px]">
-					<AdminSummaryCard value={summary?.totalPublications} text="Total" bold_text="Publications" />
-					<AdminSummaryCard value={summary?.totalRevenue} text="Total" bold_text="Revenue" />
-					<AdminSummaryCard value={summary?.totalAgent} text="Agents" bold_text="Network" />
-					<AdminSummaryCard value={summary?.totalCoordinator} text="Total" bold_text="Coordinators" />
-				</div>
+				<AdminSummaryCards />
 				<div className="mt-[45px]">
 					<AdminPublicationsFilter
 						currentFilter={currentFilter}

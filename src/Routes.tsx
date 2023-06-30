@@ -55,6 +55,9 @@ import {
 	Security,
 	ThirdPartyNewsPaper,
 } from 'pages/admin/settings';
+import { CommissionList, CommissionsOutlet, ManageCommission } from 'pages/admin/commission';
+import { AdminAgentOutlet, AgentList } from 'pages/admin/agents';
+import { AdminCoordinatorOutlet, CoordinatorList } from 'pages/admin/coordinators';
 
 const { actions } = adminSlice;
 
@@ -223,8 +226,33 @@ const AppRoutes: React.FC = () => {
 				{ path: routes.admin.settings.roles, element: <CreateRoles /> },
 				{ path: routes.admin.settings.edit_role, element: <EditRoles /> },
 				{ path: routes.admin.settings.nis_settings, element: <NISSettings /> },
-				{ path: routes.admin.settings.third_party_newspaper, element: <ThirdPartyNewsPaper /> },
+				{
+					path: routes.admin.settings.third_party_newspaper,
+					element: <ThirdPartyNewsPaper />,
+				},
 				{ path: routes.admin.settings.security, element: <Security /> },
+			],
+		},
+		{
+			path: routes.admin.commission.index,
+			element: <CommissionsOutlet />,
+			children: [
+				{ path: routes.admin.commission.list, element: <CommissionList /> },
+				{ path: routes.admin.commission.manage, element: <ManageCommission /> },
+			],
+		},
+		{
+			path: routes.admin.agents.index,
+			element: <AdminAgentOutlet />,
+			children: [
+				{ path: routes.admin.agents.list, element: <AgentList /> },
+			],
+		},
+		{
+			path: routes.admin.coordinators.index,
+			element: <AdminCoordinatorOutlet />,
+			children: [
+				{ path: routes.admin.coordinators.list, element: <CoordinatorList /> },
 			],
 		},
 	]);

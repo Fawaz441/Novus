@@ -95,6 +95,19 @@ export const routes = {
 			third_party_newspaper:'third-party-newspaper',
 			security:'security'
 		},
+		commission:{
+			index:'/management/commissions',
+			manage:'/management/commissions/manage',
+			list:''
+		},
+		agents:{
+			index:'/management/agents',
+			list:''
+		},
+		coordinators:{
+			index:"/management/coordinators",
+			list:""
+		}
 	},
 };
 

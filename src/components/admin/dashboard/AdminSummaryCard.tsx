@@ -1,4 +1,7 @@
-import React from 'react';
+import adminAPI, { DashboardSummaryResponse } from 'api/admin';
+import { ErrorToast } from 'components/general';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 interface AdminSummaryCardProps {
 	text: string;
@@ -28,4 +31,53 @@ const AdminSummaryCard: React.FC<AdminSummaryCardProps> = ({
 	);
 };
 
-export default AdminSummaryCard;
+const AdminSummaryCards: React.FC = () => {
+	const [summary, setSummary] = useState<DashboardSummaryResponse | null>(null);
+
+	const getSummary = async () => {
+		try {
+			const info = await adminAPI.getSummary();
+			setSummary(info.data);
+		} catch (e) {
+			toast.custom((t) => (
+				<ErrorToast
+					message="There was an error fetching the summary"
+					retry={() => getSummary()}
+					t={t}
+				/>
+			));
+		}
+	};
+
+	useEffect(() => {
+		getSummary();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	return (
+		<div className="w-full lg:w-auto flex lg:flex-row lg:space-x-[10.8px] flex-col lg:space-y-0 space-y-[14px]">
+			<AdminSummaryCard
+				value={summary?.totalPublications}
+				text="Total"
+				bold_text="Publications"
+			/>
+			<AdminSummaryCard
+				value={summary?.totalRevenue}
+				text="Total"
+				bold_text="Revenue"
+			/>
+			<AdminSummaryCard
+				value={summary?.totalAgent}
+				text="Agents"
+				bold_text="Network"
+			/>
+			<AdminSummaryCard
+				value={summary?.totalCoordinator}
+				text="Total"
+				bold_text="Coordinators"
+			/>
+		</div>
+	);
+};
+
+export default AdminSummaryCards;
