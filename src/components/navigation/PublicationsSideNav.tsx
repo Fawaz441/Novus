@@ -62,17 +62,15 @@ const PublicationsSideNav: React.FC = () => {
 							)
 						}
 					/>
-					{/* <PublicationButton
+					<PublicationButton
 						text={'Affidavit'}
 						isActive={pathIncludesName(location, APP_TERMS.AFFIDAVIT)}
 						onClick={() =>
 							navigate(
-								isCreation
-									? routes.pub_forms.affidavit
-									: routes.lost_document_publications
+								routes.pub_forms.affidavit
 							)
 						}
-					/> */}
+					/>
 				</div>
 				<div className="flex flex-col space-y-10">
 					{/* <PublicationButton

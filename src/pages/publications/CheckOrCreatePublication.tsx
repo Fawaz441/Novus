@@ -22,7 +22,8 @@ const CREATE_LINKS = [
 	{ name: 'Change Of Name', route: routes.pub_forms.change_of_name },
 	{ name: 'Loss Of Documents', route: routes.pub_forms.loss_of_document },
 	{ name: 'Obituary', route: routes.pub_forms.loss_of_document },
-	// { name: 'Affidavit', route: routes.pub_forms.loss_of_document },
+	{ name: 'Public Notice', route: routes.pub_forms.public_notice },
+	{ name: 'Affidavit', route: routes.pub_forms.affidavit },
 ];
 
 const CheckOrCreatePublication = () => {

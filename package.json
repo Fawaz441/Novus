@@ -63,6 +63,9 @@
     "@types/react-calendar": "^3.9.0",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/validator": "^13.7.14",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8",
     "tailwindcss": "^3.2.7"
   }
 }
