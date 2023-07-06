@@ -10,7 +10,7 @@ import {
 	PublicationStatus,
 } from 'components/publications';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDownload, useModal } from 'hooks';
+import { useModal } from 'hooks';
 import {
 	MODALS,
 	PUBLICATION_TYPES,
@@ -24,12 +24,14 @@ import moment from 'moment';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import { ErrorToast, Loader } from 'components/general';
+import createPDF from 'utils/pdf-maker';
 
 const PublicationDetail = () => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const { showModal } = useModal();
 	const [loading, setLoading] = useState(true);
+	const [isDownloading, setIsDownloading] = useState(false)
 	const [detail, setDetail] = useState<any>(null);
 	const publicationIsApproved = isApproved(detail?.status);
 	const getPublicationType = () => {
@@ -64,12 +66,6 @@ const PublicationDetail = () => {
 			return { type: PUBLICATION_TYPES.PUBLIC_NOTICE, reference, title: 'PUBLIC NOTICE' };
 		}
 	};
-
-	const { isDownloading, pdfMaker, getPdf } = useDownload(
-		getPublicationType()?.type || PUBLICATION_TYPES.CHANGE_OF_NAME,
-		detail,
-		false
-	);
 
 
 	const getPublicationDetail = async () => {
@@ -151,10 +147,32 @@ const PublicationDetail = () => {
 
 	const type = getPublicationType()?.type
 
+	const pdfMaker = !isDownloading
+		? null
+		: createPDF(
+			getPublicationType()?.type || PUBLICATION_TYPES.CHANGE_OF_NAME,
+			detail,
+			false,
+			() => {
+				setIsDownloading(false);
+			},
+		);
+
+	const getPdf = () => setIsDownloading(true);
+
+	const getDownloadProps = () => {
+		return {
+			getPdf,
+			pdfMaker,
+			isDownloading
+		}
+	}
+
+
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
-			{pdfMaker}
-			<Loader transparent loading={isDownloading} />
+			{getDownloadProps().pdfMaker}
+			<Loader transparent loading={getDownloadProps().isDownloading} />
 			{loading ? (
 				<div className="flex items-center justify-center">
 					<Loader loading />
@@ -299,7 +317,7 @@ const PublicationDetail = () => {
 								</CopyToClipboard>
 								{/* download */}
 								<div
-									onClick={getPdf}
+									onClick={getDownloadProps().getPdf}
 									className="flex items-center space-x-[8.15px]">
 									<Download />
 									<span className="text-[10px] leading-[11.74px] text-black">
