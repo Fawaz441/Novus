@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'classnames';
 import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Change } from 'assets/icons/publications/change.svg';
+import { ReactComponent as Download } from 'assets/icons/publications/download.svg';
 import { ReactComponent as Camera } from 'assets/images/publications/camera.svg';
 import {
 	EditPublicationModal,
@@ -101,44 +102,44 @@ const PublicationDetail = () => {
 
 	const getText = () => {
 		const type = getPublicationType();
-		if(type?.type){
-			return getPublicationText(type.type,detail)
+		if (type?.type) {
+			return getPublicationText(type.type, detail)
 		}
 		return ''
 	};
 
 	const getSubHeader = () => {
 		const type = getPublicationType();
-		if(type?.type === PUBLICATION_TYPES.CHANGE_OF_NAME){
-			return`
+		if (type?.type === PUBLICATION_TYPES.CHANGE_OF_NAME) {
+			return `
 				${getTitle(detail?.gender || '')}
 				${detail?.newFirstName}
 				${detail?.newMiddleName}
 				${detail?.newLastName}
 			`
 		}
-		if(type?.type === PUBLICATION_TYPES.LOSS_OF_DOCUMENT){
-			return`
+		if (type?.type === PUBLICATION_TYPES.LOSS_OF_DOCUMENT) {
+			return `
 				${getTitle(detail?.gender || '')}
 				${detail?.firstName}
 				${detail?.middleName}
 				${detail?.lastName}
 			`
 		}
-		if(type?.type===PUBLICATION_TYPES.OBITUARY){
+		if (type?.type === PUBLICATION_TYPES.OBITUARY) {
 			return `${getTitle(detail?.gender || '')} ${detail?.fullNameOfDeceased}`
 		}
-		if(type?.type===PUBLICATION_TYPES.AFFIDAVIT||type?.type===PUBLICATION_TYPES.PUBLIC_NOTICE){
+		if (type?.type === PUBLICATION_TYPES.AFFIDAVIT || type?.type === PUBLICATION_TYPES.PUBLIC_NOTICE) {
 			return `${getTitle(detail?.firstName || '')} ${detail?.middleName} ${detail?.lastName}`
 		}
 	}
 
-	const passPortPhotograph = detail?.photos?.find((doc:any) => doc?.type === "passport")?.url
+	const passPortPhotograph = detail?.photos?.find((doc: any) => doc?.type === "passport")?.url
 
 	const getLink = () => {
 		const publicationType = getPublicationType()?.type
-		if(publicationType){
-			return getFullPublicationLink(publicationType, `${detail?.reference}` || '')||''
+		if (publicationType) {
+			return getFullPublicationLink(publicationType, `${detail?.reference}` || '') || ''
 		}
 		return ''
 	};
@@ -158,7 +159,7 @@ const PublicationDetail = () => {
 						<div className="flex items-center space-x-[14px]">
 							{(type === PUBLICATION_TYPES.CHANGE_OF_NAME) && <Change />}
 							<span className="font-semibold text-black text-sm">
-							{getPublicationType()?.title}
+								{getPublicationType()?.title}
 							</span>
 						</div>
 						<div className="flex items-center space-x-5">
@@ -194,12 +195,12 @@ const PublicationDetail = () => {
 					<div className="mt-7 flex space-x-[59px] mini:space-x-[31px]">
 						<div className="relative flex-shrink-0 h-[109px] w-[105px] mini:h-[175px] mini:w-[169px] bg-F4F4F4 flex flex-col items-center justify-center space-y-[14.91px]">
 							{
-								passPortPhotograph? 
-								<img className='h-full w-full top-0 left-0 absolute object-contain'
-								alt="Passport Photograph"
-								src={`https://api.theepitomenews.com/images/${passPortPhotograph}`}
-								/>:
-								<Camera />}
+								passPortPhotograph ?
+									<img className='h-full w-full top-0 left-0 absolute object-contain'
+										alt="Passport Photograph"
+										src={`https://api.theepitomenews.com/images/${passPortPhotograph}`}
+									/> :
+									<Camera />}
 							{!passPortPhotograph && <p className="max-w-[82px] text-12 text-center text-black">
 								Passport Photograph
 							</p>}
@@ -217,7 +218,7 @@ const PublicationDetail = () => {
 								<span className="font-bold">
 									{getPublicationType()?.title} :
 								</span>{' '}
-								{capitalize(getSubHeader()||"")}
+								{capitalize(getSubHeader() || "")}
 							</h3>
 							{publicationIsApproved ? (
 								<div className="flex items-center justify-between">
@@ -274,15 +275,58 @@ const PublicationDetail = () => {
 							)}
 							<p className="max-w-[960px] text-black leading-6">{getText()}</p>
 						</div>
+						<div className="mini:hidden flex flex-col space-y-[35.16px]">
+							<div className="flex items-center justify-between">
+								{/* copy */}
+								<CopyToClipboard
+									text={
+										getLink()
+									}
+									onCopy={() => toast.success('Link copied to clipboard')}>
+									<div className="flex items-center space-x-[8.15px]">
+										<LinkIcon className="stroke-575555" />
+										<span className="text-[10px] leading-[11.74px] text-black">
+											Copy Link
+										</span>
+									</div>
+								</CopyToClipboard>
+								{/* download */}
+								<div className="flex items-center space-x-[8.15px]">
+									<Download />
+									<span className="text-[10px] leading-[11.74px] text-black">
+										Download
+									</span>
+								</div>
+							</div>
+							<div className="flex items-center justify-between">
+								{/* by the epitome news */}
+								<span className='font-medium text-[10px] text-black'>By :<span className='text-575555'>The Epitome News</span></span>
+								{/* date */}
+								<span className='font-medium text-[10px] text-575555'>
+									{moment(detail?.createdAt).format('DD MMM YYYY')}
+								</span>
+							</div>
+						</div>
+						{detail?.externalSelect?.value && (
+							<div className="flex items-center space-x-[7px]">
+								<span className="text-12 leading-[14.09px] text-black">
+									Paper :
+								</span>
+								<span className="text-sm font-bold leading-[16.44px] text-575555">
+									{detail?.externalSelect?.value}, 4 weeks from approval
+								</span>
+							</div>
+						)}
 					</div>
 					<div className="mini:hidden mt-6">
 						<h3 className="font-medium text-[12px] leading-[14.09px] text-black">
-							<span className="font-bold">{getPublicationType()?.title} :</span> 
+							<span className="font-bold">{getPublicationType()?.title} :</span>
 							{getSubHeader()}
 						</h3>
 						<p className="text-black leading-[18px] text-[10px]">
-						{getText()}
+							{getText()}
 						</p>
+
 					</div>
 					{/* <div className="mt-8 flex flex-col space-y-8 mini:space-y-0 mini:flex-row mini:space-x-[250px] mb-8">
 						<div className='flex items-center justify-center w-full'>
@@ -291,8 +335,9 @@ const PublicationDetail = () => {
 						{!publicationIsApproved && <DeclineReason />}
 					</div> */}
 				</div>
-			)}
-		</Wrapper>
+			)
+			}
+		</Wrapper >
 	);
 };
 

@@ -11,13 +11,14 @@ import { hideAllPublicationActions } from 'utils/ui-functions';
 
 const useDownload = <
 	T extends
-		| LossOfDocumentPublicationValues
-		| PublicNoticeValues
-		| ObituaryValues
-		| ChangeOfNamePublicationValues
+	| LossOfDocumentPublicationValues
+	| PublicNoticeValues
+	| ObituaryValues
+	| ChangeOfNamePublicationValues
 >(
 	publicationType: PUBLICATION_TYPES,
 	publication: T,
+	isAdmin: boolean,
 	classNames?: string,
 	viewOnly?: boolean
 ) => {
@@ -26,15 +27,16 @@ const useDownload = <
 	const pdfMaker = !isDownloading
 		? null
 		: createPDF(
-				publicationType,
-				publication,
-				() => {
-					setIsDownloading(false);
-					hideAllPublicationActions();
-				},
-				classNames,
-				viewOnly
-		  );
+			publicationType,
+			publication,
+			isAdmin,
+			() => {
+				setIsDownloading(false);
+				hideAllPublicationActions();
+			},
+			classNames,
+			viewOnly
+		);
 
 	const getPdf = () => setIsDownloading(true);
 

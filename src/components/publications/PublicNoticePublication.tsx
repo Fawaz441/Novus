@@ -26,7 +26,8 @@ const PublicNoticePublication: React.FC<PublicationProps> = ({ id, data }) => {
 	const navigate = useNavigate();
 	const { isDownloading, pdfMaker, getPdf } = useDownload(
 		PUBLICATION_TYPES.PUBLIC_NOTICE,
-		data
+		data,
+		false
 	);
 
 	return (

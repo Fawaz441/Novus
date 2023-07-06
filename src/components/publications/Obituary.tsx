@@ -26,7 +26,8 @@ const Obituary: React.FC<PublicationProps> = ({ id, data }) => {
 	const navigate = useNavigate();
 	const { isDownloading, pdfMaker, getPdf } = useDownload(
 		PUBLICATION_TYPES.OBITUARY,
-		data
+		data,
+		false
 	);
 	return (
 		<div

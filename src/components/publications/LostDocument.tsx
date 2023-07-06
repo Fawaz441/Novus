@@ -26,7 +26,8 @@ const LosttDocument: React.FC<LostDocumentProps> = ({ id, data }) => {
 	const navigate = useNavigate();
 	const { isDownloading, pdfMaker, getPdf } = useDownload(
 		PUBLICATION_TYPES.LOSS_OF_DOCUMENT,
-		data
+		data,
+		false
 	);
 
 	return (

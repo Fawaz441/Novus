@@ -26,7 +26,8 @@ const Publication: React.FC<PublicationProps> = ({ id, data }) => {
 	const navigate = useNavigate();
 	const { isDownloading, pdfMaker, getPdf } = useDownload(
 		PUBLICATION_TYPES.CHANGE_OF_NAME,
-		data
+		data,
+		false
 	);
 
 	return (
@@ -95,7 +96,7 @@ const Publication: React.FC<PublicationProps> = ({ id, data }) => {
 							Date Published :
 						</span>
 						<span className="text-black font-semibold text-12 leading-[14.09px]">
-							{moment(data?.updatedAt).format('DD MMM YYYY')}
+							{moment(data?.createdAt).format('DD MMM YYYY')}
 						</span>
 					</div>
 					<div className="flex items-center space-x-[34px] mini:hidden">
