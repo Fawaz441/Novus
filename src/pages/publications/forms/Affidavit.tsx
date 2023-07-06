@@ -6,13 +6,14 @@ import React from 'react';
 const AFFIDAVIT_LINKS = [
 	{
 		name: 'Abia High Court  - Affidavit',
-		link: 'https:/affidavit.abiahighcourt.org',
+		link: 'https://affidavit.abiahighcourt.org',
 	},
 	{
 		name: 'Oyo State Judiciary - Affidavit',
 		link: 'https://comis.oyostatejudiciary.oy.gov.ng/account.html',
 	},
 ];
+
 
 const Affidavit = () => {
 	return (
