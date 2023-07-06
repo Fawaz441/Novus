@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import clsx from 'classnames';
 import { ReactComponent as LinkIcon } from 'assets/icons/news/link.svg';
 import { ReactComponent as Change } from 'assets/icons/publications/change.svg';
-import { ReactComponent as Download } from 'assets/icons/publications/download.svg';
+import { ReactComponent as Download } from 'assets/icons/download.svg';
 import { ReactComponent as Camera } from 'assets/images/publications/camera.svg';
 import {
 	EditPublicationModal,
 	PublicationStatus,
 } from 'components/publications';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useModal } from 'hooks';
+import { useDownload, useModal } from 'hooks';
 import {
 	MODALS,
 	PUBLICATION_TYPES,
@@ -32,7 +32,6 @@ const PublicationDetail = () => {
 	const [loading, setLoading] = useState(true);
 	const [detail, setDetail] = useState<any>(null);
 	const publicationIsApproved = isApproved(detail?.status);
-
 	const getPublicationType = () => {
 		const publicationRefSplit = params?.publicationRef?.split('-');
 		const publicationType = publicationRefSplit?.[0] || '';
@@ -65,6 +64,12 @@ const PublicationDetail = () => {
 			return { type: PUBLICATION_TYPES.PUBLIC_NOTICE, reference, title: 'PUBLIC NOTICE' };
 		}
 	};
+
+	const { isDownloading, pdfMaker, getPdf } = useDownload(
+		getPublicationType()?.type || PUBLICATION_TYPES.CHANGE_OF_NAME,
+		detail,
+		false
+	);
 
 
 	const getPublicationDetail = async () => {
@@ -148,6 +153,8 @@ const PublicationDetail = () => {
 
 	return (
 		<Wrapper isPublications showPublicationsButton={false}>
+			{pdfMaker}
+			<Loader transparent loading={isDownloading} />
 			{loading ? (
 				<div className="flex items-center justify-center">
 					<Loader loading />
@@ -192,7 +199,7 @@ const PublicationDetail = () => {
 								: 'Publication Declined'}
 						</span>
 					</div>
-					<div className="mt-7 flex space-x-[59px] mini:space-x-[31px]">
+					<div className="mt-7 flex space-x-5 mini:space-x-[31px]">
 						<div className="relative flex-shrink-0 h-[109px] w-[105px] mini:h-[175px] mini:w-[169px] bg-F4F4F4 flex flex-col items-center justify-center space-y-[14.91px]">
 							{
 								passPortPhotograph ?
@@ -275,7 +282,7 @@ const PublicationDetail = () => {
 							)}
 							<p className="max-w-[960px] text-black leading-6">{getText()}</p>
 						</div>
-						<div className="mini:hidden flex flex-col space-y-[35.16px]">
+						<div className="mini:hidden flex flex-col space-y-[35.16px] w-full">
 							<div className="flex items-center justify-between">
 								{/* copy */}
 								<CopyToClipboard
@@ -291,7 +298,9 @@ const PublicationDetail = () => {
 									</div>
 								</CopyToClipboard>
 								{/* download */}
-								<div className="flex items-center space-x-[8.15px]">
+								<div
+									onClick={getPdf}
+									className="flex items-center space-x-[8.15px]">
 									<Download />
 									<span className="text-[10px] leading-[11.74px] text-black">
 										Download
