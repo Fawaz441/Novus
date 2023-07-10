@@ -1,5 +1,5 @@
 import { EpitomeBox } from 'components/general';
-import { FileInput, Input, Select, TextArea } from 'components/inputs';
+import { FileInput, Input, TextArea } from 'components/inputs';
 import { isEmpty } from 'lodash';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';

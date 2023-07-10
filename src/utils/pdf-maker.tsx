@@ -8,7 +8,7 @@ import {
 	PublicNoticeValues,
 } from 'interfaces/publications';
 import moment from 'moment';
-import { capitalize, isEmpty } from 'lodash';
+import { capitalize } from 'lodash';
 import { getFullPublicationLink, getPublicationText } from './functions';
 import { API_URL } from 'api/rootAxios';
 import { jsPDF } from 'jspdf';

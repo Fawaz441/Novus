@@ -1,17 +1,17 @@
 import { PublicationButton } from 'components/publications';
-import { ReactComponent as Download } from 'assets/icons/publications/download.svg';
+// import { ReactComponent as Download } from 'assets/icons/publications/download.svg';
 import { ReactComponent as Add } from 'assets/icons/publications/add.svg';
-import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
-import { useModal } from 'hooks';
+// import { ReactComponent as Check } from 'assets/icons/publications/check.svg';
+// import { useModal } from 'hooks';
 import React from 'react';
-import { APP_TERMS, MODALS, PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
+import { APP_TERMS, PUBLICATION_TYPES_ACRONYMS, routes } from 'utils/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { pathIncludesName } from 'utils/ui-functions';
 import SideNav from './SideNav';
 
 const PublicationsSideNav: React.FC = () => {
 	const location = useLocation();
-	const { showModal } = useModal();
+	// const { showModal } = useModal();
 	const navigate = useNavigate();
 	const isCreation = location.pathname.includes('create');
 	return (

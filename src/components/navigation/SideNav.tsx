@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as Google } from 'assets/icons/google.svg';
+// import { ReactComponent as Google } from 'assets/icons/google.svg';
 import { ReactComponent as Exit } from 'assets/icons/exit.svg';
 import clsx from 'classnames';
 import { MOBILE_SIDENAV, routes } from 'utils/constants';

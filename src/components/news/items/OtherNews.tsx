@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import nis from 'assets/icons/publications/nis.png';
 import OtherNewsItem from './OtherNewsItem';
-import OtherNewsTags from './OtherNewsTags';
+// import OtherNewsTags from './OtherNewsTags';
 import { NewsItem } from 'api/news';
 import { Loader } from 'components/general';
 import moment from 'moment';

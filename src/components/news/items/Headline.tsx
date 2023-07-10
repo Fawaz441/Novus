@@ -1,8 +1,8 @@
 import React from 'react';
-import { ReactComponent as Reads } from 'assets/icons/news/reads.svg';
-import { ReactComponent as Share } from 'assets/icons/news/share.svg';
-import { ReactComponent as Links } from 'assets/icons/news/link.svg';
-import { formatStatistic } from 'utils/functions';
+// import { ReactComponent as Reads } from 'assets/icons/news/reads.svg';
+// import { ReactComponent as Share } from 'assets/icons/news/share.svg';
+// import { ReactComponent as Links } from 'assets/icons/news/link.svg';
+// import { formatStatistic } from 'utils/functions';
 import NewsTag from './NewsTag';
 import nis from 'assets/icons/publications/nis.png';
 
