@@ -67,7 +67,9 @@ const TopNav: React.FC<TopNavProps> = ({
 							<span className="font-medium text-black text-sm">About Us</span>
 						</li>
 						<li>
-							<span className="font-medium text-black text-sm">Products</span>
+							<Link to={routes.pub_forms.affidavit}>
+								<span className="font-medium text-black text-sm">Affidavit</span>
+							</Link>
 						</li>
 						<li>
 							<Link to={routes.agents.login}>

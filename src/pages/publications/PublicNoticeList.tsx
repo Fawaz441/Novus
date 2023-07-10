@@ -13,10 +13,10 @@ const { actions } = publicationSlice;
 const PublicNoticeList: React.FC = () => {
 	const dispatch: AppDispatch = useDispatch();
 	const {
-        publicNoticePublications,
-        publicNoticePublicationsError,
-        loadingPublicNoticePublications,
-        publicNoticePublicationsMeta,
+		publicNoticePublications,
+		publicNoticePublicationsError,
+		loadingPublicNoticePublications,
+		publicNoticePublicationsMeta,
 	} = useSelector((state: RootState) => state.publications);
 
 	const getPublications = (params?: any) => {
@@ -59,7 +59,7 @@ const PublicNoticeList: React.FC = () => {
 			<div className="mt-[90px] mid:mt-[120px] relative flex flex-col">
 				<div className="flex flex-col overflow-x-hidden mid:grid mid:gap-x-10 space-y-[26px] mid:space-y-0 w-full pub-list mid:gap-y-[30px] h-full mini:h-[calc(100vh_-_291px)] overflow-y-auto scrollbar-hide">
 					{publicNoticePublications.map((publication) => (
-						<PublicNoticePublication data={publication} id={publication.id} />
+						<PublicNoticePublication data={publication} key={publication.id} id={publication.id} />
 					))}
 				</div>
 				<div className="flex items-center justify-center h-[81px] flex-shrink-0">

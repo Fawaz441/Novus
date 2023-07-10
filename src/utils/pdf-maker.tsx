@@ -23,10 +23,10 @@ const MARGIN = 20;
 
 const downloadPDF = <
 	T extends
-		| LossOfDocumentPublicationValues
-		| PublicNoticeValues
-		| ObituaryValues
-		| ChangeOfNamePublicationValues
+	| LossOfDocumentPublicationValues
+	| PublicNoticeValues
+	| ObituaryValues
+	| ChangeOfNamePublicationValues
 >(
 	publicationType: PUBLICATION_TYPES,
 	publication: T,
@@ -71,16 +71,17 @@ const downloadPDF = <
 
 const createPDF = <
 	T extends
-		| LossOfDocumentPublicationValues
-		| PublicNoticeValues
-		| ObituaryValues
-		| ChangeOfNamePublicationValues
+	| LossOfDocumentPublicationValues
+	| PublicNoticeValues
+	| ObituaryValues
+	| ChangeOfNamePublicationValues
 >(
 	publicationType: PUBLICATION_TYPES,
 	publication: T,
+	isAdmin: boolean,
 	onDone: () => void,
 	classNames?: string,
-	viewOnly?: boolean
+	viewOnly?: boolean,
 ) => {
 	const isLOD = publicationType === LOSS_OF_DOCUMENT;
 	const isCON = publicationType === CHANGE_OF_NAME;
@@ -88,36 +89,33 @@ const createPDF = <
 	const isPublicNotice = publicationType === PUBLIC_NOTICE;
 	const isAffidavit = publicationType === AFFIDAVIT;
 
-	const isAdminView = !isEmpty(publication?.documents);
+	const isAdminView = isAdmin;
 	const photo = isAdminView
 		? publication?.documents?.find((x) => x.type === 'passport')?.url
 		: publication?.photos?.find((x) => x.type === 'passport')?.url;
 	const pubTypeHeader = isAffidavit
 		? 'Affidavit'
 		: isCON
-		? 'Change Of Name'
-		: isLOD
-		? 'Loss of Document'
-		: isObituary
-		? 'Obituary'
-		: 'Public Notice';
+			? 'Change Of Name'
+			: isLOD
+				? 'Loss of Document'
+				: isObituary
+					? 'Obituary'
+					: 'Public Notice';
 
 	const getName = () => {
 		return isLOD
-			? `${(publication as LossOfDocumentPublicationValues)?.firstName} ${
-					(publication as LossOfDocumentPublicationValues)?.lastName
-			  }`
+			? `${(publication as LossOfDocumentPublicationValues)?.firstName} ${(publication as LossOfDocumentPublicationValues)?.lastName
+			}`
 			: isCON
-			? `${(publication as ChangeOfNamePublicationValues)?.oldFirstName} ${
-					(publication as ChangeOfNamePublicationValues)?.oldLastName
-			  }`
-			: isObituary
-			? `${(publication as ObituaryValues)?.fullNameOfDeceased}`
-			: isPublicNotice
-			? `${(publication as PublicNoticeValues)?.firstName} ${
-					(publication as PublicNoticeValues)?.middleName
-			  } ${(publication as PublicNoticeValues)?.lastName}`
-			: '';
+				? `${(publication as ChangeOfNamePublicationValues)?.oldFirstName} ${(publication as ChangeOfNamePublicationValues)?.oldLastName
+				}`
+				: isObituary
+					? `${(publication as ObituaryValues)?.fullNameOfDeceased}`
+					: isPublicNotice
+						? `${(publication as PublicNoticeValues)?.firstName} ${(publication as PublicNoticeValues)?.middleName
+						} ${(publication as PublicNoticeValues)?.lastName}`
+						: '';
 	};
 	console.log(
 		publication,
@@ -224,6 +222,21 @@ const createPDF = <
 								))}
 							</div>
 						)}
+						{!isAdminView &&
+							<div className="mt-[60px] flex flex-col space-y-[9px]">
+								<h5 className='text-base font-bold text-center text-575555'>Requirements to make the above publication</h5>
+								<div className='flex items-center justify-center'>
+									<ul className='flex flex-col space-y-1'>
+										<li className='text-base text-575555'>1. Visit www.theepitomenews.com</li>
+										<li className='text-base text-575555'>2. Click on the classified ad of your choice</li>
+										<li className='text-base text-575555'>3. Fill the form as required, with valid details</li>
+										<li className='text-base text-575555'>4. Upload required documents e.g Marriage Certificate, Affidavit, Regulatory ID</li>
+										<li className='text-base text-575555'>5. Make payment online</li>
+										<li className='text-base text-575555'>6. Publication will be confirmed within 15mins</li>
+									</ul>
+								</div>
+							</div>
+						}
 					</div>
 					<div className="absolute bottom-[11px] left-0 w-full">
 						<div className="flex flex-col items-center justify-center space-y-[9px]">

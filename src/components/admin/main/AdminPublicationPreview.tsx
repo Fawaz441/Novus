@@ -19,10 +19,10 @@ import { Loader } from 'components/general';
 interface AdminPublicationPreviewProps {
 	publicationType: PUBLICATION_TYPES;
 	publication:
-		| ChangeOfNamePublicationValues
-		| LossOfDocumentPublicationValues
-		| ObituaryValues
-		| PublicNoticeValues;
+	| ChangeOfNamePublicationValues
+	| LossOfDocumentPublicationValues
+	| ObituaryValues
+	| PublicNoticeValues;
 	approveOrRejectPublication: (
 		publicationId: number,
 		data: ApproveOrRejectValues
@@ -46,6 +46,7 @@ const AdminPublicationPreview: React.FC<AdminPublicationPreviewProps> = ({
 	const { getPdf: getPdfView, pdfMaker: pdfViewer } = useDownload(
 		publicationType,
 		publication,
+		true,
 		'!left-0',
 		true
 	);
@@ -54,7 +55,7 @@ const AdminPublicationPreview: React.FC<AdminPublicationPreviewProps> = ({
 		getPdf: downloadPdf,
 		pdfMaker: downloadPDFMaker,
 		isDownloading,
-	} = useDownload(publicationType, publication);
+	} = useDownload(publicationType, publication, true);
 
 	const onReject = (note: string) => {
 		publication &&
@@ -83,7 +84,7 @@ const AdminPublicationPreview: React.FC<AdminPublicationPreviewProps> = ({
 			)}
 			{pdfViewer}
 			{downloadPDFMaker}
-			<Loader loading={isDownloading} transparent text={"Downloading..."}/>
+			<Loader loading={isDownloading} transparent text={"Downloading..."} />
 			<div className="bg-F9F9F9 rounded-3 py-[17px] px-[35px] border-[#D9D9D9] border-[0.5px]">
 				<DeclinePublicationModal
 					visible={showDeclineModal}
