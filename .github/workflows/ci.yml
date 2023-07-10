@@ -26,6 +26,7 @@ jobs:
     - name: 🔨 Build Project 
       run: |
         npm install -g yarn
+        yarn install
         yarn run build
     
     - name: List output files
