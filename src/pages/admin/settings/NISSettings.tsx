@@ -1,44 +1,53 @@
-import { EpitomeBox } from 'components/general';
-import { FileInput, Input, TextArea } from 'components/inputs';
-import { isEmpty } from 'lodash';
-import React from 'react';
+import adminAPI from 'api/admin';
+import { EpitomeBox, Loader } from 'components/general';
+import { Input, TextArea } from 'components/inputs';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { validators } from 'utils/validation';
 
-interface RoleCreationValues {
-	heading: string;
-	body: string;
-	image: any;
+interface NewsCreationValues {
+	title: string;
+	content: string;
 }
 
 const NISSettings = () => {
+	const [loading, setLoading] = useState(false)
 	const {
 		control,
 		handleSubmit,
-		getValues,
 		setValue,
 		formState: { errors },
-	} = useForm<RoleCreationValues>();
+	} = useForm<NewsCreationValues>();
 
-	const onSubmit = (data: RoleCreationValues) => {
-		console.log(data);
+	const onSubmit = async(data: NewsCreationValues) => {
+		setLoading(true)
+		try{
+			await adminAPI.createNews({
+				title:data.title,
+				category:"immigration",
+				media:{
+					content:data.content
+				}
+			})
+			setLoading(false)
+			setValue("content","")
+			setValue("title","")
+			toast.success("News created successfully")
+		}
+		catch(e){
+			setLoading(false)
+			toast.error("Failed to create news.")
+		}
 	};
 
-	const setDocument = async (e: any) => {
-		const selectedFile = e.target.files[0];
-		const reader = new FileReader();
-		reader.onload = function (event) {
-			const fileData = event?.target?.result;
-			setValue('image', fileData);
-		};
-		reader.readAsDataURL(selectedFile);
-	};
 
 	return (
 		<div className="flex justify-center w-full pb-5">
+			<Loader loading={loading}/>
 			<div className="flex flex-col space-y-[29px]">
 				<p className="text-575555 text-12 leading-[22.2px]">
-					Edit and Update publication for Nigerian Immigration Service
+					Add publication for Nigerian Immigration Service
 				</p>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
@@ -48,7 +57,7 @@ const NISSettings = () => {
 						<Controller
 							control={control}
 							rules={validators.isRequiredString}
-							name="heading"
+							name="title"
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Publication Heading"
@@ -58,14 +67,14 @@ const NISSettings = () => {
 									value={value}
 									hasFilterIcon={false}
 									onChange={onChange}
-									hasError={!!errors.heading}
+									hasError={!!errors.title}
 								/>
 							)}
 						/>
 						<Controller
 							control={control}
 							rules={validators.isRequiredString}
-							name="body"
+							name="content"
 							render={({ field: { value, onChange, ref } }) => (
 								<TextArea
 									label="Publication Body"
@@ -73,35 +82,16 @@ const NISSettings = () => {
 									ref_={ref}
 									value={value}
 									onChange={onChange}
-									hasError={!!errors.body}
+									hasError={!!errors.content}
 								/>
 							)}
 						/>
-						<div className="flex flex-col space-y-[7px]">
-							<span className="text-12 text-575555 font-medium leading-[14.09px]">
-								Publication Image
-							</span>
-							<Controller
-								control={control}
-								rules={{ validate: (v) => !isEmpty(v) }}
-								name="image"
-								render={({ field: { value, onChange, ref } }) => (
-									<FileInput
-										label="Attach a supporting image for publication"
-										hasError={!!errors.image}
-										onChange={(e: any) => setDocument(e)}
-										ref_={ref}
-										fileValue={getValues('image')}
-									/>
-								)}
-							/>
-						</div>
 					</div>
 					<div className="mt-[70px]">
 						<button
 							type="submit"
 							className="w-full py-[15px] text-white font-semibold text-12 bg-black rounded-[2px]">
-							Update Publication
+							Add Publication
 						</button>
 					</div>
 				</form>

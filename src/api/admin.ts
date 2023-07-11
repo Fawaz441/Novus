@@ -11,6 +11,7 @@ import {
 	PublicationsListMeta,
 } from 'interfaces/publications';
 import { AxiosPromise } from 'axios';
+import { NewsCreationPayload } from 'interfaces/misc';
 
 export interface AdminLoginResponseItems {
 	token: string;
@@ -44,6 +45,7 @@ const adminAPI = {
 		data: ApproveOrRejectValues
 	) => rootAxios.post(`/admin/publication/verify/${publicationId}`, data),
 	getSummary: (): AxiosPromise<DashboardSummaryResponse> => rootAxios.get('/admin/settings/dashboard'),
+	createNews:(data:NewsCreationPayload) => rootAxios.post('/admin/news',data)
 };
 
 export default adminAPI;
