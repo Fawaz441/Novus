@@ -227,7 +227,7 @@ const AppRoutes: React.FC = () => {
 				{ path: routes.admin.settings.edit_role, element: <EditRoles /> },
 				{ path: routes.admin.settings.nis_settings, element: <NISSettings /> },
 				{
-					path: routes.admin.settings.third_party_newspaper,
+					path: routes.admin.settings.newspaper,
 					element: <ThirdPartyNewsPaper />,
 				},
 				{ path: routes.admin.settings.security, element: <Security /> },

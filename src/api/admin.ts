@@ -11,7 +11,7 @@ import {
 	PublicationsListMeta,
 } from 'interfaces/publications';
 import { AxiosPromise } from 'axios';
-import { NewsCreationPayload } from 'interfaces/misc';
+import { NewsCreationPayload, UserEditPayload, CreateUserPayload, EditFeePayload } from 'interfaces/misc';
 
 export interface AdminLoginResponseItems {
 	token: string;
@@ -30,6 +30,15 @@ export interface DashboardSummaryResponse {
 	totalCoordinator: null | number;
 }
 
+export interface Fee{
+	id:number;
+	updatedAt:string;
+	createdAt:string;
+	key:string;
+	value:string;
+	type:string;
+}
+
 const adminAPI = {
 	login: (data: LoginValues): Promise<AdminLoginResponseItems> =>
 		rootAxios.post('/auth/login', data),
@@ -45,7 +54,11 @@ const adminAPI = {
 		data: ApproveOrRejectValues
 	) => rootAxios.post(`/admin/publication/verify/${publicationId}`, data),
 	getSummary: (): AxiosPromise<DashboardSummaryResponse> => rootAxios.get('/admin/settings/dashboard'),
-	createNews:(data:NewsCreationPayload) => rootAxios.post('/admin/news',data)
+	createNews:(data:NewsCreationPayload) => rootAxios.post('/admin/news',data),
+	editUser:(data:UserEditPayload) => rootAxios.patch('/user',data),
+	createUser:(data:CreateUserPayload) => rootAxios.post('/admin/profile',data),
+	editFee:(data:EditFeePayload) => rootAxios.patch('/admin/settings/fee',data),
+	getFees:():AxiosPromise<Fee[]> => rootAxios.get("/admin/settings/fee")
 };
 
 export default adminAPI;

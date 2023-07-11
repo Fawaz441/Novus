@@ -1,7 +1,7 @@
-import AddNewsPaperForm from "./AddNewsPaperForm";
+import ManageEpitomeNewsPaperForm from "./ManageEpitomeNewsPaperForm";
 import ManageNewsPaperForm from "./ManageNewsPaperForm";
 
 export {
-    AddNewsPaperForm,
+    ManageEpitomeNewsPaperForm,
     ManageNewsPaperForm
 }

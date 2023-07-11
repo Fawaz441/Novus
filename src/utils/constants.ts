@@ -1,3 +1,4 @@
+import { UserRole } from 'interfaces/misc';
 import {
 	ChangeOfNamePublicationFields,
 	LossOfDocumentPublicationFields,
@@ -92,7 +93,7 @@ export const routes = {
 			roles: '',
 			edit_role: 'edit-role',
 			nis_settings:'nis-settings',
-			third_party_newspaper:'third-party-newspaper',
+			newspaper:'newspaper',
 			security:'security'
 		},
 		commission:{
@@ -468,3 +469,9 @@ export const MOBILE_SIDENAV = '#mobile-sidenav';
 export const MOBILE_WIDTH = 550;
 
 export const BASE_URL = 'https://www.theepitomenews.com';
+
+export const roleList: { label: string; value: UserRole }[] = [
+	{ label: 'Admin', value: 'admin' },
+	{ label: 'Coordinator', value: 'coordinator' },
+	{ label: 'Back-Office', value: 'back-office' },
+];

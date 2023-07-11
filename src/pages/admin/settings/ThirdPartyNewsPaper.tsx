@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import clsx from 'classnames';
 import {
-	AddNewsPaperForm,
+	ManageEpitomeNewsPaperForm,
 	ManageNewsPaperForm,
 } from 'components/admin/settings';
 
-const tabs = ['Add Newspaper', 'Manage Newspaper'];
+const tabs = ['Manage Newspaper', 'Manage Epitome'];
 
 const ThirdPartyNewsPaper = () => {
 	const [activeTab, setActiveTab] = useState<string>(tabs[0]);
@@ -14,7 +14,7 @@ const ThirdPartyNewsPaper = () => {
 			<div className="flex flex-col space-y-[27px]">
 				<div className="flex flex-col space-y-[30px]">
 					<p className="text-575555 text-12 leading-[22.2px] text-center">
-						Add and manage fees for 3rd party newspaper publication
+						Manage fees for newspaper publication
 					</p>
 					<div className="flex space-x-[14px] items-center justify-center">
 						{tabs.map((tab, index) => (
@@ -32,7 +32,11 @@ const ThirdPartyNewsPaper = () => {
 						))}
 					</div>
 				</div>
-				{activeTab === tabs[0] ? <AddNewsPaperForm /> : <ManageNewsPaperForm />}
+				{activeTab === tabs[0] ? (
+					<ManageNewsPaperForm />
+				) : (
+					<ManageEpitomeNewsPaperForm />
+				)}
 			</div>
 		</div>
 	);

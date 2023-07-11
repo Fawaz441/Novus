@@ -1,6 +1,9 @@
-import { EpitomeBox } from 'components/general';
+import adminAPI from 'api/admin';
+import { EpitomeBox, Loader } from 'components/general';
 import { Input } from 'components/inputs';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { validators } from 'utils/validation';
 
 interface SecurityFormValues {
@@ -10,18 +13,38 @@ interface SecurityFormValues {
 }
 
 const Security = () => {
+	const [loading, setLoading] = useState(false);
 	const {
 		control,
 		handleSubmit,
+		setValue,
 		formState: { errors },
 	} = useForm<SecurityFormValues>();
 
-	const onSubmit = (data: SecurityFormValues) => {
-		console.log(data);
+	const onSubmit = async (data: SecurityFormValues) => {
+		if (data.new_password !== data.confirm_password) {
+			toast.error('Passwords do not match');
+		}
+		setLoading(true);
+		try {
+			await adminAPI.editUser({
+				oldPassword: data.password,
+				newPassword: data.new_password,
+			});
+			setValue("password","")
+			setValue("new_password","")
+			setValue("confirm_password","")
+			toast.success('Password changed successfully');
+			setLoading(false);
+		} catch (e: any) {
+			toast.error(JSON.stringify(e?.response?.data?.message));
+			setLoading(false);
+		}
 	};
 
 	return (
 		<div className="flex justify-center w-full pb-5">
+			<Loader loading={loading} />
 			<div className="flex flex-col space-y-[29px]">
 				<form
 					onSubmit={handleSubmit(onSubmit)}
@@ -52,7 +75,7 @@ const Security = () => {
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="New Password"
-                                    type="password"
+									type="password"
 									containerClassName="w-full"
 									ref_={ref}
 									hasFilterIcon={false}
@@ -69,7 +92,7 @@ const Security = () => {
 							render={({ field: { value, onChange, ref } }) => (
 								<Input
 									label="Confirm Password"
-                                    type="password"
+									type="password"
 									containerClassName="w-full"
 									ref_={ref}
 									hasFilterIcon={false}

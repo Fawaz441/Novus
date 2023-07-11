@@ -9,8 +9,8 @@ const links = [
 	{ path: routes.admin.settings.edit_role, text: 'Edit Roles' },
 	{ path: routes.admin.settings.nis_settings, text: 'NIS' },
 	{
-		path: routes.admin.settings.third_party_newspaper,
-		text: '3rd Party Newspaper',
+		path: routes.admin.settings.newspaper,
+		text: 'Newspaper',
 	},
 	{ path: routes.admin.settings.security, text: 'Security' },
 ];

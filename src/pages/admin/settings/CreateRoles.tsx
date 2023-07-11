@@ -1,29 +1,60 @@
-import { EpitomeBox } from 'components/general';
+import adminAPI from 'api/admin';
+import { EpitomeBox, Loader } from 'components/general';
 import { Input, Select } from 'components/inputs';
 import { isEmpty } from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { roleList } from 'utils/constants';
+import { generatePassword } from 'utils/functions';
 import { validators } from 'utils/validation';
 
 interface RoleCreationValues {
 	role: { value: any; label: any };
 	fullName: string;
 	email: string;
+	password: string;
 }
 
+const defaultValues = {
+	role: { value: "", label: "" },
+	fullName: '',
+	email: '',
+	password: '',
+};
+
+
 const CreateRoles = () => {
+	const [loading, setLoading] = useState(false);
 	const {
 		control,
 		handleSubmit,
+		reset,
 		formState: { errors },
-	} = useForm<RoleCreationValues>();
+	} = useForm<RoleCreationValues>({ defaultValues });
 
-	const onSubmit = (data: RoleCreationValues) => {
-		console.log(data);
+	const onSubmit = async (data: RoleCreationValues) => {
+		setLoading(true);
+		try {
+			await adminAPI.createUser({
+				role: data.role.value,
+				password: data.password,
+				fullName: data.fullName,
+				email: data.email,
+			});
+			reset(defaultValues);
+			setLoading(false);
+			toast.success('User created successfully');
+		} catch (e:any) {
+			setLoading(false);
+			toast.error(e?.response?.data?.message || 'There was an error');
+		}
 	};
+
 
 	return (
 		<div className="flex justify-center w-full pb-5">
+			<Loader loading={loading} />
 			<div className="flex flex-col space-y-[29px]">
 				<p className="text-575555 text-12 leading-[22.2px]">
 					Create admin roles for your team, that gives controlled access to
@@ -37,12 +68,12 @@ const CreateRoles = () => {
 						<Controller
 							control={control}
 							name="role"
-							rules={{ validate: (v) => !isEmpty(v.value) }}
+							rules={{ validate: (v) => !isEmpty(v?.value) }}
 							render={({ field }) => (
 								<Select
 									label="Role"
 									hasError={!!errors.role}
-									options={[]}
+									options={roleList}
 									{...field}
 									ref={null}
 								/>
@@ -84,6 +115,33 @@ const CreateRoles = () => {
 									<p className="text-12 text-575555">
 										An email will be sent to the team member for confirmation
 									</p>
+								</div>
+							)}
+						/>
+						<Controller
+							control={control}
+							rules={validators.isRequiredString}
+							name="password"
+							render={({ field: { value, onChange, ref } }) => (
+								<div className="flex flex-col space-y-2">
+									<Input
+										label="Password"
+										containerClassName="w-full"
+										placeholder="Enter a password"
+										ref_={ref}
+										hasFilterIcon={false}
+										value={value}
+										onChange={onChange}
+										hasError={!!errors.password}
+									/>
+									<div className="flex">
+										<button
+											type="button"
+											onClick={() => onChange(generatePassword())}
+											className="px-5 py-[3px] rounded-6 text-white font-semibold text-12 bg-black ml-auto">
+											Generate password
+										</button>
+									</div>
 								</div>
 							)}
 						/>
